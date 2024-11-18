@@ -1,0 +1,76 @@
+/* General Body Styling */
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 1.2rem;
+    color: #555;
+    margin-right: 10px;
+}
+
+#year-select {
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: #fff;
+    transition: border 0.3s ease-in-out;
+}
+
+#year-select:focus {
+    border-color: #007acc;
+}
+
+/* SVG Styling */
+#chart {
+    margin: 20px auto;
+    max-width: 800px;
+    position: relative;
+}
+
+circle {
+    stroke: #333;
+    stroke-width: 2px;
+    transition: fill 0.3s ease, r 0.3s ease;
+    cursor: pointer;
+}
+
+circle:hover {
+    fill: orange;
+    stroke-width: 3px;
+}
+
+text {
+    font-size: 14px;
+    font-weight: bold;
+    fill: #555;
+}
+
+/* Tooltip Styling */
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    background: rgba(50, 50, 50, 0.9);
+    color: #fff;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
