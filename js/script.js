@@ -172,4 +172,7 @@ d3.csv("/data/data1.csv").then(data => {
         const selectedYear = d3.select(this).property("value");
         update(selectedYear);
     });
+    let config = [
+        {key: "Taxon", title: "Species"}];
+    let barchart = new BarChart("bar-chart", data, config[0]);
 });
