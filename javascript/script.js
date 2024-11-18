@@ -10,7 +10,7 @@ const svg = d3.select("#chart")
     .attr("height", height);
 
 // Load the data from CSV
-d3.csv("data.csv").then(data => {
+d3.csv("data1.csv").then(data => {
     // Process the data: Ensure numeric fields are parsed correctly
     data.forEach(d => {
         d.Year = +d.Year;
