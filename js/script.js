@@ -1,3 +1,13 @@
+// Dictionary for term meanings
+const termDescriptions = {
+    "live": "Refers to live animals traded for zoos, breeding, or the pet trade.",
+    "skulls": "Specimens of skulls, often used in scientific research or as trophies.",
+    "leaves": "Plant leaves traded for medicinal purposes or decorative use.",
+    "powder": "Ground or powdered parts of plants or animals for traditional medicine.",
+    "trophies": "Animal parts (e.g., heads, horns) used as hunting trophies."
+    // Add more terms and their descriptions as needed
+};
+
 // Set dimensions for the SVG canvas
 const width = 800;
 const height = 600;
@@ -131,7 +141,10 @@ d3.csv("/data/data1.csv").then(data => {
         legendItems.enter()
             .append("div")
             .merge(legendItems)
-            .html(d => `<span style="display: inline-block; width: 20px; height: 20px; background-color: ${colorScale(d.term)}; margin-right: 10px;"></span>${d.term}`);
+            .html(d => `
+                <span style="display: inline-block; width: 20px; height: 20px; background-color: ${colorScale(d.term)}; margin-right: 10px;"></span>
+                <strong>${d.term}</strong>: ${termDescriptions[d.term] || "Description not available"}
+            `);
 
         // Remove unused legend items
         legendItems.exit().remove();
