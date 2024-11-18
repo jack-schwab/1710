@@ -1,12 +1,24 @@
 // Dictionary for term meanings
 const termDescriptions = {
-    "live": "Refers to live animals traded for zoos, breeding, or the pet trade.",
-    "skulls": "Specimens of skulls, often used in scientific research or as trophies.",
-    "leaves": "Plant leaves traded for medicinal purposes or decorative use.",
-    "powder": "Ground or powdered parts of plants or animals for traditional medicine.",
-    "trophies": "Animal parts (e.g., heads, horns) used as hunting trophies."
-    // Add more terms and their descriptions as needed
+    "live": "Refers to live animals traded for zoos, breeding programs, the pet trade, or other uses.",
+    "skulls": "Specimens of animal skulls, often traded for scientific research, education, or trophy collections.",
+    "leaves": "Plant leaves harvested and traded for medicinal use, ornamental purposes, or traditional practices.",
+    "powder": "Powdered parts of plants or animals, commonly used in traditional medicine or cosmetic products.",
+    "trophies": "Animal parts such as heads, horns, or skins, typically obtained through hunting and displayed as trophies.",
+    "scales": "Scales from reptiles, especially pangolins, used in traditional medicine or jewelry.",
+    "skins": "Animal skins used for fashion, leather goods, or decoration.",
+    "specimens": "Whole specimens (plants or animals), preserved and traded for education, research, or display.",
+    "extract": "Chemical or natural extracts derived from plants or animals, often used in pharmaceuticals or cosmetics.",
+    "shells": "Shells of animals like turtles, traded for decoration, jewelry, or traditional crafts.",
+    "rug": "Animal skins processed into rugs, often representing species with unique patterns or colors.",
+    "derivatives": "Byproducts derived from plants or animals, including oils, powders, and chemical compounds.",
+    "sawn wood": "Processed wood from endangered plant species, often traded for furniture or construction materials.",
+    "carvings": "Handcrafted items made from endangered woods or animal parts, used as decorative pieces.",
+    "leather products (small)": "Small leather items made from animal skins, including belts, wallets, or shoes.",
+    "tissues": "Biological tissues from animals or plants used for scientific research or industrial applications.",
+    "specimens (frozen)": "Preserved, frozen specimens for scientific research or storage in genetic banks."
 };
+
 
 // Set dimensions for the SVG canvas
 const width = 800;
