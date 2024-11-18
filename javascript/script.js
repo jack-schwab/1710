@@ -1,6 +1,6 @@
 // Set dimensions for the SVG canvas
 const width = 800;
-const height = 400;
+const height = 600; // Increased height for better spacing
 const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 
 // Create the SVG container
@@ -9,15 +9,18 @@ const svg = d3.select("#chart")
     .attr("width", width)
     .attr("height", height);
 
-// Load the data from CSV
-d3.csv("data1.csv").then(data => {
+// Load the data from the CSV file
+d3.csv("/data/data1.csv").then(data => {
     // Process the data: Ensure numeric fields are parsed correctly
     data.forEach(d => {
-        d.Year = +d.Year;
+        d.Year = +d.Year; // Convert Year to a number
         d["Importer reported quantity"] = +d["Importer reported quantity"] || 0;
         d["Exporter reported quantity"] = +d["Exporter reported quantity"] || 0;
         d.TotalQuantity = d["Importer reported quantity"] + d["Exporter reported quantity"];
     });
+
+    // Extract unique years
+    const years = Array.from(new Set(data.map(d => d.Year))).sort();
 
     // Summarize data by Year and Term
     const summarizedData = d3.rollups(
@@ -30,10 +33,7 @@ d3.csv("data1.csv").then(data => {
         terms: terms.map(([term, total]) => ({ term, total }))
     }));
 
-    // Extract available years
-    const years = summarizedData.map(d => d.year);
-
-    // Create the dropdown
+    // Populate the dropdown with years
     const dropdown = d3.select("#year-select");
 
     dropdown.selectAll("option")
@@ -43,7 +43,7 @@ d3.csv("data1.csv").then(data => {
         .attr("value", d => d)
         .text(d => d);
 
-    // Function to update visualization based on selected year
+    // Function to update the visualization based on the selected year
     function update(selectedYear) {
         // Find data for the selected year
         const yearData = summarizedData.find(d => d.year == selectedYear)?.terms || [];
@@ -51,7 +51,7 @@ d3.csv("data1.csv").then(data => {
         // Set up scales
         const radiusScale = d3.scaleSqrt()
             .domain([0, d3.max(yearData, d => d.total) || 1]) // Avoid errors if data is empty
-            .range([10, 50]);
+            .range([40, 100]); // Larger circles
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -87,14 +87,15 @@ d3.csv("data1.csv").then(data => {
             .attr("r", 0)
             .remove();
 
-        // Add labels for terms
+        // Add labels inside the circles
         const labels = svg.selectAll("text")
             .data(yearData, d => d.term);
 
         labels.enter()
             .append("text")
             .attr("x", (_, i) => (i + 1) * (width / (yearData.length + 1)))
-            .attr("y", height / 2 + 60)
+            .attr("y", height / 2)
+            .attr("dy", "0.35em") // Center text vertically
             .attr("text-anchor", "middle")
             .merge(labels)
             .transition()
