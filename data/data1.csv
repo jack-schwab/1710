@@ -1,0 +1,185 @@
+Year,App.,Taxon,Class,Order,Family,Genus,Importer,Exporter,Origin,Importer reported quantity,Exporter reported quantity,Term,Unit,Purpose,Source
+2017,I,Hippotragus niger variani,Mammalia,Artiodactyla,Bovidae,Hippotragus,CD,ZA,,1,,live,,E,R
+2017,I,Panthera pardus,Mammalia,Carnivora,Felidae,Panthera,CD,ZA,,1,,live,,E,R
+2017,II,Elanus axillaris,Aves,Falconiformes,Accipitridae,Elanus,CD,ZA,AU,,1,skulls,,E,W
+2017,II,Haliaeetus vocifer,Aves,Falconiformes,Accipitridae,Haliaeetus,CD,ZA,,1,,live,,E,R
+2017,II,Hieraaetus spilogaster,Aves,Falconiformes,Accipitridae,Hieraaetus,CD,ZA,,,1,trophies,,E,W
+2017,II,Cygnus melancoryphus,Aves,Anseriformes,Anatidae,Cygnus,GH,ZA,,,5,live,,P,C
+2017,II,Cacatua alba,Aves,Psittaciformes,Cacatuidae,Cacatua,GH,ZA,,,2,live,,P,C
+2017,II,Cacatua galerita,Aves,Psittaciformes,Cacatuidae,Cacatua,GH,ZA,,,8,live,,P,C
+2017,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,GH,ZA,,,6,live,,T,C
+2017,II,Callithrix jacchus,Mammalia,Primates,Cebidae,Callithrix,CD,ZA,,,1,skulls,,E,C
+2017,II,Callithrix jacchus,Mammalia,Primates,Cebidae,Callithrix,GH,ZA,,,6,live,,T,C
+2017,II,Saimiri sciureus,Mammalia,Primates,Cebidae,Saimiri,CD,ZA,,,1,skulls,,E,C
+2017,II,Chlorocebus pygerythrus,Mammalia,Primates,Cercopithecidae,Chlorocebus,CD,ZA,,,3,skulls,,E,W
+2017,II,Papio cynocephalus,Mammalia,Primates,Cercopithecidae,Papio,CD,ZA,XX,,2,skulls,,E,W
+2017,II,Ciconia nigra,Aves,Ciconiiformes,Ciconiidae,Ciconia,CD,ZA,,1,,live,,Z,R
+2017,II,Crocodylus niloticus,Reptilia,Crocodylia,Crocodylidae,Crocodylus,CD,ZA,,1,,live,,Z,R
+2017,II,Crocodylus niloticus,Reptilia,Crocodylia,Crocodylidae,Crocodylus,CD,ZA,,,1,scales,,E,W
+2017,II,Crocodylus niloticus,Reptilia,Crocodylia,Crocodylidae,Crocodylus,CD,ZA,,,2,skulls,,E,W
+2017,II,Caracal caracal,Mammalia,Carnivora,Felidae,Caracal,CD,ZA,,1,,live,,Z,R
+2017,II,Caracal caracal,Mammalia,Carnivora,Felidae,Caracal,CD,ZA,,,2,skulls,,E,W
+2017,II,Caracal caracal,Mammalia,Carnivora,Felidae,Caracal,CD,ZA,,,1,trophies,,H,W
+2017,II,Felis silvestris,Mammalia,Carnivora,Felidae,Felis,CD,ZA,,,1,skulls,,E,W
+2017,II,Leptailurus serval,Mammalia,Carnivora,Felidae,Leptailurus,CD,ZA,,,1,skulls,,E,W
+2017,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,NG,ZA,,,1,skins,,T,C
+2017,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,NG,ZA,,,1,trophies,,P,C
+2017,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,NG,ZA,,,1,trophies,,T,C
+2017,II,Galago moholi,Mammalia,Primates,Galagidae,Galago,CD,ZA,,1,,live,,Z,R
+2017,II,Balearica regulorum,Aves,Gruiformes,Gruidae,Balearica,CD,ZA,,1,,live,,Z,R
+2017,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,6000,leaves,kg,T,W
+2017,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,1500,powder,kg,T,W
+2017,II,Aloe ferox,,Liliales,Liliaceae,Aloe,NG,ZA,,,100,extract,kg,T,W
+2017,II,Manis temminckii,Mammalia,Pholidota,Manidae,Manis,CD,ZA,,1,,live,,Z,R
+2017,II,Hydrictis maculicollis,Mammalia,Carnivora,Mustelidae,Hydrictis,CD,ZA,,,1,skulls,,E,W
+2017,II,Agapornis fischeri,Aves,Psittaciformes,Psittacidae,Agapornis,GH,ZA,,,50,live,,P,C
+2017,II,Agapornis fischeri,Aves,Psittaciformes,Psittacidae,Agapornis,GH,ZA,,,50,live,,T,C
+2017,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,GH,ZA,,,12,live,,P,C
+2017,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,GH,ZA,,,6,live,,T,C
+2017,II,Aratinga solstitialis,Aves,Psittaciformes,Psittacidae,Aratinga,GH,ZA,,,20,live,,P,C
+2017,II,Aratinga solstitialis,Aves,Psittaciformes,Psittacidae,Aratinga,GH,ZA,,,10,live,,T,C
+2017,II,Eclectus roratus,Aves,Psittaciformes,Psittacidae,Eclectus,GH,ZA,,,5,live,,P,C
+2017,II,Platycercus eximius,Aves,Psittaciformes,Psittacidae,Platycercus,GH,ZA,,,30,live,,P,C
+2017,II,Bubo capensis,Aves,Strigiformes,Strigidae,Bubo,CD,ZA,,1,,live,,Z,R
+2017,II,Aldabrachelys gigantea,Reptilia,Testudines,Testudinidae,Aldabrachelys,CD,ZA,,,2,shells,,E,C
+2017,II,Varanus niloticus,Reptilia,Sauria,Varanidae,Varanus,CD,ZA,,,1,skulls,,E,W
+2017,III,Proteles cristata,Mammalia,Carnivora,Hyaenidae,Proteles,CD,ZA,,,1,skulls,,E,W
+2017,III,Mellivora capensis,Mammalia,Carnivora,Mustelidae,Mellivora,CD,ZA,,,1,skulls,,E,W
+2017,III,Civettictis civetta,Mammalia,Carnivora,Viverridae,Civettictis,CD,ZA,,,1,skulls,,E,W
+2018,II,Alligator mississippiensis,Reptilia,Crocodylia,Alligatoridae,Alligator,GH,ZA,US,,6,specimens,,M,W
+2018,II,Cygnus melancoryphus,Aves,Anseriformes,Anatidae,Cygnus,GH,ZA,,,4,live,,T,C
+2018,II,Cacatua galerita,Aves,Psittaciformes,Cacatuidae,Cacatua,GH,ZA,,,12,live,,T,C
+2018,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,GH,ZA,,,22,live,,T,C
+2018,II,Callithrix jacchus,Mammalia,Primates,Cebidae,Callithrix,GH,ZA,,,16,live,,T,C
+2018,II,Chlorocebus pygerythrus,Mammalia,Primates,Cercopithecidae,Chlorocebus,ZA,NG,XX,1,,live,,P,W
+2018,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,GH,ZA,VN,,1,specimens,,M,C
+2018,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,VN,,16,specimens,,M,C
+2018,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,VN,,2,specimens,,T,W
+2018,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,4,live,,Z,C
+2018,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,1,trophies,,T,C
+2018,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,6000,leaves,kg,T,W
+2018,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,5000,powder,kg,T,W
+2018,II,Aloe ferox,,Liliales,Liliaceae,Aloe,NG,ZA,,,2.24,derivatives,kg,T,W
+2018,II,Agapornis fischeri,Aves,Psittaciformes,Psittacidae,Agapornis,GH,ZA,,,200,live,,T,C
+2018,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,GH,ZA,,,20,live,,T,C
+2018,II,Aratinga solstitialis,Aves,Psittaciformes,Psittacidae,Aratinga,GH,ZA,,,70,live,,T,C
+2018,II,Eclectus roratus,Aves,Psittaciformes,Psittacidae,Eclectus,GH,ZA,,,24,live,,T,C
+2018,II,Neophema pulchella,Aves,Psittaciformes,Psittacidae,Neophema,GH,ZA,,,30,live,,T,C
+2018,II,Platycercus eximius,Aves,Psittaciformes,Psittacidae,Platycercus,GH,ZA,,,40,live,,T,C
+2018,II,Pandinus imperator,Arachnida,Scorpiones,Scorpionidae,Pandinus,GH,CD,,,2000,live,,T,W
+2019,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,CD,ZA,,,20,live,,T,C
+2019,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,GH,ZA,,,11,live,,T,C
+2019,II,Allochrocebus lhoesti,Mammalia,Primates,Cercopithecidae,Allochrocebus,GH,CD,,,20,live,,T,W
+2019,II,Cercocebus chrysogaster,Mammalia,Primates,Cercopithecidae,Cercocebus,GH,CD,,,35,live,,T,W
+2019,II,Cercopithecus ascanius,Mammalia,Primates,Cercopithecidae,Cercopithecus,GH,CD,,,45,live,,T,W
+2019,II,Cercopithecus neglectus,Mammalia,Primates,Cercopithecidae,Cercopithecus,GH,CD,,,88,live,,T,W
+2019,II,Cercopithecus nictitans,Mammalia,Primates,Cercopithecidae,Cercopithecus,GH,CD,,,10,live,,T,W
+2019,II,Cercopithecus wolfi,Mammalia,Primates,Cercopithecidae,Cercopithecus,GH,CD,,,10,live,,T,W
+2019,II,Lophocebus aterrimus,Mammalia,Primates,Cercopithecidae,Lophocebus,GH,CD,,,60,live,,T,W
+2019,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,GH,ZA,VN,,1,specimens,,M,C
+2019,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,VN,,13,specimens,,M,C
+2019,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,CD,ZA,,19,3,live,,T,C
+2019,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,1,rug,,T,C
+2019,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,2,trophies,,T,C
+2019,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,18000,leaves,kg,T,W
+2019,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,2500,powder,kg,T,W
+2019,II,Amazona aestiva,Aves,Psittaciformes,Psittacidae,Amazona,CD,ZA,,,100,live,,T,C
+2019,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,1,live,,P,C
+2019,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,20,live,,T,C
+2019,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,GH,ZA,,,11,live,,T,C
+2019,II,Eclectus roratus,Aves,Psittaciformes,Psittacidae,Eclectus,GH,ZA,,,6,live,,T,C
+2019,II,Platycercus eximius,Aves,Psittaciformes,Psittacidae,Platycercus,GH,ZA,,,55,live,,T,C
+2020,II,Alligator mississippiensis,Reptilia,Crocodylia,Alligatoridae,Alligator,NG,ZA,US,,2,leather products (small),,T,W
+2020,II,Damaliscus pygargus pygargus,Mammalia,Artiodactyla,Bovidae,Damaliscus,NG,ZA,,,1,trophies,,H,W
+2020,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,GH,ZA,VN,,5,specimens,,M,C
+2020,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,VN,,20,specimens,ml,M,C
+2020,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,VN,,30,specimens,,M,C
+2020,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,CD,ZA,,,8,trophies,,T,W
+2020,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,NG,ZA,,,2,trophies,,H,C
+2020,II,Pericopsis elata,,Fabales,Leguminosae,Pericopsis,ZA,CD,CG,57.344,,carvings,,T,W
+2020,II,Pericopsis elata,,Fabales,Leguminosae,Pericopsis,ZA,CD,,28.305,,carvings,,T,W
+2020,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,5000,powder,,T,W
+2021,II,Uromastyx geyri,Reptilia,Sauria,Agamidae,Uromastyx,ZA,GH,ML,,110,live,Number of specimens,T,W
+2021,II,Uromastyx geyri,Reptilia,Sauria,Agamidae,Uromastyx,ZA,GH,ML,110,,live,,T,W
+2021,II,Uromastyx geyri,Reptilia,Sauria,Agamidae,Uromastyx,ZA,GH,XX,,700,live,Number of specimens,T,W
+2021,II,Calabaria reinhardtii,Reptilia,Serpentes,Boidae,Calabaria,ZA,GH,,,30,live,Number of specimens,T,W
+2021,II,Calabaria reinhardtii,Reptilia,Serpentes,Boidae,Calabaria,ZA,GH,,20,,live,,T,W
+2021,II,Gongylophis muelleri,Reptilia,Serpentes,Boidae,Gongylophis,ZA,GH,,,70,live,Number of specimens,T,W
+2021,II,Gongylophis muelleri,Reptilia,Serpentes,Boidae,Gongylophis,ZA,GH,,70,,live,,T,W
+2021,II,Ammotragus lervia,Mammalia,Artiodactyla,Bovidae,Ammotragus,NG,ZA,,,2,trophies,,H,F
+2021,II,Kobus leche,Mammalia,Artiodactyla,Bovidae,Kobus,NG,ZA,,,2,trophies,,H,F
+2021,II,Cacatua alba,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,30,live,,T,C
+2021,II,Cacatua ducorpsii,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,2,live,,P,C
+2021,II,Cacatua ducorpsii,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,10,live,,T,C
+2021,II,Cacatua galerita,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,2,live,,P,C
+2021,II,Cacatua galerita,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,35,live,,T,C
+2021,II,Cacatua leadbeateri,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,5,live,,T,C
+2021,II,Cacatua sanguinea,Aves,Psittaciformes,Cacatuidae,Cacatua,CD,ZA,,,10,live,,T,C
+2021,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,CD,ZA,,,60,live,,T,C
+2021,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,GH,ZA,,2,,live,Number of specimens,T,C
+2021,II,Eolophus roseicapilla,Aves,Psittaciformes,Cacatuidae,Eolophus,GH,ZA,,,2,live,,T,C
+2021,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,GH,ZA,CN,,7,specimens,,M,C
+2021,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,CN,,10,specimens,,M,C
+2021,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,VN,,10,specimens,,M,C
+2021,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,4,,live,Number of specimens,Z,C
+2021,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,4,live,,H,C
+2021,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,1,rug,,P,C
+2021,II,Giraffa camelopardalis,Mammalia,Artiodactyla,Giraffidae,Giraffa,NG,ZA,,,1,skins,,T,W
+2021,II,Hippopotamus amphibius,Mammalia,Artiodactyla,Hippopotamidae,Hippopotamus,GH,ZA,,2,,live,Number of specimens,Z,W
+2021,II,Hippopotamus amphibius,Mammalia,Artiodactyla,Hippopotamidae,Hippopotamus,GH,ZA,,,2,live,,Z,W
+2021,II,Pericopsis elata,,Fabales,Leguminosae,Pericopsis,ZA,CD,,,32.305,sawn wood,m3,T,W
+2021,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,5000,leaves,,T,W
+2021,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,5000,powder,,T,W
+2021,II,Trichoglossus haematodus,Aves,Psittaciformes,Loriidae,Trichoglossus,GH,ZA,,2,,live,Number of specimens,T,C
+2021,II,Trichoglossus haematodus,Aves,Psittaciformes,Loriidae,Trichoglossus,GH,ZA,,,12,live,,T,C
+2021,II,Agapornis fischeri,Aves,Psittaciformes,Psittacidae,Agapornis,CD,ZA,,,20,live,,P,C
+2021,II,Agapornis fischeri,Aves,Psittaciformes,Psittacidae,Agapornis,NG,ZA,,,60,live,,T,C
+2021,II,Amazona aestiva,Aves,Psittaciformes,Psittacidae,Amazona,CD,ZA,,,60,live,,T,C
+2021,II,Amazona aestiva,Aves,Psittaciformes,Psittacidae,Amazona,GH,ZA,,10,,live,Number of specimens,T,C
+2021,II,Amazona aestiva,Aves,Psittaciformes,Psittacidae,Amazona,GH,ZA,,,10,live,,T,C
+2021,II,Amazona amazonica,Aves,Psittaciformes,Psittacidae,Amazona,CD,ZA,,,30,live,,T,C
+2021,II,Amazona farinosa,Aves,Psittaciformes,Psittacidae,Amazona,CD,ZA,,,30,live,,T,C
+2021,II,Amazona ochrocephala,Aves,Psittaciformes,Psittacidae,Amazona,CD,ZA,,,40,live,,T,C
+2021,II,Amazona ochrocephala,Aves,Psittaciformes,Psittacidae,Amazona,GH,ZA,,12,,live,Number of specimens,T,C
+2021,II,Amazona ochrocephala,Aves,Psittaciformes,Psittacidae,Amazona,GH,ZA,,,4,live,,T,C
+2021,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,2,live,,P,C
+2021,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,40,live,,T,C
+2021,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,GH,ZA,,10,,live,Number of specimens,T,C
+2021,II,Ara ararauna,Aves,Psittaciformes,Psittacidae,Ara,GH,ZA,,,2,live,,T,C
+2021,II,Ara chloropterus,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,10,live,,T,C
+2021,II,Ara hybrid,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,20,live,,T,C
+2021,II,Ara severus,Aves,Psittaciformes,Psittacidae,Ara,CD,ZA,,,20,live,,T,C
+2021,II,Aratinga solstitialis,Aves,Psittaciformes,Psittacidae,Aratinga,CD,ZA,,,2,live,,P,C
+2021,II,Aratinga solstitialis,Aves,Psittaciformes,Psittacidae,Aratinga,CD,ZA,,,500,live,,T,C
+2021,II,Coracopsis vasa,Aves,Psittaciformes,Psittacidae,Coracopsis,CD,ZA,,,20,live,,T,C
+2021,II,Deroptyus accipitrinus,Aves,Psittaciformes,Psittacidae,Deroptyus,CD,ZA,,,1,live,,P,C
+2021,II,Diopsittaca nobilis,Aves,Psittaciformes,Psittacidae,Diopsittaca,CD,ZA,,,30,live,,T,C
+2021,II,Eclectus roratus,Aves,Psittaciformes,Psittacidae,Eclectus,CD,ZA,,,10,live,,T,C
+2021,II,Eclectus roratus,Aves,Psittaciformes,Psittacidae,Eclectus,NG,ZA,,,4,live,,T,C
+2021,II,Myiopsitta monachus,Aves,Psittaciformes,Psittacidae,Myiopsitta,CD,ZA,,,60,live,,T,C
+2021,II,Pionites leucogaster,Aves,Psittaciformes,Psittacidae,Pionites,CD,ZA,,,20,live,,T,C
+2021,II,Platycercus eximius,Aves,Psittaciformes,Psittacidae,Platycercus,CD,ZA,,,2,live,,P,C
+2021,II,Poicephalus rueppellii,Aves,Psittaciformes,Psittacidae,Poicephalus,CD,ZA,,,30,live,,T,C
+2021,II,Poicephalus senegalus,Aves,Psittaciformes,Psittacidae,Poicephalus,CD,ZA,,,30,live,,T,C
+2021,II,Primolius auricollis,Aves,Psittaciformes,Psittacidae,Primolius,CD,ZA,,,15,live,,T,C
+2021,II,Psephotus haematonotus,Aves,Psittaciformes,Psittacidae,Psephotus,CD,ZA,,,8,live,,P,C
+2021,II,Psittacula cyanocephala,Aves,Psittaciformes,Psittacidae,Psittacula,CD,ZA,,,50,live,,T,C
+2021,II,Psittacula derbiana,Aves,Psittaciformes,Psittacidae,Psittacula,CD,ZA,,,20,live,,T,C
+2021,II,Psittacula eupatria,Aves,Psittaciformes,Psittacidae,Psittacula,CD,ZA,,,2,live,,P,C
+2021,II,Psittacula eupatria,Aves,Psittaciformes,Psittacidae,Psittacula,CD,ZA,,,30,live,,T,C
+2021,II,Pyrrhura molinae,Aves,Psittaciformes,Psittacidae,Pyrrhura,CD,ZA,,,4,live,,P,C
+2021,II,Kinixys erosa,Reptilia,Testudines,Testudinidae,Kinixys,ZA,GH,,,10,live,Number of specimens,T,W
+2021,II,Kinixys homeana,Reptilia,Testudines,Testudinidae,Kinixys,ZA,GH,,,30,live,Number of specimens,T,W
+2021,II,Varanus exanthematicus,Reptilia,Sauria,Varanidae,Varanus,ZA,GH,,,130,live,Number of specimens,T,W
+2021,II,Varanus exanthematicus,Reptilia,Sauria,Varanidae,Varanus,ZA,GH,,180,,live,,T,W
+2022,I,Panthera pardus,Mammalia,Carnivora,Felidae,Panthera,ZA,GH,,22,,specimens,,S,U
+2022,II,Macaca fascicularis,Mammalia,Primates,Cercopithecidae,Macaca,NG,ZA,CN,,35,specimens,,M,C
+2022,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,GH,ZA,,,6,live,,T,C
+2022,II,Panthera leo,Mammalia,Carnivora,Felidae,Panthera,ZA,GH,,9,,specimens,,S,U
+2022,II,Pericopsis elata,,Fabales,Leguminosae,Pericopsis,ZA,CD,,,41.34,sawn wood,m3,T,W
+2022,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,2000,powder,kg,T,W
+2022,II,Aloe ferox,,Liliales,Liliaceae,Aloe,GH,ZA,,,1200,powder,,T,W
+2022,II,Aloe ferox,,Liliales,Liliaceae,Aloe,NG,ZA,,,4000,extract,kg,T,A
+2022,II,Aloe ferox,,Liliales,Liliaceae,Aloe,NG,ZA,,,1145.8,extract,kg,T,W
+2022,II,Aloe ferox,,Liliales,Liliaceae,Aloe,NG,ZA,,,1144,extract,,T,A
+2022,II,Aloe ferox,,Liliales,Liliaceae,Aloe,NG,ZA,,,1872,extract,,T,W
