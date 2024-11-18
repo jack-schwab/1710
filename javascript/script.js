@@ -1,6 +1,6 @@
 // Set dimensions for the SVG canvas
 const width = 800;
-const height = 600; // Increased height for better spacing
+const height = 600;
 const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 
 // Create the SVG container
@@ -8,6 +8,14 @@ const svg = d3.select("#chart")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
+
+// Add a legend container
+const legend = d3.select("#chart")
+    .append("div")
+    .attr("id", "legend")
+    .style("margin-top", "20px")
+    .style("font-size", "14px")
+    .style("text-align", "left");
 
 // Load the data from the CSV file
 d3.csv("/data/data1.csv").then(data => {
@@ -55,6 +63,12 @@ d3.csv("/data/data1.csv").then(data => {
 
         const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
+        // Create a grid-like layout for circles
+        const gridCols = Math.ceil(Math.sqrt(yearData.length));
+        const gridRows = Math.ceil(yearData.length / gridCols);
+        const gridSpacingX = width / (gridCols + 1);
+        const gridSpacingY = height / (gridRows + 1);
+
         // Bind data to circles
         const circles = svg.selectAll("circle")
             .data(yearData, d => d.term);
@@ -62,21 +76,23 @@ d3.csv("/data/data1.csv").then(data => {
         // Enter: Add new circles
         circles.enter()
             .append("circle")
-            .attr("cx", (_, i) => (i + 1) * (width / (yearData.length + 1)))
-            .attr("cy", height / 2)
+            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
             .attr("r", 0)
             .attr("fill", d => colorScale(d.term))
             .merge(circles)
             .transition()
             .duration(800)
-            .attr("r", d => radiusScale(d.total));
+            .attr("r", d => radiusScale(d.total))
+            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY);
 
         // Update: Modify existing circles
         circles
             .transition()
             .duration(800)
-            .attr("cx", (_, i) => (i + 1) * (width / (yearData.length + 1)))
-            .attr("cy", height / 2)
+            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
             .attr("r", d => radiusScale(d.total))
             .attr("fill", d => colorScale(d.term));
 
@@ -93,16 +109,32 @@ d3.csv("/data/data1.csv").then(data => {
 
         labels.enter()
             .append("text")
-            .attr("x", (_, i) => (i + 1) * (width / (yearData.length + 1)))
-            .attr("y", height / 2)
+            .attr("x", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
             .attr("dy", "0.35em") // Center text vertically
             .attr("text-anchor", "middle")
+            .style("font-size", d => `${Math.min(radiusScale(d.total) / 3, 14)}px`) // Dynamic font size
             .merge(labels)
             .transition()
             .duration(800)
-            .text(d => `${d.term}: ${d.total}`);
+            .text(d => `${d.term}: ${d.total}`)
+            .attr("x", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY);
 
         labels.exit().remove();
+
+        // Update legend
+        const legendItems = legend.selectAll("div")
+            .data(yearData, d => d.term);
+
+        // Enter: Add legend items
+        legendItems.enter()
+            .append("div")
+            .merge(legendItems)
+            .html(d => `<span style="display: inline-block; width: 20px; height: 20px; background-color: ${colorScale(d.term)}; margin-right: 10px;"></span>${d.term}`);
+
+        // Remove unused legend items
+        legendItems.exit().remove();
     }
 
     // Set the initial year and render the chart
