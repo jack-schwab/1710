@@ -85,7 +85,6 @@ class BarChartAnimals {
 	}
 
 
-
 	/*
 	 * The drawing function - should use the D3 update sequence (enter, update, exit)
 	 */

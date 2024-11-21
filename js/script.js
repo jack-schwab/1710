@@ -173,6 +173,10 @@ d3.csv("/data/data1.csv").then(data => {
         update(selectedYear);
     });
     let config = [
-        {key: "Taxon", title: "Species"}];
+        {key: "Taxon", title: "Species"},
+        {key: 'Exporter', title: 'Top Exporters'},
+        {key: 'Importer', title: 'Top Importers'}];
     let barchartAnimals = new BarChartAnimals("bar-chart", data, config[0]);
+    let barchartExporters = new BarChartAnimals("bar-chart-2", data, config[1]);
+    let barChartImporters = new BarChartAnimals("bar-chart-3", data, config[2]);
 });
