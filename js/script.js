@@ -174,5 +174,5 @@ d3.csv("/data/data1.csv").then(data => {
     });
     let config = [
         {key: "Taxon", title: "Species"}];
-    let barchart = new BarChart("bar-chart", data, config[0]);
+    let barchartAnimals = new BarChartAnimals("bar-chart", data, config[0]);
 });

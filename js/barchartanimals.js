@@ -1,4 +1,4 @@
-class BarChart {
+class BarChartAnimals {
 
 	constructor(parentElement, data, config) {
 		this.parentElement = parentElement;
@@ -57,8 +57,6 @@ class BarChart {
 	}
 
 
-
-
 	/*
 	 * Data wrangling
 	 */
@@ -68,18 +66,19 @@ class BarChart {
 
 		// (1) Group data by key variable (e.g. 'electricity') and count leaves
 		// (2) Sort columns descending
-
-
 		// * TO-DO *
+		let filteredData = vis.data.filter(d=>{
+			return d.Class;
+		})
 
-		let countDataByKV = d3.rollup(vis.data,leaves=>leaves.length,d=> d[vis.config.key]);
+		let countDataByKV = d3.rollup(filteredData,leaves=>leaves.length,d=> d[vis.config.key]);
 		let dataArray = Array.from(countDataByKV, ([key, value]) => ({key, value}));
 		dataArray = dataArray.sort(function(datum1, datum2) {
 			return datum2.value - datum1.value;
 		});
+
 		vis.displayData = dataArray.slice(0,5);
 		console.log(vis.displayData);
-
 
 		// Update the visualization
 		vis.updateVis();
