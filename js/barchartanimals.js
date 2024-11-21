@@ -84,11 +84,11 @@ class BarChartAnimals {
 		vis.updateVis();
 	}
 
+	'MAX'
 
 	/*
 	 * The drawing function - should use the D3 update sequence (enter, update, exit)
 	 */
-
 	updateVis() {
 		let vis = this;
 

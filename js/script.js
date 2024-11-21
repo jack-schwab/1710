@@ -172,10 +172,19 @@ d3.csv("/data/data1.csv").then(data => {
         const selectedYear = d3.select(this).property("value");
         update(selectedYear);
     });
+    let countryCodes ={
+        ZA : 'South Africa',
+        CD: 'Democratic Republic of the Congo',
+        GH: 'Ghana',
+        NG: 'Nigeria',
+
+
+    }
     let config = [
         {key: "Taxon", title: "Species"},
-        {key: 'Exporter', title: 'Top Exporters'},
-        {key: 'Importer', title: 'Top Importers'}];
+        {key: 'Exporter', title: 'Top Exporters', LabelTranslate: countryCodes},
+        {key: 'Importer', title: 'Top Importers', LabelTranslate: countryCodes}];
+
     let barchartAnimals = new BarChartAnimals("bar-chart", data, config[0]);
     let barchartExporters = new BarChartAnimals("bar-chart-2", data, config[1]);
     let barChartImporters = new BarChartAnimals("bar-chart-3", data, config[2]);

@@ -6,64 +6,63 @@
     <title>CS 1710 Final Project</title>
 
     <!-- Load CSS libraries -->
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Completed: custom css included -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- GOOGLE FONTS -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,400italic,300italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500|Satisfy" rel="stylesheet">
 </head>
 <body>
-<h1 id="project-title">Endangered Species Trading in Africa</h1>
-<img src="img/animals.png" width="400px">
-<div class="container">
-    <div class="row">
-        <div class="col-8">
-            <h1>The Heinous Nature of Endangered Species Trading</h1>
-            <p>[TODO: Add a paragraph introducing why poaching is bad, and explaining that the video will go into further details.]</p>
+<header class="py-4">
+    <h1 id="project-title">Endangered Species Trading in Africa</h1>
+    <img src="img/animals.png" width="400" alt="Endangered Species">
+</header>
+
+<main class="container">
+    <section class="row my-5">
+        <div class="col-lg-8">
+            <h2 class="section-title">The Heinous Nature of Endangered Species Trading</h2>
+            <p class="text-muted">[TODO: Add a paragraph introducing why poaching is bad, and explaining that the video will go into further details.]</p>
         </div>
-        <div class="col-4">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/0EZZvKZYlhk?si=QyBW6BMjCDEUI6RO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="col-lg-4">
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/0EZZvKZYlhk?si=QyBW6BMjCDEUI6RO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
-    </div>
-    <div class="row">
-        <h1>Endangered Species' Traded Products Based On Year</h1>
-        <label for="year-select">Select Year:</label>
-        <select id="year-select"></select>
-        <div id="chart"></div>
-    </div>
-    <div class="row">
-        <h1>Top Five Most Traded Species:</h1>
-        <p>Note: We still need to filter the data so that this chart only includes animals, not plants.</p>
-        <div id="bar-chart"></div>
-    </div>
-    <div class="row">
+    </section>
+
+    <section class="row my-5">
+        <h2 class="section-title">Endangered Species' Traded Products Based On Year</h2>
+        <div class="d-flex align-items-center my-3">
+            <label for="year-select" class="me-2">Select Year:</label>
+            <select id="year-select" class="form-select w-auto"></select>
+        </div>
+        <div id="chart" class="d-flex justify-content-center"></div>
+    </section>
+
+    <section class="row my-5">
+        <h2 class="section-title">Top Five Most Traded Species</h2>
+        <p class="text-muted">Note: We still need to filter the data so that this chart only includes animals, not plants.</p>
+        <div id="bar-chart" class="d-flex justify-content-center"></div>
+    </section>
+
+    <section class="row my-5">
         <div class="col-md-6">
-            <h1>Top Exporters</h1>
-            <div id="bar-chart-2"></div>
+            <h2 class="section-title">Top Exporters for Animals</h2>
+            <div id="bar-chart-2" class="d-flex justify-content-center"></div>
         </div>
         <div class="col-md-6">
-            <h1>Top Importers</h1>
-            <div id="bar-chart-3"></div>
+            <h2 class="section-title">Top Importers for Animals</h2>
+            <div id="bar-chart-3" class="d-flex justify-content-center"></div>
         </div>
-    </div>
-    <div class="row">
-        <h1>TODO:</h1>
-    </div>
-    <div class="row">
-        <h1>TODO: Map of Africa with Arrows for Imports/Exports</h1>
-        <p>In this section, we plan to put a map of Africa with arrows denoting where trades happen. Can be filtered by year.</p>
-    </div>
-    <div class="row">
-        <h1>TODO:</h1>
-    </div>
-    <div class="row">
-        <h1>TODO:</h1>
-    </div>
-</div>
+    </section>
+
+    <section class="row my-5">
+        <h2 class="section-title">Map of Africa with Arrows for Imports/Exports</h2>
+        <p class="text-muted">In this section, we plan to put a map of Africa with arrows denoting where trades happen. Can be filtered by year.</p>
+    </section>
+</main>
+
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="js/script.js"></script>
 <script src="js/barchartanimals.js"></script>
