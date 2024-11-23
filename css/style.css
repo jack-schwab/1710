@@ -6,17 +6,10 @@ body {
     padding: 0;
 }
 
-header {
-    text-align: center;
-    background-color: #f9f9f9;
-    padding: 20px 0;
-    border-bottom: 1px solid #ddd;
-}
-
 #project-title {
     font-size: 3.5rem;
-    font-family: "Satisfy", cursive;
-    color: sandybrown;
+    font-family: 'Ubuntu', sans-serif;
+    color: #4682B4;
     margin-bottom: 10px;
 }
 
@@ -31,4 +24,17 @@ header {
 
 button {
     margin-top: 20px;
+}
+
+.africa-header {
+    background: linear-gradient(to bottom, #e4c07e, #c7a155);
+    padding: 2rem;
+    border-top: 4px solid #8c6d48;
+    border-bottom: 4px solid #8c6d48;
+}
+
+
+#africa-header img {
+    border: 5px solid #8c6d48;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
