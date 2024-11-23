@@ -177,9 +177,8 @@ d3.csv("/data/data1.csv").then(data => {
         CD: 'Democratic Republic of the Congo',
         GH: 'Ghana',
         NG: 'Nigeria',
-
-
     }
+
     let config = [
         {key: "Taxon", title: "Species"},
         {key: 'Exporter', title: 'Top Exporters', LabelTranslate: countryCodes},

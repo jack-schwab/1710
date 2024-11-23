@@ -14,7 +14,6 @@ class BarChartAnimals {
 	initVis() {
 		let vis = this;
 
-
 		// * TO-DO *
 		vis.margin = {top: 40, right: 0, bottom: 60, left: 160};
 
@@ -51,6 +50,8 @@ class BarChartAnimals {
 		vis.svg.append("g")
 			.attr("class", "y-axis axis");
 
+		vis.tooltip = d3.select("#" + vis.parentElement).append('div')
+			.attr('class', "tooltip")
 
 		// (Filter, aggregate, modify data)
 		vis.wrangleData();
@@ -84,7 +85,6 @@ class BarChartAnimals {
 		vis.updateVis();
 	}
 
-	'MAX'
 
 	/*
 	 * The drawing function - should use the D3 update sequence (enter, update, exit)
@@ -102,6 +102,13 @@ class BarChartAnimals {
 			.attr("y",-10)
 			.text(vis.config.title);
 
+		if(vis.config.LabelTranslate){
+			console.log(vis.config.LabelTranslate);
+			vis.yAxis.tickFormat(d=>{
+				return vis.config.LabelTranslate[d];
+			})
+		}
+
 
 		// * TO-DO *
 		let updatedRects = vis.svg.selectAll('rect').data(vis.displayData);
@@ -110,21 +117,48 @@ class BarChartAnimals {
 		let enteringData = updatedRects.enter()
 			.append('rect')
 			.merge(updatedRects)
-			.transition()
-			.duration(1000)
+
 			.attr("x", 0)
 			.attr("y", d=> vis.y(d.key))
 			.attr("width", d=> vis.x(d.value))
 			.attr("height", function(d){
 				return vis.y.bandwidth();
 			})
-			.attr("fill", "red");
+			.attr("fill", "red")
+			.on('mouseover', function(event, d){
+				// d3.select(this)
+				// 	.attr('stroke-width', '2px')
+				// 	.attr('stroke', 'black')
+				// 	.attr('fill', 'green')
+				vis.tooltip
+					.style("opacity", 1)
+					.style("left", event.pageX + 20 + "px")
+					.style("top", event.pageY + "px")
+					.html(`
+                         <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
+                            <img src="img/daniel.jpg" width="50" alt="Endangered Species">
+                         </div>`);
 
+			})
+			.on('mouseout', function(event, d){
+				// d3.select(this)
+				// 	.attr('stroke-width', '0px')
+				// 	.attr("fill", d=>{
+				// 		return vis.linearColor(d.absCases)
+				// 	})
+				vis.tooltip
+					.style("opacity", 0)
+					.style("left", 0)
+					.style("top", 0)
+					.html(``);
+			})
+			.transition()
+			.duration(1000);
 
 		updatedRects.exit().remove();
 
-		// Update the y-axis
 		vis.svg.select(".y-axis").call(vis.yAxis);
+		vis.svg.select(".x-axis").call(vis.xAxis);
 	}
 
 }

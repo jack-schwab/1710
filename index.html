@@ -71,18 +71,18 @@
 <script src="js/script.js"></script>
 <script src="js/barchartanimals.js"></script>
 <script>
-    // JavaScript to handle page navigation
+
     document.addEventListener('DOMContentLoaded', () => {
         const sections = document.querySelectorAll('.page-section');
         const nextButtons = document.querySelectorAll('.next-btn');
         const prevButtons = document.querySelectorAll('.prev-btn');
 
-        function showSection(targetId) {
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelector(targetId).classList.add('active');
-        }
+                function showSection(targetId) {
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.querySelector(targetId).classList.add('active');
+                }
 
         nextButtons.forEach(button => {
             button.addEventListener('click', () => {
