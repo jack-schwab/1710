@@ -48,7 +48,7 @@ d3.csv("/data/data1.csv").then(data => {
         d["Exporter reported quantity"] = +d["Exporter reported quantity"] || 0;
         d.TotalQuantity = d["Importer reported quantity"] + d["Exporter reported quantity"];
     });
-
+// need to load multiple files and do data processing, refer to lab 10, promises.all
     // Extract unique years
     const years = Array.from(new Set(data.map(d => d.Year))).sort();
 
@@ -187,4 +187,5 @@ d3.csv("/data/data1.csv").then(data => {
     let barchartAnimals = new BarChartAnimals("bar-chart", data, config[0]);
     let barchartExporters = new BarChartAnimals("bar-chart-2", data, config[1]);
     let barChartImporters = new BarChartAnimals("bar-chart-3", data, config[2]);
+    // let globe = new MapVis("globe", data, geodate);
 });
