@@ -2,17 +2,13 @@
 *          MapVis          *
 * * * * * * * * * * * * * */
 
-class MapVis {
+class WorldMapVis {
 
-    constructor(parentElement, animalData, geoData, config) {
+    constructor(parentElement, animalData, geoData) {
         this.parentElement = parentElement;
         this.animalData = animalData;
-        this.config = config;
         this.geoData = geoData;
-        this.displayData = data;
         this.colors = ['#fddbc7', '#f4a582', '#d6604d', '#b2182b']
-
-
         this.initVis();
     }
 
@@ -20,8 +16,10 @@ class MapVis {
         let vis = this;
 
         vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.width = 500 - vis.margin.left - vis.margin.right;
+        // vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        // vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -146,8 +144,6 @@ class MapVis {
     updateVis() {
         let vis = this;
 
-        // TODO
-
         vis.svg.selectAll(".country")
             .attr("fill", d=>{
                 console.log(d)
@@ -185,4 +181,21 @@ class MapVis {
                     .html(``);
             })
     }
+}
+// init global variables, switches, helper functions
+let myMapVis;
+
+// load data using promises
+let worldMapPromises = [
+    d3.csv("data/20-year-data.csv"),
+    d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json")
+];
+
+Promise.all(worldMapPromises)
+    .then( function(data){initWorldMapPage(data)})
+    .catch( function (err){console.log(err)} );
+
+function initWorldMapPage(allDataArray) {
+    console.log(allDataArray);
+    myMapVis = new WorldMapVis('world-map', allDataArray[0], allDataArray[1])
 }
