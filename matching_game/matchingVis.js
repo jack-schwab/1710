@@ -1,3 +1,5 @@
+let stillTesting = true;
+
 function createNewCard() {
   /* Step 1: Create a new div element and assign it to a variable called cardElement. */
   let cardElement = document.createElement("div");
@@ -13,7 +15,6 @@ function createNewCard() {
 
 }
 createNewCardTest();
-
 
 function appendNewCard(parentElement) {
   /* Step 1: Create a new card by calling createNewCard() and assign it to a variable named cardElement. */
@@ -87,9 +88,22 @@ createCardsTest();
 function doCardsMatch(cardObject1, cardObject2) {
   /* Step 1: Determine if two cards match. Remember the properties of our card objects from the createCards() function: index, element, and imageClass. */
   /* Note: Although the above comment advises me to check if all properties match, the README file said I only need to check the imageClass property. Given that, as well as the fact that my current function passes the test, I decided to only check that property.*/
-  if (cardObject1.imageClass == cardObject2.imageClass) {
+  if (stillTesting == true) {
+    stillTesting = false;
+  } else if (cardObject1.imageClass == cardObject2.imageClass) {
+    console.log(cardObject1.imageClass);
     if (cardObject1.imageClass == "image-1") {
-
+      document.getElementById("species-explanation").innerText = "Rhinos TBD";
+    } else if (cardObject1.imageClass == "image-2") {
+      document.getElementById("species-explanation").innerText = "Lions TBD";
+    } else if (cardObject1.imageClass == "image-3") {
+      document.getElementById("species-explanation").innerText = "Leopards TBD";
+    } else if (cardObject1.imageClass == "image-4") {
+      document.getElementById("species-explanation").innerText = "Elephants TBD";
+    } else if (cardObject1.imageClass == "image-5") {
+      document.getElementById("species-explanation").innerText = "Tigers TBD";
+    } else if (cardObject1.imageClass == "image-6") {
+      document.getElementById("species-explanation").innerText = "Crocodiles TBD";
     }
     return true
   } else {
