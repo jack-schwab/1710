@@ -66,12 +66,22 @@
         <div class="row my-5">
             <div class="col-md-6">
                 <h2 class="section-title">Top Exporters for Animals</h2>
-                <div id="bar-chart-2" class="d-flex justify-content-center"></div>
+                <div id="export-chart">
+                    <h3>Export Distribution</h3>
+                    <svg width="400" height="400"></svg>
+                </div>
             </div>
             <div class="col-md-6">
                 <h2 class="section-title">Top Importers for Animals</h2>
-                <div id="bar-chart-3" class="d-flex justify-content-center"></div>
+                <div id="import-chart">
+                    <h3>Import Distribution</h3>
+                    <svg width="400" height="400"></svg>
+                </div>
             </div>
+        </div>
+        <div class="d-flex align-items-center my-3">
+            <label for="year-select" class="me-2">Select Year:</label>
+            <select id="year-select" class="form-select w-auto"></select>
         </div>
         <button class="btn btn-secondary prev-btn" data-target="#section-4">Previous</button>
         <button class="btn btn-primary next-btn" data-target="#section-6">Next</button>
@@ -93,28 +103,7 @@
             <div class="col-md-12">
                 <h2 class="section-title">What Animals Are the Most Traded? How Does This Change over Time?</h2>
                 <p>Click on an animal to learn more about it.</p>
-                <div id="photo-chart" class="d-flex justify-content-center">
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="card">
-                            <img src="img/rhino.jpg" class="rounded-circle animal-headshot" height="200px" alt="rhino headshot" onclick="displayPhotoChart()">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="card">
-                            <img src="img/lion.jpg" class="rounded-circle animal-headshot" height="200px" alt="lion headshot" onclick="displayPhotoChart()">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="card">
-                            <img src="img/leopard.jpg" class="rounded-circle animal-headshot" height="200px" alt="leopard headshot" onclick="displayPhotoChart()">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="card">
-                            <img src="img/elephant.jpg" class="rounded-circle animal-headshot" height="200px" alt="elephant headshot" onclick="displayPhotoChart()">
-                        </div>
-                    </div>
-                </div>
+                <div id="photo-chart"></div>
             </div>
         </div>
         <button class="btn btn-secondary prev-btn" data-target="#section-6">Previous</button>
@@ -146,8 +135,8 @@
     <div id="section-10" class="page-section">
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Conclusion</h2>
-                <p>In conclusion, [endangered species trading is BAD unless its for preservation].</p>
+                <h2 class="section-title">Global Trade</h2>
+
             </div>
         </div>
         <button class="btn btn-secondary prev-btn" data-target="#section-9">Previous</button>
@@ -168,10 +157,9 @@
     <div id="section-12" class="page-section">
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Credits</h2>
-                <p>We'd like to thank the CS 1710 staff for all their help and support on this project.</p>
-                <h3>References:</h3>
-                <p id="references">TODO: Add image/data sources if we need to include them (not sure if we do)</p>
+                <h2 class="section-title">Credits: Sources/Authors</h2>
+                <h3>We'd like to thank the CS 1710 staff for all their help and support on this project.</h3>
+                <p id="sources">TODO: Add image/data sources if we need to include them (not sure if we do)</p>
             </div>
         </div>
         <div class="row my-5">
@@ -184,7 +172,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="card">
-                        <img src="img/lion.jpg" class="rounded-circle animal-headshot" height="200px" alt="lion headshot">
+                        <img src="img/lion.png" class="rounded-circle animal-headshot" height="200px" alt="lion headshot">
                         <h4>Elie</h4>
                     </div>
                 </div>
@@ -208,11 +196,9 @@
 
 <script src="https://unpkg.com/scrollama"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/script.js"></script>
+<script src="js/productcircles.js"></script>
 <script src="js/barchartanimals.js"></script>
-<script src="js/worldmap.js"></script>
-<script src="js/photochart.js"></script>
-
+<script src="js/importexportpiechart.js"></script>
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {
