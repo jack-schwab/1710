@@ -89,11 +89,7 @@ async function initVisualization(csvPath) {
 
         // Populate dropdown with unique years
         const years = [...new Set(importData.map(d => d.Year))];
-<<<<<<< Updated upstream
-        const dropdown = document.getElementById('year-select2');
-=======
         const dropdown = document.getElementById('year-selector');
->>>>>>> Stashed changes
         years.forEach(year => {
             const option = document.createElement('option');
             option.value = year;
