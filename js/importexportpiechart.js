@@ -1,67 +1,111 @@
-// Data for import and export
-const importData = [
-    { Year: 2017, Country: "CD", Quantity: 9 },
-    { Year: 2017, Country: "GH", Quantity: 0 },
-    { Year: 2017, Country: "NG", Quantity: 0 },
-];
+// Function to load CSV data
+async function loadCSVData(filePath) {
+    const response = await fetch(filePath);
+    if (!response.ok) {
+        throw new Error(`Failed to load file: ${filePath}`);
+    }
+    const csvData = await response.text();
+    return d3.csvParse(csvData, d3.autoType);
+}
 
-const exportData = [
-    { Year: 2017, Country: "ZA", Quantity: 7766 },
-];
+// Process data for visualization
+function processData(data) {
+    const importData = [];
+    const exportData = [];
 
-// Extract unique years
-const years = [...new Set(importData.map(d => d.Year))];
+    data.forEach(row => {
+        if (row["Importer reported quantity"]) {
+            importData.push({
+                Year: row.Year,
+                Country: row.Importer,
+                Quantity: row["Importer reported quantity"]
+            });
+        }
 
-// Append years to the dropdown
-const dropdown = d3.select("#year-dropdown");
-dropdown.selectAll("option")
-    .data(years)
-    .enter()
-    .append("option")
-    .text(d => d)
-    .attr("value", d => d);
+        if (row["Exporter reported quantity"]) {
+            exportData.push({
+                Year: row.Year,
+                Country: row.Exporter,
+                Quantity: row["Exporter reported quantity"]
+            });
+        }
+    });
 
-// Function to create pie chart
-const createPieChart = (data, selector, colorScale) => {
-    const svg = d3.select(selector).select("svg");
-    const width = svg.attr("width");
-    const height = svg.attr("height");
-    const radius = Math.min(width, height) / 2;
+    return { importData, exportData };
+}
 
-    const g = svg.append("g").attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-    const pie = d3.pie().value(d => d.Quantity);
-    const arc = d3.arc().innerRadius(0).outerRadius(radius);
-
-    return year => {
-        const filteredData = data.filter(d => d.Year === year);
-        g.selectAll("*").remove();
-
-        g.selectAll("path")
-            .data(pie(filteredData))
-            .enter()
-            .append("path")
-            .attr("d", arc)
-            .attr("fill", d => colorScale(d.data.Country))
-            .append("title")
-            .text(d => `${d.data.Country}: ${d.data.Quantity}`);
+// Helper function to filter data by year
+function filterDataByYear(data, year) {
+    const filtered = data.filter(d => d.Year == year);
+    return {
+        labels: filtered.map(d => d.Country),
+        values: filtered.map(d => d.Quantity)
     };
-};
+}
 
-// Color scales
-const importColor = d3.scaleOrdinal(d3.schemeCategory10);
-const exportColor = d3.scaleOrdinal(d3.schemeSet2);
+// Function to update pie charts
+function updateCharts(importData, exportData, year) {
+    const filteredImport = filterDataByYear(importData, year);
+    const filteredExport = filterDataByYear(exportData, year);
 
-// Create the pie charts
-const updateImportChart = createPieChart(importData, "#import-chart", importColor);
-const updateExportChart = createPieChart(exportData, "#export-chart", exportColor);
+    // Import Pie Chart
+    Plotly.newPlot('import-chart', [{
+        type: 'pie',
+        labels: filteredImport.labels,
+        values: filteredImport.values,
+        textinfo: 'label+percent',
+        hoverinfo: 'label+value'
+    }], {
+        title: `Import Distribution for ${year}`,
+        height: 400,
+        width: 400
+    });
 
-// Update charts on dropdown selection
-dropdown.on("change", function() {
-    const selectedYear = +this.value;
-    updateImportChart(selectedYear);
-    updateExportChart(selectedYear);
-});
+    // Export Pie Chart
+    Plotly.newPlot('export-chart', [{
+        type: 'pie',
+        labels: filteredExport.labels,
+        values: filteredExport.values,
+        textinfo: 'label+percent',
+        hoverinfo: 'label+value'
+    }], {
+        title: `Export Distribution for ${year}`,
+        height: 400,
+        width: 400
+    });
+}
 
-// Initialize with the first year
-dropdown.property("value", years[0]).dispatch("change");
+// Initialize the visualization
+async function initVisualization(csvPath) {
+    try {
+        const rawData = await loadCSVData(csvPath);
+        const { importData, exportData } = processData(rawData);
+
+        // Initialize dropdown with years
+        const years = [...new Set(importData.map(d => d.Year))];
+        const dropdown = document.getElementById('year-select');
+        years.forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            dropdown.appendChild(option);
+        });
+
+        // Initial render
+        updateCharts(importData, exportData, years[0]);
+
+        // Update charts on dropdown change
+        dropdown.addEventListener('change', (e) => {
+            const selectedYear = e.target.value;
+            updateCharts(importData, exportData, selectedYear);
+        });
+    } catch (error) {
+        console.error("Error initializing visualization:", error);
+    }
+}
+
+// Path to the CSV file
+const csvFilePath = '/data/20 year data.csv';
+
+// Start the visualization
+initVisualization(csvFilePath);
