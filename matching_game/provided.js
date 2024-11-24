@@ -73,11 +73,11 @@ function createNewCardTest() {
   let classListAddPresentSpec =
     functionSpec(createNewCard)
       .contains("classList.add")
-      .andThen("card")
+      .andThen("my-card")
   let classNameEqualsPresentSpec =
     functionSpec(appendNewCard)
       .contains("className")
-      .andThen("card");
+      .andThen("my-card");
   let passedStep2Heuristics =
     checkFunctionSpec(classListAddPresentSpec) ||
     checkFunctionSpec(classNameEqualsPresentSpec);
@@ -124,7 +124,7 @@ function createNewCardTest() {
     console.log(step1Hint);
   }
 
-  if (!card.classList.contains("card")) {
+  if (!card.classList.contains("my-card")) {
     console.log(constructErrorMessage(TEST_NAME, 2, `The card div should contain the class 'card'.`));
     console.log("\nHere's what the HTML looks like:\n" +
       serialize(card) + "\n");
@@ -207,7 +207,7 @@ function appendNewCardTest() {
   }
 
   let card = parent.children[0];
-  if (!card.classList.contains("card")) {
+  if (!card.classList.contains("my-card")) {
     console.log(constructErrorMessage(TEST_NAME, 2, `The child of parentElement should be a card. Remember to add the 'card' class to this element.`));
     console.log(step2Hint);
     console.log("\nHere's what the HTML looks like:\n\n" + serialize(parent) + "\n\n");

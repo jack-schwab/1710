@@ -3,7 +3,7 @@ function createNewCard() {
   let cardElement = document.createElement("div");
 
   /* Step 2: Add the "card" class to the variable 'cardElement' from the previous step. */
-  cardElement.classList.add("card");
+  cardElement.classList.add("my-card");
 
   /* Step 3: Write the HTML for the children of the card element (card-down and card-up) as a normal string and assign it as the innerHTML of cardElement. */
   cardElement.innerHTML = "<div class=\"card-down\"></div><div class=\"card-up\"></div>";
@@ -88,6 +88,9 @@ function doCardsMatch(cardObject1, cardObject2) {
   /* Step 1: Determine if two cards match. Remember the properties of our card objects from the createCards() function: index, element, and imageClass. */
   /* Note: Although the above comment advises me to check if all properties match, the README file said I only need to check the imageClass property. Given that, as well as the fact that my current function passes the test, I decided to only check that property.*/
   if (cardObject1.imageClass == cardObject2.imageClass) {
+    if (cardObject1.imageClass == "image-1") {
+
+    }
     return true
   } else {
     return false

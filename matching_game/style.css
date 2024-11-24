@@ -41,7 +41,7 @@ h1 {
   width: calc((var(--card-width) + 2vw + 12px) * 4);
 }
 
-.card {
+.my-card {
   display: inline-block;
   position: relative;
   margin: 1vw;
