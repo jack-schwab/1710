@@ -9,5 +9,7 @@ class PhotoChart{
         this.initVis();
     }
 
-    initVis() {}
+    initVis() {
+
+    }
 }

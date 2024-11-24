@@ -93,7 +93,28 @@
             <div class="col-md-12">
                 <h2 class="section-title">What Animals Are the Most Traded? How Does This Change over Time?</h2>
                 <p>Click on an animal to learn more about it.</p>
-                <div id="photo-chart"></div>
+                <div id="photo-chart" class="d-flex justify-content-center">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card">
+                            <img src="img/rhino.jpg" class="rounded-circle animal-headshot" height="200px" alt="rhino headshot" onclick="displayPhotoChart()">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card">
+                            <img src="img/lion.jpg" class="rounded-circle animal-headshot" height="200px" alt="lion headshot" onclick="displayPhotoChart()">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card">
+                            <img src="img/leopard.jpg" class="rounded-circle animal-headshot" height="200px" alt="leopard headshot" onclick="displayPhotoChart()">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card">
+                            <img src="img/elephant.jpg" class="rounded-circle animal-headshot" height="200px" alt="elephant headshot" onclick="displayPhotoChart()">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <button class="btn btn-secondary prev-btn" data-target="#section-6">Previous</button>
@@ -125,8 +146,8 @@
     <div id="section-10" class="page-section">
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Global Trade</h2>
-
+                <h2 class="section-title">Conclusion</h2>
+                <p>In conclusion, [endangered species trading is BAD unless its for preservation].</p>
             </div>
         </div>
         <button class="btn btn-secondary prev-btn" data-target="#section-9">Previous</button>
@@ -147,9 +168,10 @@
     <div id="section-12" class="page-section">
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Credits: Sources/Authors</h2>
-                <h3>We'd like to thank the CS 1710 staff for all their help and support on this project.</h3>
-                <p id="sources">TODO: Add image/data sources if we need to include them (not sure if we do)</p>
+                <h2 class="section-title">Credits</h2>
+                <p>We'd like to thank the CS 1710 staff for all their help and support on this project.</p>
+                <h3>References:</h3>
+                <p id="references">TODO: Add image/data sources if we need to include them (not sure if we do)</p>
             </div>
         </div>
         <div class="row my-5">
@@ -162,7 +184,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="card">
-                        <img src="img/lion.png" class="rounded-circle animal-headshot" height="200px" alt="lion headshot">
+                        <img src="img/lion.jpg" class="rounded-circle animal-headshot" height="200px" alt="lion headshot">
                         <h4>Elie</h4>
                     </div>
                 </div>
@@ -188,6 +210,14 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="js/script.js"></script>
 <script src="js/barchartanimals.js"></script>
+<script src="js/worldmap.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.1/underscore.js" integrity="sha512-qbJl2/KyecDVJdgAwr0Gzhm5KBmkzdUouG+sKmCWP1Idb144ZnfSmCRReuYXPEHIa4j38TwrR2ySeGoFH5gKzA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://bit.ly/491fCed"></script>
+<script src="js/provided.js"></script>
+<script src="js/matchingVis.js"></script>
+<script src="js/photochart.js"></script>
+
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {
