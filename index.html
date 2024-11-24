@@ -66,12 +66,22 @@
         <div class="row my-5">
             <div class="col-md-6">
                 <h2 class="section-title">Top Exporters for Animals</h2>
-                <div id="bar-chart-2" class="d-flex justify-content-center"></div>
+                <div id="export-chart">
+                    <h3>Export Distribution</h3>
+                    <svg width="400" height="400"></svg>
+                </div>
             </div>
             <div class="col-md-6">
                 <h2 class="section-title">Top Importers for Animals</h2>
-                <div id="bar-chart-3" class="d-flex justify-content-center"></div>
+                <div id="import-chart">
+                    <h3>Import Distribution</h3>
+                    <svg width="400" height="400"></svg>
+                </div>
             </div>
+        </div>
+        <div class="d-flex align-items-center my-3">
+            <label for="year-select" class="me-2">Select Year:</label>
+            <select id="year-select" class="form-select w-auto"></select>
         </div>
         <button class="btn btn-secondary prev-btn" data-target="#section-4">Previous</button>
         <button class="btn btn-primary next-btn" data-target="#section-6">Next</button>
@@ -186,8 +196,9 @@
 
 <script src="https://unpkg.com/scrollama"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="js/script.js"></script>
+<script src="js/productcircles.js"></script>
 <script src="js/barchartanimals.js"></script>
+<script src="js/importexportpiechart.js"></script>
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {
