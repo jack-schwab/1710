@@ -83,7 +83,7 @@ async function initVisualization(csvPath) {
 
         // Initialize dropdown with years
         const years = [...new Set(importData.map(d => d.Year))];
-        const dropdown = document.getElementById('year-select');
+        const dropdown = document.getElementById('year-select2');
         years.forEach(year => {
             const option = document.createElement('option');
             option.value = year;
