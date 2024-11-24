@@ -23,13 +23,14 @@ const termDescriptions = {
 // Set dimensions for the SVG canvas
 const width = 800;
 const height = 600;
-const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+const margin = { top: 20, right: 40, bottom: 20, left: 40 };
 
 // Create the SVG container
-const svg = d3.select("#chart")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height);
+const svg = d3.select("#chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Add a legend container
 const legend = d3.select("#chart")
@@ -106,14 +107,14 @@ d3.csv("/data/data1.csv").then(data => {
             .transition()
             .duration(800)
             .attr("r", d => radiusScale(d.total))
-            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("cx", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
             .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY);
 
         // Update: Modify existing circles
         circles
             .transition()
             .duration(800)
-            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("cx", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
             .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
             .attr("r", d => radiusScale(d.total))
             .attr("fill", d => colorScale(d.term));
@@ -131,7 +132,7 @@ d3.csv("/data/data1.csv").then(data => {
 
         labels.enter()
             .append("text")
-            .attr("x", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("x", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
             .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
             .attr("dy", "0.35em") // Center text vertically
             .attr("text-anchor", "middle")
@@ -140,7 +141,7 @@ d3.csv("/data/data1.csv").then(data => {
             .transition()
             .duration(800)
             .text(d => `${d.term}: ${d.total}`)
-            .attr("x", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("x", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
             .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY);
 
         labels.exit().remove();
