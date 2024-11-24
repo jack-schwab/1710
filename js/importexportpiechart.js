@@ -1,3 +1,12 @@
+const countryFullNames = {
+    "CD": "Democratic Republic of the Congo",
+    "ZA": "South Africa",
+    "TZ": "Tanzania",
+    "NG": "Nigeria",
+    "GH": "Ghana",
+    // Add all necessary abbreviations and their full names
+};
+
 // Function to load CSV data
 async function loadCSVData(filePath) {
     try {
@@ -22,7 +31,8 @@ function processData(data) {
         if (importQty > 0) {
             importData.push({
                 Year: row.Year,
-                Country: row.Importer,
+                Abbreviation: row.Importer,
+                FullName: countryFullNames[row.Importer] || row.Importer, // Map to full name
                 Quantity: importQty
             });
         }
@@ -30,7 +40,8 @@ function processData(data) {
         if (exportQty > 0) {
             exportData.push({
                 Year: row.Year,
-                Country: row.Exporter,
+                Abbreviation: row.Exporter,
+                FullName: countryFullNames[row.Exporter] || row.Exporter, // Map to full name
                 Quantity: exportQty
             });
         }
@@ -43,40 +54,52 @@ function processData(data) {
 function filterDataByYear(data, year) {
     const filtered = data.filter(d => d.Year == year);
     return {
-        labels: filtered.map(d => d.Country),
-        values: filtered.map(d => d.Quantity)
+        labels: filtered.map(d => d.Abbreviation), // Use abbreviations for labels
+        values: filtered.map(d => d.Quantity),
+        hoverText: filtered.map(d => d.FullName) // Use full names for hover text
     };
 }
 
-// Function to update pie charts
 function updateCharts(importData, exportData, year) {
     const filteredImport = filterDataByYear(importData, year);
     const filteredExport = filterDataByYear(exportData, year);
 
     // Import Pie Chart
-    Plotly.newPlot('import-chart', [{
+    Plotly.react('import-chart', [{
         type: 'pie',
-        labels: filteredImport.labels,
+        labels: filteredImport.labels, // Abbreviations
         values: filteredImport.values,
         textinfo: 'label+percent',
-        hoverinfo: 'label+value'
+        hoverinfo: 'text+value', // Full names appear on hover
+        text: filteredImport.hoverText // Full names for hover text
     }], {
         title: `Import Distribution for ${year}`,
         height: 400,
         width: 400
+    }, {
+        transition: {
+            duration: 500, // Smooth transition duration in milliseconds
+            easing: 'cubic-in-out' // Easing effect
+        }
     });
 
     // Export Pie Chart
-    Plotly.newPlot('export-chart', [{
+    Plotly.react('export-chart', [{
         type: 'pie',
-        labels: filteredExport.labels,
+        labels: filteredExport.labels, // Abbreviations
         values: filteredExport.values,
         textinfo: 'label+percent',
-        hoverinfo: 'label+value'
+        hoverinfo: 'text+value', // Full names appear on hover
+        text: filteredExport.hoverText // Full names for hover text
     }], {
         title: `Export Distribution for ${year}`,
         height: 400,
         width: 400
+    }, {
+        transition: {
+            duration: 2000, // Smooth transition duration in milliseconds
+            easing: 'ease-in-out' // Easing effect
+        }
     });
 }
 
