@@ -1,11 +1,13 @@
 // Function to load CSV data
 async function loadCSVData(filePath) {
-    const response = await fetch(filePath);
-    if (!response.ok) {
-        throw new Error(`Failed to load file: ${filePath}`);
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load CSV: ${filePath}`);
+        const csvData = await response.text();
+        return d3.csvParse(csvData, d3.autoType);
+    } catch (error) {
+        console.error("Error loading CSV data:", error);
     }
-    const csvData = await response.text();
-    return d3.csvParse(csvData, d3.autoType);
 }
 
 // Process data for visualization
@@ -14,19 +16,22 @@ function processData(data) {
     const exportData = [];
 
     data.forEach(row => {
-        if (row["Importer reported quantity"]) {
+        const importQty = row["Importer reported quantity"] || 0; // Handle NaN as 0
+        const exportQty = row["Exporter reported quantity"] || 0; // Handle NaN as 0
+
+        if (importQty > 0) {
             importData.push({
                 Year: row.Year,
                 Country: row.Importer,
-                Quantity: row["Importer reported quantity"]
+                Quantity: importQty
             });
         }
 
-        if (row["Exporter reported quantity"]) {
+        if (exportQty > 0) {
             exportData.push({
                 Year: row.Year,
                 Country: row.Exporter,
-                Quantity: row["Exporter reported quantity"]
+                Quantity: exportQty
             });
         }
     });
@@ -79,11 +84,16 @@ function updateCharts(importData, exportData, year) {
 async function initVisualization(csvPath) {
     try {
         const rawData = await loadCSVData(csvPath);
+        if (!rawData) throw new Error("No data loaded");
         const { importData, exportData } = processData(rawData);
 
-        // Initialize dropdown with years
+        // Populate dropdown with unique years
         const years = [...new Set(importData.map(d => d.Year))];
+<<<<<<< Updated upstream
         const dropdown = document.getElementById('year-select2');
+=======
+        const dropdown = document.getElementById('year-selector');
+>>>>>>> Stashed changes
         years.forEach(year => {
             const option = document.createElement('option');
             option.value = year;
@@ -91,10 +101,10 @@ async function initVisualization(csvPath) {
             dropdown.appendChild(option);
         });
 
-        // Initial render
+        // Render initial charts with the first year
         updateCharts(importData, exportData, years[0]);
 
-        // Update charts on dropdown change
+        // Update charts on year selection
         dropdown.addEventListener('change', (e) => {
             const selectedYear = e.target.value;
             updateCharts(importData, exportData, selectedYear);
@@ -104,8 +114,6 @@ async function initVisualization(csvPath) {
     }
 }
 
-// Path to the CSV file
-const csvFilePath = '/data/20 year data.csv';
-
-// Start the visualization
+// Set the file path to the uploaded CSV
+const csvFilePath = 'data/20-year-data.csv';
 initVisualization(csvFilePath);
