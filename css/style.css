@@ -53,6 +53,9 @@ button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+h5{
+    font-family: 'Ubuntu', sans-serif;
+}
 
 .card {
     border: none;
@@ -66,4 +69,160 @@ button:hover {
 
 .card:hover {
     transform: translateY(-10px);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+.africa-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Section styling */
+.page-section {
+    min-height: 100vh;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.page-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scroll indicator styling */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    animation: bounce 2s infinite;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    z-index: 100;
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    40% {
+        transform: translateY(-20px) translateX(-50%);
+    }
+    60% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+}
+
+/* Section titles */
+.section-title {
+    margin-bottom: 2rem;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Animal cards styling */
+.card {
+    padding: 1rem;
+    text-align: center;
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.animal-headshot {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.animal-headshot:hover {
+    transform: scale(1.05);
+}
+
+/* Authors section styling */
+#authors-section {
+    gap: 2rem;
+}
+
+/* Interactive elements */
+.form-select {
+    max-width: 200px;
+}
+
+/* Chart containers */
+#chart, #bar-chart, #export-chart, #import-chart, #map, #world-map {
+    width: 100%;
+    min-height: 400px;
+    margin: 2rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .page-section {
+        padding: 1rem 0;
+    }
+
+    .animal-headshot {
+        width: 150px;
+        height: 150px;
+    }
+
+    #authors-section {
+        gap: 1rem;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.section-transition {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.section-transition.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

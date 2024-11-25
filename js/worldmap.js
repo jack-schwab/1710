@@ -1,75 +1,6 @@
-/* * * * * * * * * * * * * *
-*          MapVis          *
-* * * * * * * * * * * * * */
-const countryCodeToName = {
-    AO: "Angola",
-    BI: "Burundi",
-    BJ: "Benin",
-    BF: "Burkina Faso",
-    BW: "Botswana",
-    CF: "Central African Rep.",
-    CI: "Côte d'Ivoire",
-    CM: "Cameroon",
-    CD: "Dem. Rep. Congo",
-    CG: "Congo",
-    DJ: "Djibouti",
-    DZ: "Algeria",
-    EG: "Egypt",
-    ER: "Eritrea",
-    ET: "Ethiopia",
-    GA: "Gabon",
-    GH: "Ghana",
-    GN: "Guinea",
-    GM: "Gambia",
-    GW: "Guinea-Bissau",
-    GQ: "Eq. Guinea",
-    KE: "Kenya",
-    LR: "Liberia",
-    LY: "Libya",
-    LS: "Lesotho",
-    MA: "Morocco",
-    MG: "Madagascar",
-    ML: "Mali",
-    MZ: "Mozambique",
-    MR: "Mauritania",
-    MW: "Malawi",
-    NA: "Namibia",
-    NE: "Niger",
-    NG: "Nigeria",
-    RW: "Rwanda",
-    EH: "W. Sahara",
-    SD: "Sudan",
-    SS: "S. Sudan",
-    SN: "Senegal",
-    SL: "Sierra Leone",
-    SO: "Somalia",
-    SZ: "eSwatini",
-    TD: "Chad",
-    TG: "Togo",
-    TN: "Tunisia",
-    TZ: "Tanzania",
-    UG: "Uganda",
-    ZA: "South Africa",
-    ZM: "Zambia",
-    ZW: "Zimbabwe",
-    VC: "St. Vin. and Gren.",
-    KN: "St. Kitts and Nevis",
-    LC: "Saint Lucia",
-    ST: "São Tomé and Principe",
-    FM: "Micronesia",
-    MH: "Marshall Is.",
-    VI: "U.S. Virgin Is.",
-    VG: "British Virgin Is.",
-    TC: "Turks and Caicos Is.",
-    AI: "Anguilla",
-    BM: "Bermuda",
-    KY: "Cayman Is.",
-    FK: "Falkland Is.",
-    PN: "Pitcairn Is.",
-    SH: "Saint Helena",
-    IO: "Br. Indian Ocean Ter.",
-    AQ: "Antarctica"
-};
+// /* * * * * * * * * * * * * *
+// *          MapVis          *
+// * * * * * * * * * * * * * */
 
 class WorldMapVis {
 
@@ -77,7 +8,76 @@ class WorldMapVis {
         this.parentElement = parentElement;
         this.animalData = animalData;
         this.geoData = geoData;
-        this.colors = ['#fddbc7', '#f4a582', '#d6604d', '#b2182b']
+        this.colors = ['#fddbc7', '#f4a582', '#d6604d', '#b2182b'];
+//         this.countryCodeToName = {
+//     AO: "Angola",
+//     BI: "Burundi",
+//     BJ: "Benin",
+//     BF: "Burkina Faso",
+//     BW: "Botswana",
+//     CF: "Central African Rep.",
+//     CI: "Côte d'Ivoire",
+//     CM: "Cameroon",
+//     CD: "Dem. Rep. Congo",
+//     CG: "Congo",
+//     DJ: "Djibouti",
+//     DZ: "Algeria",
+//     EG: "Egypt",
+//     ER: "Eritrea",
+//     ET: "Ethiopia",
+//     GA: "Gabon",
+//     GH: "Ghana",
+//     GN: "Guinea",
+//     GM: "Gambia",
+//     GW: "Guinea-Bissau",
+//     GQ: "Eq. Guinea",
+//     KE: "Kenya",
+//     LR: "Liberia",
+//     LY: "Libya",
+//     LS: "Lesotho",
+//     MA: "Morocco",
+//     MG: "Madagascar",
+//     ML: "Mali",
+//     MZ: "Mozambique",
+//     MR: "Mauritania",
+//     MW: "Malawi",
+//     NA: "Namibia",
+//     NE: "Niger",
+//     NG: "Nigeria",
+//     RW: "Rwanda",
+//     EH: "W. Sahara",
+//     SD: "Sudan",
+//     SS: "S. Sudan",
+//     SN: "Senegal",
+//     SL: "Sierra Leone",
+//     SO: "Somalia",
+//     SZ: "eSwatini",
+//     TD: "Chad",
+//     TG: "Togo",
+//     TN: "Tunisia",
+//     TZ: "Tanzania",
+//     UG: "Uganda",
+//     ZA: "South Africa",
+//     ZM: "Zambia",
+//     ZW: "Zimbabwe",
+//     VC: "St. Vin. and Gren.",
+//     KN: "St. Kitts and Nevis",
+//     LC: "Saint Lucia",
+//     ST: "São Tomé and Principe",
+//     FM: "Micronesia",
+//     MH: "Marshall Is.",
+//     VI: "U.S. Virgin Is.",
+//     VG: "British Virgin Is.",
+//     TC: "Turks and Caicos Is.",
+//     AI: "Anguilla",
+//     BM: "Bermuda",
+//     KY: "Cayman Is.",
+//     FK: "Falkland Is.",
+//     PN: "Pitcairn Is.",
+//     SH: "Saint Helena",
+//     IO: "Br. Indian Ocean Ter.",
+//     AQ: "Antarctica"
+// };
         this.initVis();
     }
 
@@ -114,6 +114,7 @@ class WorldMapVis {
         //geo generator
         vis.path = d3.geoPath()
             .projection(vis.projection);
+
         //TopoJSON data into GeoJSON data structure
         vis.world = topojson.feature(vis.geoData, vis.geoData.objects.countries).features
         //ocean
@@ -128,7 +129,22 @@ class WorldMapVis {
             .data(vis.world)
             .enter().append("path")
             .attr('class', 'country')
-            .attr("d", vis.path)
+            .attr("d", vis.path);
+
+        vis.colorScale = d3.scaleQuantile()
+            .range(vis.colors);
+
+        // Create tooltip
+        vis.tooltip = d3.select("body").append('div')
+            .attr('class', "tooltip")
+            .attr('id', 'globeToolTip')
+            .style("position", "absolute")
+            .style("background", "white")
+            .style("padding", "10px")
+            .style("border", "1px solid #ccc")
+            .style("border-radius", "5px")
+            .style("pointer-events", "none")
+            .style("opacity", 0);
 
         //legend
         let legendrectsize = 20
@@ -195,17 +211,52 @@ class WorldMapVis {
     wrangleData() {
         let vis = this;
 
-        // create random data structure with information for each land
-        vis.countryInfo = {};
-        vis.geoData.objects.countries.geometries.forEach(d => {
-            let randomCountryValue = Math.random() * 4
-            vis.countryInfo[d.properties.name] = {
-                name: d.properties.name,
-                category: 'category_' + Math.floor(randomCountryValue),
-                color: vis.colors[Math.floor(randomCountryValue)],
-                value: randomCountryValue / 4 * 100
+        // Create data structure to hold country statistics
+        vis.countryStats = {};
+
+        // Process each trade record
+        vis.animalData.forEach(d => {
+            if (d.Exporter) {
+                if (!vis.countryStats[d.Exporter]) {
+                    vis.countryStats[d.Exporter] = {
+                        totalExported: 0,
+                        totalImported: 0,
+                        speciesCounts: {},
+                        termCounts: {},
+                        yearlyTotals: {}
+                    };
+                }
+
+                // Sum up quantities
+                const exportedQty = +d['Exporter reported quantity'] || 0;
+                const importedQty = +d['Importer reported quantity'] || 0;
+
+                // Update totals
+                vis.countryStats[d.Exporter].totalExported += exportedQty;
+                vis.countryStats[d.Exporter].totalImported += importedQty;
+
+                // Count species
+                if (d.Taxon) {
+                    vis.countryStats[d.Exporter].speciesCounts[d.Taxon] =
+                        (vis.countryStats[d.Exporter].speciesCounts[d.Taxon] || 0) + 1;
+                }
+
+                // Count terms (types of trade)
+                if (d.Term) {
+                    vis.countryStats[d.Exporter].termCounts[d.Term] =
+                        (vis.countryStats[d.Exporter].termCounts[d.Term] || 0) + 1;
+                }
+
+                // Track yearly totals
+                if (d.Year) {
+                    if (!vis.countryStats[d.Exporter].yearlyTotals[d.Year]) {
+                        vis.countryStats[d.Exporter].yearlyTotals[d.Year] = 0;
+                    }
+                    vis.countryStats[d.Exporter].yearlyTotals[d.Year] += exportedQty;
+                }
             }
-        })
+        });
+
 
         vis.updateVis()
     }
@@ -213,42 +264,62 @@ class WorldMapVis {
     updateVis() {
         let vis = this;
 
-        vis.svg.selectAll(".country")
-            .attr("fill", d=>{
-                console.log(d)
-                console.log(vis.countryInfo[d.properties.name])
-                return vis.countryInfo[d.properties.name].color
-            })
+        vis.countries
+            .on('mouseover', function(event, d) {
+                const countryCode = d.properties.name;
+                const stats = vis.countryStats[countryCode];
 
-            .on('mouseover', function(event, d){
+                let tooltipContent = `<div style="padding: 10px;">`;
+
+                if (stats) {
+                    // Get top 3 species by count
+                    let topSpecies = Object.entries(stats.speciesCounts)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 3);
+
+                    // Get most recent years
+                    let years = Object.keys(stats.yearlyTotals).sort().slice(-3);
+
+                    tooltipContent += `
+                        <strong>${vis.countryCodeToName[countryCode] || countryCode}</strong><br>
+                        <hr style="margin: 5px 0">
+                        <strong>Total Exported:</strong> ${d3.format(",")(stats.totalExported)}<br>
+                        <strong>Total Imported:</strong> ${d3.format(",")(stats.totalImported)}<br>
+                        <br>
+                        <strong>Top Species:</strong><br>
+                        ${topSpecies.map(([species, count]) =>
+                        `- ${species}: ${count} trades`
+                    ).join('<br>')}
+                        <br>
+                        <strong>Recent Years:</strong><br>
+                        ${years.map(year =>
+                        `${year}: ${d3.format(",")(stats.yearlyTotals[year])} specimens`
+                    ).join('<br>')}
+                    `;
+                } else {
+                    tooltipContent += `<strong>${vis.countryCodeToName[countryCode] || countryCode}</strong><br>No trade data available`;
+                }
+
+                tooltipContent += `</div>`;
+
                 d3.select(this)
                     .attr('stroke-width', '2px')
-                    .attr('stroke', 'black')
-                    .attr('fill', 'rgba(173,222,255,0.62)')
-                vis.tooltip
-                    .style("opacity", 1)
-                    .style("left", event.pageX + 20 + "px")
-                    .style("top", event.pageY + "px")
-                    .html(`
-                         <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
-                             <h3>${vis.countryInfo[d.properties.name].name}<h3>
-                              <h4> name: ${vis.countryInfo[d.properties.name].name}</h4>   
-                              <h4> category: ${vis.countryInfo[d.properties.name].category}</h4>   
-                              <h4> color: ${vis.countryInfo[d.properties.name].color}</h4>    
-                             <h4> value: ${vis.countryInfo[d.properties.name].value}</h4>      
-                         </div>`);
-            })
-            .on('mouseout', function(event, d){
-                d3.select(this)
-                    .attr('stroke-width', '0px')
-                    .attr("fill", d => vis.countryInfo[d.properties.name].color)
+                    .attr('stroke', 'black');
 
                 vis.tooltip
-                    .style("opacity", 0)
-                    .style("left", 0)
-                    .style("top", 0)
-                    .html(``);
+                    .style("opacity", 1)
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY - 10 + "px")
+                    .html(tooltipContent);
             })
+            .on('mouseout', function(event, d) {
+                d3.select(this)
+                    .attr('stroke-width', '0px');
+
+                vis.tooltip
+                    .style("opacity", 0);
+            });
+    }
     }
 }
 // init global variables, switches, helper functions
@@ -256,7 +327,7 @@ let myMapVis;
 
 // load data using promises
 let worldMapPromises = [
-    d3.csv("data/20-year-data.csv"),
+    d3.csv("data/2023.csv"),
     d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json")
 ];
 
@@ -265,6 +336,5 @@ Promise.all(worldMapPromises)
     .catch( function (err){console.log(err)} );
 
 function initWorldMapPage(allDataArray) {
-    console.log(allDataArray);
     myMapVis = new WorldMapVis('world-map', allDataArray[0], allDataArray[1])
 }

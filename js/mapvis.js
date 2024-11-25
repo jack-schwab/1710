@@ -1,4 +1,4 @@
-const countryCodeToName = {
+const countryCode = {
     AO: "Angola",
     BI: "Burundi",
     BJ: "Benin",
@@ -178,8 +178,8 @@ class MapVis {
 
         // Map country codes to country names and match export data
         vis.countryExports = {};
-        Object.keys(countryCodeToName).forEach(code => {
-            const countryName = countryCodeToName[code];
+        Object.keys(countryCode).forEach(code => {
+            const countryName = countryCode[code];
             vis.countryExports[countryName] = vis.exportCounts[code] || 0;
         });
 
