@@ -201,6 +201,7 @@ function resetGame() {
   lastCardFlipped = null;
 
   /* Step 6: Set up a new game. */
+  document.getElementById("species-explanation").innerText = "Find matches to learn about various endangered species! When you find a match, a paragraph about that species will appear here!"
   setUpGame();
 
 }
