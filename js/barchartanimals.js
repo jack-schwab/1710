@@ -1,4 +1,11 @@
-class BarChartAnimals {
+const animalLatintoName = {
+	Agapornis fischeri: "Fischer's Lovebird",
+	Eolophus roseicapilla: "Galah",
+	Ara ararauna: "Blue-and-yellow macaw",
+	Macaca fascicularis: "Crab-eating macaque",
+	Panthera leo: "Lion"
+};
+	class BarChartAnimals {
 
 	constructor(parentElement, data, config) {
 		this.parentElement = parentElement;
