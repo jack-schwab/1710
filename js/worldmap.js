@@ -246,7 +246,7 @@ class WorldMapVis {
             .attr('class', 'title')
             .attr('id', 'map-title')
             .append('text')
-            .text('Title for Map')
+            .text("Hover For 2023 Info")
             .attr('transform', `translate(${vis.width / 2}, 20)`)
             .attr('text-anchor', 'middle');
 
