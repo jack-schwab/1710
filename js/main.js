@@ -13,6 +13,6 @@ Promise.all(promises)
 
 
 function initMainPage(data){
-    let myMap = new MapVis("map", data[0], data[1])
+    let myMap = new AfricanMapVis("map", data[0], data[1])
 }
 
