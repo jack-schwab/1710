@@ -41,7 +41,7 @@ const legend = d3.select("#chart")
     .style("text-align", "left");
 
 // Load the data from the CSV file
-d3.csv("/data/data1.csv").then(data => {
+d3.csv("/data/20-year-data.csv").then(data => {
     // Process the data: Ensure numeric fields are parsed correctly
     data.forEach(d => {
         d.Year = +d.Year; // Convert Year to a number
