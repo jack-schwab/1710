@@ -243,9 +243,9 @@ html {
     --card-height: 175px;
 }
 
-body {
+#section-10 {
     margin: 0;
-    background: url(img/background.png);
+
     background-position: center;
     background-size: cover;
     color: #5e5447;
@@ -254,7 +254,7 @@ body {
     min-height: 100vh;
 }
 
-h1 {
+#section-10 h1 {
     font-size: 60px;
     text-align: center;
 }
