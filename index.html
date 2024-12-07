@@ -6,6 +6,9 @@
     <title>CS 1710 Final Project</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500|Satisfy" rel="stylesheet">
 </head>
 <body>
@@ -134,13 +137,31 @@
     </div>
 
     <div id="section-10" class="page-section section-transition">
-        <div class="row my-5">
-            <div class="col-md-12">
-                <h2 class="section-title">More Info on Endangered Species</h2>
-                <p>Wanna learn more cool facts about endangered species? Click on <a href="matching_game/index.html">this link</a> to try a fun matching game that will teach you even more!</p>
-                <h3>NOTE: PLEASE DO NOT CLICK THIS LINK UNTIL YOU HAVE FINISHED EXPLORING THE REST OF THE WEBSITE. THERE IS CURRENTLY NO WAY TO GET BACK TO THE WEBSITE ONCE YOU HAVE CLICKED THE LINK.</h3>
+        <header>
+            <h1>Endangered Species Matching Game</h1>
+        </header>
+        <section id="game-container">
+            <div id="ui-container">
+                <h3>Flips: <span id="flip-count">0</span></h3>
+                <h3>Matches: <span id="match-count">0</span></h3>
             </div>
-        </div>
+
+            <!-- This is where we display the flip and match counters -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+
+
+                        <!-- This is where our cards will be rendered -->
+                        <div id="card-container">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <p id="species-explanation">Find matches to learn about various endangered species! When you find a match, a paragraph about that species will appear here!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <div id="section-11" class="page-section section-transition">
@@ -191,6 +212,8 @@
     </div>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.1/underscore.js" integrity="sha512-qbJl2/KyecDVJdgAwr0Gzhm5KBmkzdUouG+sKmCWP1Idb144ZnfSmCRReuYXPEHIa4j38TwrR2ySeGoFH5gKzA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://bit.ly/491fCed"></script>
 <script src="https://unpkg.com/scrollama"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
