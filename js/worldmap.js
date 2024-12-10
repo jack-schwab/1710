@@ -2,6 +2,7 @@
 // *          MapVis          *
 // * * * * * * * * * * * * * */
 
+
 class WorldMapVis {
 
     constructor(parentElement, animalData, geoData) {
@@ -347,11 +348,46 @@ class WorldMapVis {
 
         // Create data structure to hold country statistics
         vis.countryStats = {};
+        window.selectedExporter = 'South Africa';
+
+        // Ensure global variables are set
+        const selectedExporter = window.selectedExporter || null;
+        const selectedAnimal = document.getElementById('data-selector')?.value || null;
+        const startYear = window.startYear || 0;
+        const endYear = window.endYear || Infinity;
+
+        console.log("Starting wrangleData...");
+        console.log("Filter criteria:", {
+            Exporter: selectedExporter || 'All',
+            Animal: selectedAnimal || 'All',
+            YearRange: `${startYear}-${endYear}`
+        });
+        console.log(`Total dataset records: ${vis.animalData.length}`);
 
         // Process each trade record
-        vis.animalData.forEach(d => {
-            if (d.Exporter && (d.Class === 'Aves' || d.Class === 'Mammalia')) {
+        vis.animalData.forEach((d, index) => {
+            const year = parseInt(d.Year, 10);
+            const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
+            const importedQty = parseInt(d['Importer reported quantity']) || 0;
+
+            console.log(`Record ${index + 1}/${vis.animalData.length}:`, {
+                Exporter: d.Exporter,
+                Class: d.Class,
+                Year: year,
+                ExportedQty: exportedQty,
+                ImportedQty: importedQty
+            });
+
+            // Apply filters: exporter, animal class, and year range
+            if (
+                (!selectedExporter || d.Exporter === selectedExporter) &&
+                (!selectedAnimal || d.Class === selectedAnimal) &&
+                year >= startYear && year <= endYear
+            ) {
+                console.log("Record matches filters:", d);
+
                 if (!vis.countryStats[d.Exporter]) {
+                    console.log(`Creating new stats entry for Exporter: ${d.Exporter}`);
                     vis.countryStats[d.Exporter] = {
                         totalExported: 0,
                         totalImported: 0,
@@ -361,39 +397,60 @@ class WorldMapVis {
                     };
                 }
 
-                const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
-                const importedQty = parseInt(d['Importer reported quantity']) || 0;
-
                 vis.countryStats[d.Exporter].totalExported += exportedQty;
                 vis.countryStats[d.Exporter].totalImported += importedQty;
+
+                console.log(`Updated stats for Exporter ${d.Exporter}:`, {
+                    TotalExported: vis.countryStats[d.Exporter].totalExported,
+                    TotalImported: vis.countryStats[d.Exporter].totalImported
+                });
 
                 if (d.Taxon) {
                     vis.countryStats[d.Exporter].speciesCounts[d.Taxon] =
                         (vis.countryStats[d.Exporter].speciesCounts[d.Taxon] || 0) + 1;
+
+                    console.log(`Updated species count for Taxon ${d.Taxon}:`, vis.countryStats[d.Exporter].speciesCounts[d.Taxon]);
                 }
 
-                if (d.Year) {
-                    if (!vis.countryStats[d.Exporter].yearlyTotals[d.Year]) {
-                        vis.countryStats[d.Exporter].yearlyTotals[d.Year] = 0;
+                if (year) {
+                    if (!vis.countryStats[d.Exporter].yearlyTotals[year]) {
+                        vis.countryStats[d.Exporter].yearlyTotals[year] = 0;
                     }
-                    vis.countryStats[d.Exporter].yearlyTotals[d.Year] += exportedQty;
+                    vis.countryStats[d.Exporter].yearlyTotals[year] += exportedQty;
+
+                    console.log(`Updated yearly total for Year ${year}:`, vis.countryStats[d.Exporter].yearlyTotals[year]);
                 }
+            } else {
+                console.log("Record does not match filters:", d);
             }
         });
 
+        // Check if any data matches the filters
+        if (Object.keys(vis.countryStats).length === 0) {
+            console.warn("No data matches the current filters.");
+        } else {
+            console.log("Filtered country statistics:", vis.countryStats);
+        }
+
         // Find max export value for color scale
-        let maxExport = 100;
+        let maxExport = d3.max(
+            Object.values(vis.countryStats),
+            stats => stats.totalExported
+        ) || 0;
+
+        console.log("Max export value calculated:", maxExport);
 
         // Update color scale domain
         vis.colorScale = d3.scaleQuantile()
             .domain([0, maxExport])
             .range(vis.colors);
 
-        console.log("Max export value:", maxExport);
-        console.log("Color scale domain:", vis.colorScale.domain());
+        console.log("Color scale domain updated:", vis.colorScale.domain());
 
         vis.updateVis();
     }
+
+
 
     updateVis() {
         let vis = this;

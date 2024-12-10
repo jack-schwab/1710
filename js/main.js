@@ -13,6 +13,7 @@ Promise.all(promises)
 
 
 function initMainPage(data){
-    let myMap = new AfricanMapVis("map", data[0], data[1])
+    window.myMapVis = new AfricanMapVis("map", data[0], data[1])
+    console.log("myMapVis initialized and attached to window:", window.myMapVis);
 }
 

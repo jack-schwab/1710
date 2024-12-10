@@ -72,11 +72,23 @@
         </div>
     </div>
 
+    <div id="section-6" class="page-section section-transition">
+        <div class="row my-5">
+
+            <h1>Exports Over Time</h1>
+            <div id="time-chart"></div>
+
+        </div>
+    </div>
+
+
     <div id="map-controls" class="d-flex align-items-center my-3">
         <label for="data-selector" class="me-2">Select Data:</label>
         <select id="data-selector" class="form-select">
             <option value="rhino.csv" selected>Rhino</option>
             <option value="lion.csv">Lion</option>
+            <option value="elephant.csv" selected>Elephant</option>
+            <option value="leopard.csv">Leopard</option>
         </select>
     </div>
     <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
@@ -231,6 +243,7 @@
 <script src="js/worldmap.js"></script>
 <script src="js/provided.js"></script>
 <script src="js/matchingVis.js"></script>
+<script src="js/timechart.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
