@@ -10,6 +10,7 @@ class BarChartAnimals {
 			transitionDuration: 1000,
 			barColor: "#4682b4",
 			hoverColor: "#2c5282",
+			selectedColor: "#1d3557",
 			...config
 		};
 
@@ -78,6 +79,16 @@ class BarChartAnimals {
 			.style("border-radius", "5px")
 			.style("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)");
 
+		vis.selectedBar = null; // Track the selected bar
+
+		vis.trendPriority = {
+			"Python regius": 1,
+			"Pandinus imperator": 2,
+			"Scleractinia spp.": 3,
+			"Psittacus erithacus": 4,
+			"Aloe ferox": 5
+		}; // Priority mapping for correlation
+
 		vis.wrangleData();
 	}
 
@@ -93,7 +104,7 @@ class BarChartAnimals {
 
 		let dataArray = Array.from(groupedData, ([key, value]) => ({ key, value }));
 		vis.displayData = dataArray
-			.sort((a, b) => b.value - a.value)
+			.sort((a, b) => vis.trendPriority[b.key] - vis.trendPriority[a.key]) // Sort based on priority
 			.slice(0, 5);
 
 		console.log("Display Data:", vis.displayData);
@@ -142,29 +153,33 @@ class BarChartAnimals {
 			.attr("y", d => vis.y(d.key))
 			.attr("width", d => vis.x(d.value))
 			.attr("height", vis.y.bandwidth())
-			.attr("fill", vis.config.barColor);
+			.attr("fill", d => vis.selectedBar === d.key ? vis.config.selectedColor : vis.config.barColor);
 
 		barsEnter
+			.merge(bars)
 			.on("mouseover", (event, d) => {
+				d3.select(event.currentTarget)
+					.attr("fill", vis.config.hoverColor);
+
 				let speciesTrend = vis.trendData.filter(trend => trend.Taxon === d.key);
 
 				if (speciesTrend.length === 0) {
 					speciesTrend = Array.from({ length: 20 }, (_, i) => ({
 						Year: 2003 + i,
-						Quantity: Math.floor(Math.random() * 1000)
+						Quantity: Math.floor(Math.random() * (vis.trendPriority[d.key] * 100))
 					}));
 				}
 
 				let xScale = d3.scaleLinear()
-					.domain(d3.extent(speciesTrend, d => d.Year))
-					.range([0, 200]);
+					.domain([2003, 2023])
+					.range([30, 220]); // Padding for readability
 
 				let yScale = d3.scaleLinear()
 					.domain([0, d3.max(speciesTrend, d => d.Quantity)])
-					.range([100, 0]);
+					.range([100, 20]); // Padding for readability
 
 				let line = d3.line()
-					.curve(d3.curveMonotoneX) // Smooth the line
+					.curve(d3.curveMonotoneX)
 					.x(d => xScale(d.Year))
 					.y(d => yScale(d.Quantity));
 
@@ -174,30 +189,35 @@ class BarChartAnimals {
 					.style("top", (event.pageY - 10) + "px")
 					.html(`
                         <div>
-                            <strong>${d.key}</strong>
-                            <svg width="250" height="160">
-                                <text x="125" y="15" text-anchor="middle" font-size="12" font-weight="bold">Trade Trends Over Time</text>
-                                <g transform="translate(30, 30)">
-                                    <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
-                                    ${speciesTrend.map(point => `
-                                        <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
-                                    `).join("")}
-                                    <g class="x-axis" transform="translate(0, 100)">
-                                        ${speciesTrend.map(point => `<text x="${xScale(point.Year)}" y="15" text-anchor="middle" font-size="8">${point.Year}</text>`).join("")}
-                                    </g>
-                                    <g class="y-axis">
-                                        <line x1="0" x2="200" y1="${yScale(0)}" y2="${yScale(0)}" stroke="#ccc" stroke-dasharray="3" />
-                                        <line x1="0" x2="200" y1="${yScale(d3.max(speciesTrend, d => d.Quantity))}" y2="${yScale(d3.max(speciesTrend, d => d.Quantity))}" stroke="#ccc" stroke-dasharray="3" />
-                                        <text x="-10" y="${yScale(0)}" text-anchor="end" font-size="8">Low</text>
-                                        <text x="-10" y="${yScale(d3.max(speciesTrend, d => d.Quantity))}" text-anchor="end" font-size="8">High</text>
+                            <strong>${d.key} Trade Trends</strong>
+                            <svg width="250" height="180">
+                                <text x="125" y="15" text-anchor="middle" font-size="12" font-weight="bold">Trade Trends for ${d.key}</text>
+                                <g transform="translate(0, 20)">
+                                    <g transform="translate(30, 0)">
+                                        <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
+                                        ${speciesTrend.map(point => `
+                                            <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
+                                        `).join("")}
+                                        <g class="x-axis">
+                                            ${[2003, 2008, 2013, 2018, 2023].map(year => `<text x="${xScale(year)}" y="115" text-anchor="middle" font-size="8">${year}</text>`).join("")}
+                                        </g>
+                                        <g class="y-axis">
+                                            ${[0, d3.max(speciesTrend, d => d.Quantity)].map(val => `<text x="-10" y="${yScale(val)}" text-anchor="end" font-size="8">${val}</text>`).join("")}
+                                        </g>
                                     </g>
                                 </g>
                             </svg>
                         </div>
                     `);
 			})
-			.on("mouseout", () => {
+			.on("mouseout", (event, d) => {
+				d3.select(event.currentTarget)
+					.attr("fill", d => vis.selectedBar === d.key ? vis.config.selectedColor : vis.config.barColor);
 				vis.tooltip.style("opacity", 0);
+			})
+			.on("click", (event, d) => {
+				vis.selectedBar = vis.selectedBar === d.key ? null : d.key;
+				vis.updateVis();
 			});
 	}
 }
