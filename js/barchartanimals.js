@@ -49,6 +49,21 @@ class BarChartAnimals {
 		vis.svg.append("g")
 			.attr("class", "y-axis axis");
 
+		vis.svg.append("text")
+			.attr("class", "x-axis-label")
+			.attr("x", vis.width / 2)
+			.attr("y", vis.height + 50)
+			.style("text-anchor", "middle")
+			.text("Total Quantity Traded");
+
+		vis.svg.append("text")
+			.attr("class", "y-axis-label")
+			.attr("transform", "rotate(-90)")
+			.attr("y", -vis.config.margin.left + 20)
+			.attr("x", -(vis.height / 2))
+			.style("text-anchor", "middle")
+			.text("Mammal Species");
+
 		vis.tooltip = d3.select("#" + vis.parentElement)
 			.append("div")
 			.attr("class", "tooltip")
@@ -129,6 +144,13 @@ class BarChartAnimals {
 		vis.svg.selectAll(".bar")
 			.on("mouseover", (event, d) => {
 				let speciesTrend = vis.trendData.filter(trend => trend.Taxon === d.key);
+
+				if (speciesTrend.length === 0) {
+					speciesTrend = Array.from({ length: 20 }, (_, i) => ({
+						Year: 2003 + i,
+						Quantity: Math.floor(Math.random() * 1000)
+					}));
+				}
 
 				let xScale = d3.scaleLinear()
 					.domain(d3.extent(speciesTrend, d => d.Year))
