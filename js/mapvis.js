@@ -51,6 +51,46 @@ const africanCountryCodeToName = {
     ZW: "Zimbabwe"
 };
 
+document.addEventListener('DOMContentLoaded', () => {
+    const fromSlider = document.getElementById('fromSlider');
+    const toSlider = document.getElementById('toSlider');
+    const fromInput = document.getElementById('fromInput');
+    const toInput = document.getElementById('toInput');
+
+    // Function to sync the range sliders and input fields
+    function syncSliders() {
+        // Ensure fromSlider value does not exceed toSlider
+        if (parseInt(fromSlider.value) > parseInt(toSlider.value)) {
+            fromSlider.value = toSlider.value;
+        }
+        fromInput.value = fromSlider.value;
+
+        // Ensure toSlider value does not go below fromSlider
+        if (parseInt(toSlider.value) < parseInt(fromSlider.value)) {
+            toSlider.value = fromSlider.value;
+        }
+        toInput.value = toSlider.value;
+    }
+
+    // Event listeners for the range sliders
+    fromSlider.addEventListener('input', syncSliders);
+    toSlider.addEventListener('input', syncSliders);
+
+    // Event listeners for the number inputs
+    fromInput.addEventListener('input', () => {
+        fromSlider.value = fromInput.value;
+        syncSliders();
+    });
+
+    toInput.addEventListener('input', () => {
+        toSlider.value = toInput.value;
+        syncSliders();
+    });
+
+    // Initial sync
+    syncSliders();
+});
+
 class AfricanMapVis {
     constructor(parentElement, geoData, tradeData) {
         this.parentElement = parentElement;
@@ -177,6 +217,7 @@ class AfricanMapVis {
 
         // Attach event listener to the dropdown
         const dataSelector = document.getElementById("data-selector");
+<<<<<<< Updated upstream
         if (dataSelector) {
             dataSelector.addEventListener("change", (event) => {
                 const selectedFile = event.target.value;
@@ -185,6 +226,13 @@ class AfricanMapVis {
         } else {
             console.warn("Data selector element not found!");
         }
+=======
+        dataSelector.addEventListener("change", (event) => {
+            const selectedFile = event.target.value;
+            vis.loadNewData(selectedFile);
+        });
+        //if wrangle data runs in load new data will it run twice
+>>>>>>> Stashed changes
 
         vis.wrangleData();
     }
