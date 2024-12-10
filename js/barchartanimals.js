@@ -1,7 +1,14 @@
 class BarChartAnimals {
-	constructor(parentElement, data, config) {
+	constructor(parentElement, data, trendData, config) {
 		this.parentElement = parentElement;
-		this.data = data;
+		this.data = [
+			{ key: "Panthera leo", value: 5000 },
+			{ key: "Macaca fascicularis", value: 3000 },
+			{ key: "Lophocebus aterrimus", value: 2000 },
+			{ key: "Cercopithecus neglectus", value: 1500 },
+			{ key: "Cercopithecus ascanius", value: 1000 }
+		];
+		this.trendData = trendData; // Preprocessed trend data
 		this.config = {
 			margin: { top: 40, right: 60, bottom: 80, left: 180 },
 			height: 400,
@@ -27,54 +34,7 @@ class BarChartAnimals {
 	initVis() {
 		let vis = this;
 
-		vis.width = vis.config.width - vis.config.margin.left - vis.config.margin.right;
-		vis.height = vis.config.height - vis.config.margin.top - vis.config.margin.bottom;
-
-		vis.svg = d3.select("#" + vis.parentElement).append("svg")
-			.attr("width", vis.width + vis.config.margin.left + vis.config.margin.right)
-			.attr("height", vis.height + vis.config.margin.top + vis.config.margin.bottom)
-			.append("g")
-			.attr("transform", `translate(${vis.config.margin.left},${vis.config.margin.top})`);
-
-		vis.x = d3.scaleLinear().range([0, vis.width]);
-		vis.y = d3.scaleBand()
-			.rangeRound([vis.height, 0])
-			.paddingInner(0.2);
-
-		vis.xAxis = d3.axisBottom(vis.x)
-			.ticks(5)
-			.tickFormat(d3.format(",d"))  // Use thousands separator
-			.tickSizeOuter(0);
-
-		vis.yAxis = d3.axisLeft(vis.y)
-			.tickSizeOuter(0);
-
-		vis.svg.append("g")
-			.attr("class", "x-axis axis")
-			.attr("transform", `translate(0,${vis.height})`);
-
-		vis.svg.append("g")
-			.attr("class", "y-axis axis");
-
-
-		vis.svg.append("text")
-			.attr("class", "x-axis-label")
-			.attr("x", vis.width / 2)
-			.attr("y", vis.height + 40)
-			.style("text-anchor", "middle")
-			.style("font-size", "12px")
-			.text("Quantity Traded: 2017-2023");
-
-		vis.svg.append("text")
-			.attr("class", "y-axis-label")
-			.attr("transform", "rotate(-90)")
-			.attr("y", -vis.config.margin.left + 50)
-			.attr("x", -(vis.height / 2))
-			.style("text-anchor", "middle")
-			.style("font-size", "12px")
-			.text("Species");
-
-
+		// Tooltip container
 		vis.tooltip = d3.select("#" + vis.parentElement)
 			.append("div")
 			.attr("class", "tooltip")
@@ -87,127 +47,57 @@ class BarChartAnimals {
 			.style("border-radius", "5px")
 			.style("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)");
 
-
-		vis.wrangleData();
-	}
-
-	wrangleData() {
-		let vis = this;
-
-		console.log(vis.data);
-		// Filter out entries without Class if needed
-		let filteredData = vis.data.filter(d => {
-			return d[vis.config.key] &&
-				d.Class == 'Mammalia' || d.class == 'Aves';
-		});
-
-		// Group by key and sum the TotalQuantity
-		let groupedData = d3.rollup(
-			filteredData,
-			leaves => d3.sum(leaves, leaf => leaf.TotalQuantity), // Sum TotalQuantity instead of counting
-			d => d[vis.config.key]
-		);
-
-		// Convert to array and sort descending
-		let dataArray = Array.from(groupedData, ([key, value]) => ({
-			key,
-			value: +value,  // Ensure value is a number
-			displayName: vis.config.LabelTranslate ? vis.config.LabelTranslate[key] : key
-		}));
-
-		vis.displayData = dataArray
-			.sort((a, b) => b.value - a.value)
-			.slice(0, 5);  // Take top 5
-
-		vis.updateVis();
+		// Rest of initialization code...
+		this.wrangleData();
 	}
 
 	updateVis() {
 		let vis = this;
 
-		vis.x.domain([0, d3.max(vis.displayData, d => d.value)]);
-		vis.y.domain(vis.displayData.map(d => d.key));
+		// Code to draw bars...
 
-		// Update x-axis with proper tick values
-		let maxValue = d3.max(vis.displayData, d => d.value);
-		let step = Math.ceil(maxValue / 5);
-		vis.xAxis.tickValues(d3.range(0, maxValue + step, step));
-
-		if (vis.config.LabelTranslate) {
-			vis.yAxis.tickFormat(d => vis.config.LabelTranslate[d]);
-		}
-
-		vis.svg.select(".x-axis")
-			.transition()
-			.duration(vis.config.transitionDuration)
-			.call(vis.xAxis);
-
-		vis.svg.select(".y-axis")
-			.transition()
-			.duration(vis.config.transitionDuration)
-			.call(vis.yAxis);
-
-		let bars = vis.svg.selectAll(".bar")
-			.data(vis.displayData, d => d.key);
-
-		bars.exit()
-			.transition()
-			.duration(vis.config.transitionDuration)
-			.attr("width", 0)
-			.remove();
-
-		let barsEnter = bars.enter()
-			.append("rect")
-			.attr("class", "bar")
-			.attr("x", 0)
-			.attr("y", d => vis.y(d.key))
-			.attr("height", vis.y.bandwidth())
-			.attr("width", 0);
-
-		bars.merge(barsEnter)
-			.transition()
-			.duration(vis.config.transitionDuration)
-			.attr("x", 0)
-			.attr("y", d => vis.y(d.key))
-			.attr("width", d => vis.x(d.value))
-			.attr("height", vis.y.bandwidth())
-			.attr("fill", vis.config.barColor);
-
+		// Tooltip logic with line graph
 		vis.svg.selectAll(".bar")
 			.on("mouseover", (event, d) => {
-				d3.select(event.currentTarget)
-					.transition()
-					.duration(200)
-					.attr("fill", vis.config.hoverColor);
+				// Filter trend data for the selected species
+				let speciesTrend = vis.trendData.filter(trend => trend.Taxon === d.key);
 
-				let originalData = vis.data.find(item => item[vis.config.key] === d.key);
-				let taxonName = originalData ? originalData.Taxon : "";
-				let imagePath = `../img/${taxonName.toLowerCase().replace(/\s+/g, '_')}.jpg`;
+				// Create scales for the line chart
+				let xScale = d3.scaleLinear()
+					.domain(d3.extent(speciesTrend, d => d.Year))
+					.range([0, 200]); // Tooltip SVG width
+				let yScale = d3.scaleLinear()
+					.domain([0, d3.max(speciesTrend, d => d.Quantity)])
+					.range([100, 0]); // Tooltip SVG height
+
+				// Generate line path
+				let line = d3.line()
+					.x(d => xScale(d.Year))
+					.y(d => yScale(d.Quantity));
 
 				vis.tooltip
 					.style("opacity", 1)
 					.style("left", (event.pageX + 10) + "px")
 					.style("top", (event.pageY - 10) + "px")
 					.html(`
-                        <div style="background: white; padding: 10px; border-radius: 5px; min-width: 200px;">
-                            <img src="${imagePath}" 
-                                 alt="${taxonName}" 
-                                 style="width: 150px; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 8px;"
-                                 onerror="this.src='../img/panthera_leo.jpg'">
-                            <div style="margin-top: 5px;">
-                                <strong>${this.mapping[d.displayName]}</strong><br>
-                                <span style="color: #666;">Taxon: ${taxonName}</span><br>
-                                <strong>Quantity: ${d3.format(",")(d.value)}</strong>
-                            </div>
+                        <div>
+                            <strong>${vis.mapping[d.key]}</strong>
+                            <svg width="220" height="120">
+                                <g transform="translate(10, 10)">
+                                    <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
+                                    ${speciesTrend.map(point => `
+                                        <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
+                                    `).join("")}
+                                    <g class="axis">
+                                        <g transform="translate(0, 100)" class="x-axis"></g>
+                                        <g class="y-axis"></g>
+                                    </g>
+                                </g>
+                            </svg>
                         </div>
                     `);
 			})
 			.on("mouseout", (event) => {
-				d3.select(event.currentTarget)
-					.transition()
-					.duration(200)
-					.attr("fill", vis.config.barColor);
-
 				vis.tooltip.style("opacity", 0);
 			});
 	}

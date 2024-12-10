@@ -193,6 +193,6 @@ d3.csv("/data/20-year-data.csv").then(data => {
     let barchartAnimals = new BarChartAnimals("bar-chart", data, config[0]);
     let barchartExporters = new BarChartAnimals("bar-chart-2", data, config[1]);
     let barChartImporters = new BarChartAnimals("bar-chart-3", data, config[2]);
-    //let photoChart = new PhotoChart("photo-chart", data);
+    // let photoChart = new PhotoChart("photo-chart", data);
     // let globe = new MapVis("globe", data, geodate);
 });
