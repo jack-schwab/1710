@@ -39,15 +39,13 @@
         }
 
         figure p {
-
-            padding: 1rem;
             position: absolute;
             top: 50%;
             left: 50%;
             -moz-transform: translate(-50%, -50%);
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-            font-size: 24px;
+            font-size: 20px;
             color: #fff;
         }
 
@@ -82,7 +80,7 @@
         <h1 class="section-title">ENDANGERED SPECIES TRADING IN AFRICA</h1>
         <section id="scrolly">
             <figure>
-                <p>Scroll to get started!</p>
+                <p>Welcome to our project! Scroll to get started learning about endangered species trading!</p>
             </figure>
 
             <article>
@@ -312,17 +310,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Add scroll indicator if not the last section
-                    if (entry.target.nextElementSibling) {
-                        const scrollIndicator = document.createElement('div');
-                        scrollIndicator.className = 'scroll-indicator';
-                        scrollIndicator.innerHTML = `
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 5v14M19 12l-7 7-7-7"/>
-                        </svg>
-                    `;
-                        entry.target.appendChild(scrollIndicator);
-                    }
                 }
             });
         }, {
@@ -349,7 +336,7 @@
     });
 </script>
 <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
-<script src="../scrollama.min.js"></script>
+<script src="js/scrollama.min.js"></script>
 <script>
     // using d3 for convenience
     var main = d3.select("main");
