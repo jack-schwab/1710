@@ -1,13 +1,7 @@
 class BarChartAnimals {
 	constructor(parentElement, data, trendData, config) {
 		this.parentElement = parentElement;
-		this.data = [
-			{ key: "Panthera leo", value: 5000 },
-			{ key: "Macaca fascicularis", value: 3000 },
-			{ key: "Lophocebus aterrimus", value: 2000 },
-			{ key: "Cercopithecus neglectus", value: 1500 },
-			{ key: "Cercopithecus ascanius", value: 1000 }
-		];
+		this.data = data;
 		this.trendData = trendData; // Preprocessed trend data
 		this.config = {
 			margin: { top: 40, right: 60, bottom: 80, left: 180 },
@@ -19,14 +13,6 @@ class BarChartAnimals {
 			...config
 		};
 
-		this.mapping = {
-			"Macaca fascicularis": "Crab-eating Macaque",
-			"Cercopithecus neglectus": "De Brazza's Monkey",
-			"Panthera leo": "Lion",
-			"Lophocebus aterrimus": "Black Crested Mangabey",
-			"Cercopithecus ascanius": "Red-tailed Monkey"
-		};
-
 		this.displayData = data;
 		this.initVis();
 	}
@@ -34,7 +20,35 @@ class BarChartAnimals {
 	initVis() {
 		let vis = this;
 
-		// Tooltip container
+		vis.width = vis.config.width - vis.config.margin.left - vis.config.margin.right;
+		vis.height = vis.config.height - vis.config.margin.top - vis.config.margin.bottom;
+
+		vis.svg = d3.select("#" + vis.parentElement).append("svg")
+			.attr("width", vis.width + vis.config.margin.left + vis.config.margin.right)
+			.attr("height", vis.height + vis.config.margin.top + vis.config.margin.bottom)
+			.append("g")
+			.attr("transform", `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+
+		vis.x = d3.scaleLinear().range([0, vis.width]);
+		vis.y = d3.scaleBand()
+			.rangeRound([vis.height, 0])
+			.paddingInner(0.2);
+
+		vis.xAxis = d3.axisBottom(vis.x)
+			.ticks(5)
+			.tickFormat(d3.format(",d"))
+			.tickSizeOuter(0);
+
+		vis.yAxis = d3.axisLeft(vis.y)
+			.tickSizeOuter(0);
+
+		vis.svg.append("g")
+			.attr("class", "x-axis axis")
+			.attr("transform", `translate(0,${vis.height})`);
+
+		vis.svg.append("g")
+			.attr("class", "y-axis axis");
+
 		vis.tooltip = d3.select("#" + vis.parentElement)
 			.append("div")
 			.attr("class", "tooltip")
@@ -47,30 +61,83 @@ class BarChartAnimals {
 			.style("border-radius", "5px")
 			.style("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)");
 
-		// Rest of initialization code...
-		this.wrangleData();
+		vis.wrangleData();
+	}
+
+	wrangleData() {
+		let vis = this;
+
+		console.log("Original Data:", vis.data);
+		let groupedData = d3.rollup(
+			vis.data,
+			leaves => d3.sum(leaves, d => d.Quantity || 0),
+			d => d.Taxon
+		);
+
+		let dataArray = Array.from(groupedData, ([key, value]) => ({ key, value }));
+		vis.displayData = dataArray
+			.sort((a, b) => b.value - a.value)
+			.slice(0, 5);
+
+		console.log("Display Data:", vis.displayData);
+		vis.updateVis();
 	}
 
 	updateVis() {
 		let vis = this;
 
-		// Code to draw bars...
+		vis.x.domain([0, d3.max(vis.displayData, d => d.value)]);
+		vis.y.domain(vis.displayData.map(d => d.key));
 
-		// Tooltip logic with line graph
+		vis.svg.select(".x-axis")
+			.transition()
+			.duration(vis.config.transitionDuration)
+			.call(vis.xAxis);
+
+		vis.svg.select(".y-axis")
+			.transition()
+			.duration(vis.config.transitionDuration)
+			.call(vis.yAxis);
+
+		let bars = vis.svg.selectAll(".bar")
+			.data(vis.displayData, d => d.key);
+
+		bars.exit()
+			.transition()
+			.duration(vis.config.transitionDuration)
+			.attr("width", 0)
+			.remove();
+
+		let barsEnter = bars.enter()
+			.append("rect")
+			.attr("class", "bar")
+			.attr("x", 0)
+			.attr("y", d => vis.y(d.key))
+			.attr("height", vis.y.bandwidth())
+			.attr("width", 0)
+			.attr("fill", vis.config.barColor);
+
+		bars.merge(barsEnter)
+			.transition()
+			.duration(vis.config.transitionDuration)
+			.attr("x", 0)
+			.attr("y", d => vis.y(d.key))
+			.attr("width", d => vis.x(d.value))
+			.attr("height", vis.y.bandwidth())
+			.attr("fill", vis.config.barColor);
+
 		vis.svg.selectAll(".bar")
 			.on("mouseover", (event, d) => {
-				// Filter trend data for the selected species
 				let speciesTrend = vis.trendData.filter(trend => trend.Taxon === d.key);
 
-				// Create scales for the line chart
 				let xScale = d3.scaleLinear()
 					.domain(d3.extent(speciesTrend, d => d.Year))
-					.range([0, 200]); // Tooltip SVG width
+					.range([0, 200]);
+
 				let yScale = d3.scaleLinear()
 					.domain([0, d3.max(speciesTrend, d => d.Quantity)])
-					.range([100, 0]); // Tooltip SVG height
+					.range([100, 0]);
 
-				// Generate line path
 				let line = d3.line()
 					.x(d => xScale(d.Year))
 					.y(d => yScale(d.Quantity));
@@ -81,24 +148,37 @@ class BarChartAnimals {
 					.style("top", (event.pageY - 10) + "px")
 					.html(`
                         <div>
-                            <strong>${vis.mapping[d.key]}</strong>
+                            <strong>${d.key}</strong>
                             <svg width="220" height="120">
                                 <g transform="translate(10, 10)">
                                     <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
                                     ${speciesTrend.map(point => `
                                         <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
                                     `).join("")}
-                                    <g class="axis">
-                                        <g transform="translate(0, 100)" class="x-axis"></g>
-                                        <g class="y-axis"></g>
-                                    </g>
                                 </g>
                             </svg>
                         </div>
                     `);
 			})
-			.on("mouseout", (event) => {
+			.on("mouseout", () => {
 				vis.tooltip.style("opacity", 0);
 			});
 	}
 }
+
+// Load the data and initialize the chart
+d3.csv("/data/20-year-data.csv").then(data => {
+	data.forEach(d => {
+		d.Year = +d.Year;
+		d.Quantity = +d["Exporter reported quantity"] || 0;
+	});
+
+	let groupedData = d3.rollup(data,
+		leaves => leaves.map(d => ({ Year: d.Year, Taxon: d.Taxon, Quantity: d.Quantity })),
+		d => d.Taxon
+	);
+
+	let flatTrendData = Array.from(groupedData.values()).flat();
+
+	new BarChartAnimals("bar-chart", data, flatTrendData, {});
+});
