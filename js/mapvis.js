@@ -86,9 +86,9 @@ class AfricanMapVis {
         console.log("SVG container created.");
 
         vis.projection = d3.geoMercator()
-            .scale(100)
+            .scale(500)
             .translate([vis.mapWidth / 2, vis.mapHeight / 2])
-            .center([40, 0]);
+            .center([65, -35]);
 
         vis.geoGenerator = d3.geoPath().projection(vis.projection);
 

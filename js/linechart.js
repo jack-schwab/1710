@@ -57,7 +57,7 @@ d3.select("#ranking-type").on("change", updateVisualization);
 
 // Load CSV file
 function loadData() {
-    d3.csv("data/fifa-world-cup.csv", row => {
+    d3.csv("data/20-year-data.csv", row => {
         row.YEAR = parseDate(row.YEAR);
         row.TEAMS = +row.TEAMS;
         row.MATCHES = +row.MATCHES;
@@ -85,12 +85,12 @@ let path = svg.append("path")
 // Create slider
 let slider = document.getElementById('time-period-slider');
 noUiSlider.create(slider, {
-    start: [1930, 2014],
+    start: [2004, 2023],
     step: 1,
     connect: true,
     range: {
-        'min': 1930,
-        'max': 2014
+        'min': 2004,
+        'max': 2023
     }
 });
 
