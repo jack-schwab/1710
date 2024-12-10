@@ -78,9 +78,6 @@
 
     <div id="section-1" class="page-section section-transition">
         <h1 id="project-title" class="section-title">ENDANGERED SPECIES TRADING IN AFRICA</h1>
-        <button onclick="getLocation()">Click here to start!</button>
-
-        <p id="demo"></p>
         <section id="scrolly">
             <figure>
                 <p>Welcome to our project! Scroll to get started learning about endangered species trading!</p>
@@ -122,7 +119,7 @@
                         </div>
                     </div>
                     <div class="col-3">
-                        <p id="species-explanation">Find matches to learn about various endangered species! When you find a match, a paragraph about that species will appear here!</p>
+                        <p id="species-explanation">Let's learn some more about endangered species in Africa! Play this matchign game to find matches and learn about various endangered species. When you find a match, a paragraph about that species will appear here. Good luck!</p>
                     </div>
                 </div>
             </div>
@@ -257,14 +254,14 @@
     </div>
 
     <div id="section-11" class="page-section section-transition">
-        <h1 class="section-title">Credits: Sources/Authors</h1>
+        <h1 class="section-title">Credits</h1>
         <div class="row my-5">
             <div class="col-md-12">
 
                 <h3>We'd like to thank the CS 1710 staff for all their help and support on this project.</h3>
-                <p id="sources">TODO: Add image/data sources if we need to include them (not sure if we do)</p>
             </div>
         </div>
+        <h3>Website Creators:</h3>
         <div class="row my-5">
             <div id="authors-section" class="d-flex justify-content-center">
                 <div class="col-12 col-md-6 col-lg-3">
@@ -416,39 +413,6 @@
 
     // kick things off
     init();
-</script>
-<script>
-    const x = document.getElementById("demo");
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition, showError);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-
-    function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
-    }
-
-    function showError(error) {
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                x.innerHTML = "User denied the request for Geolocation."
-                break;
-            case error.POSITION_UNAVAILABLE:
-                x.innerHTML = "Location information is unavailable."
-                break;
-            case error.TIMEOUT:
-                x.innerHTML = "The request to get user location timed out."
-                break;
-            case error.UNKNOWN_ERROR:
-                x.innerHTML = "An unknown error occurred."
-                break;
-        }
-    }
 </script>
 </body>
 </html>
