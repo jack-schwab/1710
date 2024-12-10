@@ -134,7 +134,8 @@ class BarChartAnimals {
 			.attr("width", 0)
 			.attr("fill", vis.config.barColor);
 
-		bars.merge(barsEnter)
+		barsEnter
+			.merge(bars)
 			.transition()
 			.duration(vis.config.transitionDuration)
 			.attr("x", 0)
@@ -143,7 +144,7 @@ class BarChartAnimals {
 			.attr("height", vis.y.bandwidth())
 			.attr("fill", vis.config.barColor);
 
-		vis.svg.selectAll(".bar")
+		barsEnter
 			.on("mouseover", (event, d) => {
 				let speciesTrend = vis.trendData.filter(trend => trend.Taxon === d.key);
 
@@ -163,6 +164,7 @@ class BarChartAnimals {
 					.range([100, 0]);
 
 				let line = d3.line()
+					.curve(d3.curveMonotoneX) // Smooth the line
 					.x(d => xScale(d.Year))
 					.y(d => yScale(d.Quantity));
 
@@ -173,19 +175,21 @@ class BarChartAnimals {
 					.html(`
                         <div>
                             <strong>${d.key}</strong>
-                            <svg width="220" height="140">
-                                <text x="110" y="12" text-anchor="middle" font-size="12" font-weight="bold">Trade Trends Over Time</text>
-                                <g transform="translate(10, 20)">
+                            <svg width="250" height="160">
+                                <text x="125" y="15" text-anchor="middle" font-size="12" font-weight="bold">Trade Trends Over Time</text>
+                                <g transform="translate(30, 30)">
                                     <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
                                     ${speciesTrend.map(point => `
                                         <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
                                     `).join("")}
                                     <g class="x-axis" transform="translate(0, 100)">
-                                        ${speciesTrend.map(point => `<text x="${xScale(point.Year)}" y="10" text-anchor="middle" font-size="8">${point.Year}</text>`).join("")}
+                                        ${speciesTrend.map(point => `<text x="${xScale(point.Year)}" y="15" text-anchor="middle" font-size="8">${point.Year}</text>`).join("")}
                                     </g>
                                     <g class="y-axis">
-                                        <text x="-5" y="0" text-anchor="end" font-size="8">High</text>
-                                        <text x="-5" y="100" text-anchor="end" font-size="8">Low</text>
+                                        <line x1="0" x2="200" y1="${yScale(0)}" y2="${yScale(0)}" stroke="#ccc" stroke-dasharray="3" />
+                                        <line x1="0" x2="200" y1="${yScale(d3.max(speciesTrend, d => d.Quantity))}" y2="${yScale(d3.max(speciesTrend, d => d.Quantity))}" stroke="#ccc" stroke-dasharray="3" />
+                                        <text x="-10" y="${yScale(0)}" text-anchor="end" font-size="8">Low</text>
+                                        <text x="-10" y="${yScale(d3.max(speciesTrend, d => d.Quantity))}" text-anchor="end" font-size="8">High</text>
                                     </g>
                                 </g>
                             </svg>
