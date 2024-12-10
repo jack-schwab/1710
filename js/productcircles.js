@@ -16,7 +16,12 @@ const termDescriptions = {
     "carvings": "Handcrafted items made from endangered woods or animal parts, used as decorative pieces.",
     "leather products (small)": "Small leather items made from animal skins, including belts, wallets, or shoes.",
     "tissues": "Biological tissues from animals or plants used for scientific research or industrial applications.",
-    "specimens (frozen)": "Preserved, frozen specimens for scientific research or storage in genetic banks."
+    "specimens (frozen)": "Preserved, frozen specimens for scientific research or storage in genetic banks.",
+    "feet": "Feet of animals, often used in traditional practices or as decorative items.",
+    "leather products (large)": "Large leather goods such as bags, jackets, or furniture, made from animal skins.",
+    "logs": "Unprocessed timber from endangered tree species, traded for construction or crafting purposes.",
+    "timber": "Processed or raw wood materials from endangered plant species, used in various industries.",
+    "tusks": "Ivory tusks, commonly sourced from elephants, used in jewelry, carvings, or traditional medicine."
 };
 
 
