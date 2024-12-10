@@ -10,36 +10,142 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500|Satisfy" rel="stylesheet">
+    <style>
+        #scrolly {
+            position: relative;
+            background-color: #f3f3f3;
+            padding: 1rem;
+        }
+
+        article {
+            position: relative;
+            padding: 0;
+            max-width: 40rem;
+            margin: 0 auto;
+        }
+
+        figure {
+            text-align: center;
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            background-color: #8a8a8a;
+            z-index: 0;
+        }
+
+        figure p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .step {
+            margin: 0 auto 2rem auto;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step.is-active p {
+            background-color: goldenrod;
+            color: #3b3b3b;
+        }
+
+        .step p {
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.5rem;
+            background-color: #3b3b3b;
+        }
+    </style>
 </head>
 <body>
-<header class="africa-header py-4 text-center">
-    <h1 id="project-title">Endangered Species Trading in Africa</h1>
-    <img src="img/header.webp" width="600" alt="Endangered Species">
-</header>
 
 <main class="container">
+
     <div id="section-1" class="page-section section-transition">
-        <div class="row my-5">
-            <div class="col-lg-8">
-                <h2 class="section-title">Why Does the Endangered Species Trade Matter?</h2>
-                <p class="text-muted">The illegal trade of endangered species in Africa is a critical environmental issue with devastating consequences for biodiversity. Research reveals that over <b>80%</b> of endangered species are directly impacted by the wildlife trade, which threatens their survival. This multi-billion-dollar industry, valued at an estimated <b>4 to 20 billion dollars annually</b>, fuels a thriving market for animals and plants. For instance, in just one year, records showed the trade of 1.5 million live birds and 440,000 tonnes of medicinal plants. The impact is catastrophic: wildlife trade has led to over 60% declines in species abundance, pushing many to the brink of extinction. Addressing this crisis is crucial to preserving the planet's ecological balance and protecting its most vulnerable species.</p>
-            </div>
-            <div class="col-lg-4">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/0EZZvKZYlhk" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
+        <h1 id="project-title" class="section-title">ENDANGERED SPECIES TRADING IN AFRICA</h1>
+        <section id="scrolly">
+            <figure>
+                <p>Welcome to our project! Scroll to get started learning about endangered species trading!</p>
+            </figure>
+
+            <article>
+                <div class="step" data-step="1">
+                    <p>INTRODUCTION</p>
+                </div>
+                <div class="step" data-step="2">
+                    <p>THE EXTENT OF THE PROBLEM</p>
+                </div>
+                <div class="step" data-step="3">
+                    <p>THE SIGNIFICANCE OF THESE TRADES</p>
+                </div>
+                <div class="step" data-step="4">
+                    <p>THE URGENCY TO SOLVE THIS ISSUE</p>
+                </div>
+            </article>
+        </section>
     </div>
 
     <div id="section-2" class="page-section section-transition">
-        <div class="row my-5">
-            <h2 class="section-title">What Does the Endangered Species Trade Mean?</h2>
-            <p class="text-muted">The endangered species trade refers to the buying, selling, and exchange of animals and plants that are at risk of extinction. This global black market exploits rare species for everything from exotic pets and traditional medicine to luxury goods like ivory and furs. It's a billion-dollar industry fueled by demand and weak enforcement, and it poses a direct threat to biodiversity. Why does this matter? Every species plays a role in its ecosystem. When one disappears, it can cause a domino effect, destabilizing the environment. This trade isn't just about cute or majestic animals—it impacts plants, birds, reptiles, and even insects, all of which are vital to maintaining ecological balance. Efforts like the Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) aim to regulate this trade and protect vulnerable species, but challenges remain. Loopholes, corruption, and high demand make enforcement tough, while climate change and habitat loss amplify the pressure. In short, the endangered species trade is not just an environmental issue—it's a wake-up call. It's about protecting the delicate threads that hold our ecosystems together, and ultimately, safeguarding the planet we all share.</p>
-        </div>
+        <h1 class="section-title">Endangered Species Matching Game</h1>
+        <section id="game-container">
+            <div id="ui-container">
+                <h3>Flips: <span id="flip-count">0</span></h3>
+                <h3>Matches: <span id="match-count">0</span></h3>
+            </div>
+
+            <!-- This is where we display the flip and match counters -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+
+
+                        <!-- This is where our cards will be rendered -->
+                        <div id="card-container">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <p id="species-explanation">Let's learn some more about endangered species in Africa! Play this matching game to find matches and learn about various endangered species. When you find a match, a paragraph about that species will appear here. Good luck!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button class="reset-btn" onclick="resetGame()">Reset</button>
+            </div>
+        </section>
     </div>
 
     <div id="section-3" class="page-section section-transition">
+        <h1 class="section-title">Video Exploring Illegal Trading</h1>
+        <p class="vis-description">Curious to see what illegal endangered species trades look like in practice? In this clip from CNN, reporters investigate a warehouse filled with items from the endangered species trade. The video provides more details about the products of these trades and what measures governments take to stop illegal trading. The video also helps emphasize the scale of this issue, showing how much it impacts certain critically endangered species, such as the <b>black rhino</b>, of which only <b>2,500</b> remained at the time of this video in 2015. After some research, we discovered that the current number in 2024 is an estimated <b>6,400</b> black rhinos; although this increase in population is cause to be optimistic, the species is still critically endangered.</p>
         <div class="row my-5">
-            <h3>Endangered Species' Traded Products Based On Year</h3>
+            <div class="col-1"></div>
+            <div id="video-section" class="col-10 d-flex justify-content-center">
+
+                <iframe width="1000" height="700" src="https://www.youtube.com/embed/HeE9MNKn-zg?si=NxKLmKOft2wTlOBy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+
+    <div id="section-4" class="page-section section-transition">
+        <h1 class="section-title">Endangered Species' Traded Products Based On Year</h1>
+        <p class="vis-description">We now know that endangered species are traded for a variety of marketable products, but what does the distribution of these products look like? This chart details the breakdown of traded products for every year.</p>
+        <div class="row my-5">
             <div class="d-flex align-items-center my-3">
                 <label for="year-select" class="me-2">Select Year:</label>
                 <select id="year-select" class="form-select"></select>
@@ -48,14 +154,14 @@
         </div>
     </div>
 
-    <div id="section-4" class="page-section section-transition">
+    <div id="section-5" class="page-section section-transition">
+        <h1 class="section-title">Top Five Most Traded Mammals</h1>
         <div class="row my-5">
-            <h2 class="section-title">Top Five Most Traded Mammals</h2>
             <div id="bar-chart" class="d-flex justify-content-center"></div>
         </div>
     </div>
 
-    <div id="section-5" class="page-section section-transition">
+    <div id="section-6" class="page-section section-transition">
         <div class="row my-5">
             <div class="col-md-6">
                 <h2 class="section-title">Top Exporters for Animals</h2>
@@ -100,17 +206,18 @@
 
 
     <div id="section-7" class="page-section section-transition">
+        <h1 class="section-title">Global Trade</h1>
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Global Trade</h2>
+
                 <div id="world-map"></div>
             </div>
         </div>
     </div>
 
     <div id="section-8" class="page-section section-transition">
+        <h1 class="section-title">Click on one of the animals to learn more about it.</h1>
         <div class="row my-5">
-            <h2 class="section-title">Click on one of the animals to learn more about it.</h2>
             <p>This is interactive. There will be a tooltip/ it'll bring you to a different visualization specific to the animal</p>
 
             <div class="col-md-3">
@@ -141,61 +248,33 @@
     </div>
 
     <div id="section-9" class="page-section section-transition">
+        <h1 class="section-title">Death Valley: Why Is This Route the Most Dangerous?</h1>
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Death Valley: Why Is This Route the Most Dangerous?</h2>
+
             </div>
         </div>
     </div>
 
     <div id="section-10" class="page-section section-transition">
-        <header>
-            <h1>Endangered Species Matching Game</h1>
-        </header>
-        <section id="game-container">
-            <div id="ui-container">
-                <h3>Flips: <span id="flip-count">0</span></h3>
-                <h3>Matches: <span id="match-count">0</span></h3>
-            </div>
-
-            <!-- This is where we display the flip and match counters -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-9">
-
-
-                        <!-- This is where our cards will be rendered -->
-                        <div id="card-container">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <p id="species-explanation">Find matches to learn about various endangered species! When you find a match, a paragraph about that species will appear here!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="btn-container">
-                <button class="reset-btn" onclick="resetGame()">Reset</button>
-            </div>
-        </section>
-    </div>
-
-    <div id="section-11" class="page-section section-transition">
+        <h1 class="section-title">Conclusion</h1>
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Conclusion</h2>
+
                 <p>In conclusion, [endangered species trading is BAD unless its for preservation].</p>
             </div>
         </div>
     </div>
 
-    <div id="section-12" class="page-section section-transition">
+    <div id="section-11" class="page-section section-transition">
+        <h1 class="section-title">Credits</h1>
         <div class="row my-5">
             <div class="col-md-12">
-                <h2 class="section-title">Credits: Sources/Authors</h2>
+
                 <h3>We'd like to thank the CS 1710 staff for all their help and support on this project.</h3>
-                <p id="sources">TODO: Add image/data sources if we need to include them (not sure if we do)</p>
             </div>
         </div>
+        <h3>Website Creators:</h3>
         <div class="row my-5">
             <div id="authors-section" class="d-flex justify-content-center">
                 <div class="col-12 col-md-6 col-lg-3">
@@ -225,6 +304,7 @@
             </div>
         </div>
     </div>
+
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.1/underscore.js" integrity="sha512-qbJl2/KyecDVJdgAwr0Gzhm5KBmkzdUouG+sKmCWP1Idb144ZnfSmCRReuYXPEHIa4j38TwrR2ySeGoFH5gKzA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -254,17 +334,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Add scroll indicator if not the last section
-                    if (entry.target.nextElementSibling) {
-                        const scrollIndicator = document.createElement('div');
-                        scrollIndicator.className = 'scroll-indicator';
-                        scrollIndicator.innerHTML = `
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 5v14M19 12l-7 7-7-7"/>
-                        </svg>
-                    `;
-                        entry.target.appendChild(scrollIndicator);
-                    }
                 }
             });
         }, {
@@ -289,6 +358,75 @@
             }
         });
     });
+</script>
+<script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
+<script src="js/scrollama.min.js"></script>
+<script>
+    // using d3 for convenience
+    var main = d3.select("main");
+    var scrolly = main.select("#scrolly");
+    var figure = scrolly.select("figure");
+    var article = scrolly.select("article");
+    var step = article.selectAll(".step");
+
+    // initialize the scrollama
+    var scroller = scrollama();
+
+    // generic window resize listener event
+    function handleResize() {
+        // 1. update height of step elements
+        var stepH = Math.floor(window.innerHeight * 0.75);
+        step.style("height", stepH + "px");
+
+        var figureHeight = window.innerHeight / 2;
+        var figureMarginTop = (window.innerHeight - figureHeight) / 2;
+
+        figure
+            .style("height", figureHeight + "px")
+            .style("top", figureMarginTop + "px");
+
+        // 3. tell scrollama to update new element dimensions
+        scroller.resize();
+    }
+
+    const paragraphs = ["lol hi", "The illegal trade of endangered species in Africa is a critical environmental issue with devastating consequences for biodiversity. Research reveals that over 80% of endangered species are directly impacted by the wildlife trade, which threatens their survival. This multi-billion-dollar industry, valued at an estimated 4 to 20 billion dollars annually, fuels a thriving market for animals and plants.",
+        "For instance, in just one year, records showed the trade of 1.5 million live birds and 440,000 tonnes of medicinal plants. The impact is catastrophic: wildlife trade has led to over 60% declines in species abundance, pushing many to the brink of extinction. Addressing this crisis is crucial to preserving the planet's ecological balance and protecting its most vulnerable species.",
+        "The endangered species trade refers to the buying, selling, and exchange of animals and plants that are at risk of extinction. This global black market exploits rare species for everything from exotic pets and traditional medicine to luxury goods like ivory and furs. It's a billion-dollar industry fueled by demand and weak enforcement, and it poses a direct threat to biodiversity. Why does this matter? Every species plays a role in its ecosystem. When one disappears, it can cause a domino effect, destabilizing the environment. This trade isn't just about cute or majestic animals—it impacts plants, birds, reptiles, and even insects, all of which are vital to maintaining ecological balance.",
+        "Efforts like the Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) aim to regulate this trade and protect vulnerable species, but challenges remain. Loopholes, corruption, and high demand make enforcement tough, while climate change and habitat loss amplify the pressure. In short, the endangered species trade is not just an environmental issue—it's a wake-up call. It's about protecting the delicate threads that hold our ecosystems together, and ultimately, safeguarding the planet we all share."]
+    // scrollama event handlers
+    function handleStepEnter(response) {
+        console.log(response);
+        // response = { element, direction, index }
+
+        // add color to current step only
+        step.classed("is-active", function (d, i) {
+            return i === response.index;
+        });
+
+        // update graphic based on step
+        figure.select("p").text(paragraphs[response.index + 1]);
+    }
+
+
+    function init() {
+
+        // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+        handleResize();
+
+        // 2. setup the scroller passing options
+        // 		this will also initialize trigger observations
+        // 3. bind scrollama event handlers (this can be chained like below)
+        scroller
+            .setup({
+                step: "#scrolly article .step",
+                offset: 0.33,
+                debug: false
+            })
+            .onStepEnter(handleStepEnter);
+    }
+
+    // kick things off
+    init();
 </script>
 </body>
 </html>

@@ -205,6 +205,4 @@ function resetGame() {
     setUpGame();
 
 }
-
-// ⛔️ Set up the game. Do not edit below this line! ⛔
 setUpGame();
