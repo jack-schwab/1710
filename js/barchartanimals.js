@@ -197,12 +197,12 @@ class BarChartAnimals {
                                         <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
                                         ${speciesTrend.map(point => `
                                             <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
-                                        `).join("")}
+                                        `).join("\n")}
                                         <g class="x-axis">
-                                            ${[2003, 2008, 2013, 2018, 2023].map(year => `<text x="${xScale(year)}" y="115" text-anchor="middle" font-size="8">${year}</text>`).join("")}
+                                            ${[2003, 2008, 2013, 2018, 2023].map(year => `<text x="${xScale(year)}" y="115" text-anchor="middle" font-size="8">${year}</text>`).join("\n")}
                                         </g>
                                         <g class="y-axis">
-                                            ${[0, d3.max(speciesTrend, d => d.Quantity)].map(val => `<text x="-10" y="${yScale(val)}" text-anchor="end" font-size="8">${val}</text>`).join("")}
+                                            ${yScale.ticks(5).map(val => `<text x="-10" y="${yScale(val)}" text-anchor="end" font-size="8">${val}</text>`).join("\n")}
                                         </g>
                                     </g>
                                 </g>
