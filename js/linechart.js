@@ -1,197 +1,186 @@
-class LineChart{
-    constructor(parentElement, data) {
-        this.parentElement = parentElement;
-        this.data = data;
-        this.displayData = data;
 
-        console.log(this.displayData);
+// margin conventions & svg drawing area - since we only have one chart, it's ok to have these stored as global variables
+// ultimately, we will create dashboards with multiple graphs where having the margin conventions live in the global
+// variable space is no longer a feasible strategy.
 
-        this.initVis();
-    }
+let margin = {top: 40, right: 40, bottom: 60, left: 60};
 
-    initVis() {
-        let margin = {top: 40, right: 40, bottom: 60, left: 60};
+let width = 600 - margin.left - margin.right;
+let height = 500 - margin.top - margin.bottom;
 
-        let width = 600 - margin.left - margin.right;
-        let height = 500 - margin.top - margin.bottom;
-
-        let svg = d3.select(this.parentElement).append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+let svg = d3.select("#line-chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 // Date parser
-        let formatDate = d3.timeFormat("%Y");
-        let parseDate = d3.timeParse("%Y");
+let formatDate = d3.timeFormat("%Y");
+let parseDate = d3.timeParse("%Y");
 
 
 // Scales
-        let x = d3.scaleLinear()
-            .range([0, width]);
+let x = d3.scaleLinear()
+    .range([0, width]);
 
-        let y = d3.scaleLinear()
-            .range([height, 0]);
+let y = d3.scaleLinear()
+    .range([height, 0]);
 
 
 // Axes
-        let xAxis = d3.axisBottom()
-            .scale(x)
-            .tickFormat(d => formatDate(parseDate(d)));
-        let yAxis = d3.axisLeft()
-            .scale(y);
+let xAxis = d3.axisBottom()
+    .scale(x)
+    .tickFormat(d => formatDate(parseDate(d)));
+let yAxis = d3.axisLeft()
+    .scale(y);
 
-        let xGroup = svg.append("g")
-            .attr("class", "axis x-axis")
-            .attr("transform", "translate(0," + (height) + ")")
-            .call(xAxis);
-        let yGroup = svg.append("g")
-            .attr("class", "axis y-axis")
-            .attr("transform", "translate(0,0)")
-            .call(yAxis);
+let xGroup = svg.append("g")
+    .attr("class", "axis x-axis")
+    .attr("transform", "translate(0," + (height) + ")")
+    .call(xAxis);
+let yGroup = svg.append("g")
+    .attr("class", "axis y-axis")
+    .attr("transform", "translate(0,0)")
+    .call(yAxis);
 
 
 // Initialize data
-        loadData();
+loadData();
 
 // FIFA world cup
-        let data;
+let data;
 
 // Event listener
-        d3.select("#ranking-type").on("change", updateVisualization);
+d3.select("#ranking-type").on("change", updateVisualization);
 
 
 // Load CSV file
-        function loadData() {
-            d3.csv("data/fifa-world-cup.csv", row => {
-                row.YEAR = parseDate(row.YEAR);
-                row.TEAMS = +row.TEAMS;
-                row.MATCHES = +row.MATCHES;
-                row.GOALS = +row.GOALS;
-                row.AVERAGE_GOALS = +row.AVERAGE_GOALS;
-                row.AVERAGE_ATTENDANCE = +row.AVERAGE_ATTENDANCE;
-                return row
-            }).then(csv => {
+function loadData() {
+    d3.csv("data/fifa-world-cup.csv", row => {
+        row.YEAR = parseDate(row.YEAR);
+        row.TEAMS = +row.TEAMS;
+        row.MATCHES = +row.MATCHES;
+        row.GOALS = +row.GOALS;
+        row.AVERAGE_GOALS = +row.AVERAGE_GOALS;
+        row.AVERAGE_ATTENDANCE = +row.AVERAGE_ATTENDANCE;
+        return row
+    }).then(csv => {
 
-                // Store csv data in global variable
-                data = csv;
+        // Store csv data in global variable
+        data = csv;
 
-                // Draw the visualization for the first time
-                updateVisualization();
-            });
-        }
+        // Draw the visualization for the first time
+        updateVisualization();
+    });
+}
 
 // Create the line for line graph later
-        let line = d3.line()
-            .curve(d3.curveLinear);
+let line = d3.line()
+    .curve(d3.curveLinear);
 
-        let path = svg.append("path")
-            .attr("class", "line");
+let path = svg.append("path")
+    .attr("class", "line");
 
 // Create slider
-        let slider = document.getElementById('time-period-slider');
-        noUiSlider.create(slider, {
-            start: [1930, 2014],
-            step: 1,
-            connect: true,
-            range: {
-                'min': 1930,
-                'max': 2014
-            }
-        });
+let slider = document.getElementById('time-period-slider');
+noUiSlider.create(slider, {
+    start: [1930, 2014],
+    step: 1,
+    connect: true,
+    range: {
+        'min': 1930,
+        'max': 2014
+    }
+});
 
-        let firstYear = document.getElementById("first-year");
-        let secondYear = document.getElementById("second-year");
+let firstYear = document.getElementById("first-year");
+let secondYear = document.getElementById("second-year");
 
-        slider.noUiSlider.on('update', function (values) {
-            firstYear.innerText = Math.round(values[0]);
-            secondYear.innerText = Math.round(values[1]);
-            updateVisualization();
-        });
+slider.noUiSlider.on('update', function (values) {
+    firstYear.innerText = Math.round(values[0]);
+    secondYear.innerText = Math.round(values[1]);
+    updateVisualization();
+});
 
 // Render visualization
-        function updateVisualization() {
+function updateVisualization() {
 
-            console.log(data);
+    console.log(data);
 
-            let rankVersion = d3.select("#ranking-type").property("value");
+    let rankVersion = d3.select("#ranking-type").property("value");
 
-            // Function that gets the property we will use for our y axis
-            let yRanking = function (d) {
-                if (rankVersion == "goals") {
-                    return d.GOALS;
-                } else if (rankVersion == "average-goals") {
-                    return d.AVERAGE_GOALS;
-                } else if (rankVersion == "matches") {
-                    return d.MATCHES;
-                } else if (rankVersion == "teams") {
-                    return d.TEAMS;
-                } else if (rankVersion == "average-attendance") {
-                    return d.AVERAGE_ATTENDANCE;
-                }
-            };
-
-            let filteredData = data.filter(function(d) {
-                return (formatDate(d.YEAR) >= firstYear.innerText) && (formatDate(d.YEAR) <= secondYear.innerText);
-            });
-
-            let xMin = d3.min(filteredData, (d => formatDate(d.YEAR)));
-            let xMax = d3.max(filteredData, (d => formatDate(d.YEAR)));
-            let yMax = d3.max(filteredData, (d => yRanking(d)));
-
-            x.domain([xMin, xMax]);
-            y.domain([0, yMax]);
-
-            line.x((d) => x(formatDate(d.YEAR)))
-                .y((d) => y(yRanking(d)));
-
-            path.datum(filteredData)
-                .transition()
-                .duration(800)
-                .attr("d", line(filteredData));
-
-            let updatedCircles = svg.selectAll('circle').data(filteredData);
-
-            updatedCircles.exit().remove();
-
-            let enteringData = updatedCircles.enter()
-                .append('circle')
-                .attr("r", 5)
-                .attr("fill", "#86AC86")
-                .attr("stroke", "black")
-                .on("click", (event, d) => showEdition(d));
-
-            updatedCircles.merge(enteringData)
-                .transition()
-                .duration(800)
-                .attr("cx", d=> x(formatDate(d.YEAR)))
-                .attr("cy", d=> y(yRanking(d)));
-
-            xGroup.transition()
-                .duration(800)
-                .call(xAxis);
-            yGroup.transition()
-                .duration(800)
-                .call(yAxis);
-
+    // Function that gets the property we will use for our y axis
+    let yRanking = function (d) {
+        if (rankVersion == "goals") {
+            return d.GOALS;
+        } else if (rankVersion == "average-goals") {
+            return d.AVERAGE_GOALS;
+        } else if (rankVersion == "matches") {
+            return d.MATCHES;
+        } else if (rankVersion == "teams") {
+            return d.TEAMS;
+        } else if (rankVersion == "average-attendance") {
+            return d.AVERAGE_ATTENDANCE;
         }
+    };
+
+    let filteredData = data.filter(function(d) {
+        return (formatDate(d.YEAR) >= firstYear.innerText) && (formatDate(d.YEAR) <= secondYear.innerText);
+    });
+
+    let xMin = d3.min(filteredData, (d => formatDate(d.YEAR)));
+    let xMax = d3.max(filteredData, (d => formatDate(d.YEAR)));
+    let yMax = d3.max(filteredData, (d => yRanking(d)));
+
+    x.domain([xMin, xMax]);
+    y.domain([0, yMax]);
+
+    line.x((d) => x(formatDate(d.YEAR)))
+        .y((d) => y(yRanking(d)));
+
+    path.datum(filteredData)
+        .transition()
+        .duration(800)
+        .attr("d", line(filteredData));
+
+    let updatedCircles = svg.selectAll('circle').data(filteredData);
+
+    updatedCircles.exit().remove();
+
+    let enteringData = updatedCircles.enter()
+        .append('circle')
+        .attr("r", 5)
+        .attr("fill", "#86AC86")
+        .attr("stroke", "black")
+        .on("click", (event, d) => showEdition(d));
+
+    updatedCircles.merge(enteringData)
+        .transition()
+        .duration(800)
+        .attr("cx", d=> x(formatDate(d.YEAR)))
+        .attr("cy", d=> y(yRanking(d)));
+
+    xGroup.transition()
+        .duration(800)
+        .call(xAxis);
+    yGroup.transition()
+        .duration(800)
+        .call(yAxis);
+
+}
 
 
 // Show details for a specific FIFA World Cup
-        function showEdition(d){
-            d3.select("#world-cup-edition")
-                .style("display", "block");
-            document.getElementById("world-cup-title").innerText = d.EDITION;
-            document.getElementById("winner").innerText = d.WINNER;
-            document.getElementById("goals").innerText = d.GOALS;
-            document.getElementById("average-goals").innerText = d.AVERAGE_GOALS;
-            document.getElementById("matches").innerText = d.MATCHES;
-            document.getElementById("teams").innerText = d.TEAMS;
-            document.getElementById("average-attendance").innerText = d.AVERAGE_ATTENDANCE;
-        }
-
-
-    }
+function showEdition(d){
+    d3.select("#world-cup-edition")
+        .style("display", "block");
+    document.getElementById("world-cup-title").innerText = d.EDITION;
+    document.getElementById("winner").innerText = d.WINNER;
+    document.getElementById("goals").innerText = d.GOALS;
+    document.getElementById("average-goals").innerText = d.AVERAGE_GOALS;
+    document.getElementById("matches").innerText = d.MATCHES;
+    document.getElementById("teams").innerText = d.TEAMS;
+    document.getElementById("average-attendance").innerText = d.AVERAGE_ATTENDANCE;
 }
 

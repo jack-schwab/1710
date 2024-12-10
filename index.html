@@ -178,7 +178,7 @@
         </div>
     </div>
 
-    <div id="section-6" class="page-section section-transition">
+    <div id="section-7" class="page-section section-transition">
         <div class="row my-5">
 
             <h1>Exports Over Time</h1>
@@ -220,7 +220,7 @@
     </div>
 
 
-    <div id="section-7" class="page-section section-transition">
+    <div id="section-8" class="page-section section-transition">
         <h1 class="section-title">Global Trade</h1>
         <div class="row my-5">
             <div class="col-md-12">
@@ -230,7 +230,7 @@
         </div>
     </div>
 
-    <div id="section-8" class="page-section section-transition">
+    <div id="section-9" class="page-section section-transition">
         <h1 class="section-title">Click on one of the animals to learn more about it.</h1>
         <div class="row my-5">
             <p>This is interactive. There will be a tooltip/ it'll bring you to a different visualization specific to the animal</p>
@@ -262,16 +262,63 @@
         </div>
     </div>
 
-    <div id="section-9" class="page-section section-transition">
+    <div id="section-10" class="page-section section-transition">
         <h1 class="section-title">Death Valley: Why Is This Route the Most Dangerous?</h1>
         <div class="row my-5">
-            <div class="col-md-12">
+            <div class="col-6">
+                <div class="form-group">
+                    <!-- Select box to choose the ranking type -->
+                    <select id="ranking-type">
+                        <option value="goals">Goals</option>
+                        <option value="average-goals">Average Goals</option>
+                        <option value="matches">Matches</option>
+                        <option value="teams">Teams</option>
+                        <option value="average-attendance">Average Attendance</option>
+                    </select>
+                </div>
+
+                <span class="range-slider-value" id="first-year">2004</span>
+
+                <div id="time-period-slider"></div>
+
+                <span class="range-slider-value" id="second-year">2023</span>
                 <div id="line-chart"></div>
+            </div>
+            <div class="col-6">
+                <div id="world-cup-edition">
+                    <h3 id="world-cup-title"></h3>
+                    <table class="table">
+                        <tr>
+                            <th>Winner</th>
+                            <td id="winner"></td>
+                        </tr>
+                        <tr>
+                            <th>Goals</th>
+                            <td id="goals"></td>
+                        </tr>
+                        <tr>
+                            <th>Average Goals</th>
+                            <td id="average-goals"></td>
+                        </tr>
+                        <tr>
+                            <th>Matches</th>
+                            <td id="matches"></td>
+                        </tr>
+                        <tr>
+                            <th>Teams</th>
+                            <td id="teams"></td>
+                        </tr>
+                        <tr>
+                            <th>Average Attendance</th>
+                            <td id="average-attendance"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="section-10" class="page-section section-transition">
+    <div id="section-11" class="page-section section-transition">
         <h1 class="section-title">Conclusion</h1>
         <div class="row my-5">
             <div class="col-md-12">
@@ -281,7 +328,7 @@
         </div>
     </div>
 
-    <div id="section-11" class="page-section section-transition">
+    <div id="section-12" class="page-section section-transition">
         <h1 class="section-title">Credits</h1>
         <div class="row my-5">
             <div class="col-md-12">
@@ -339,6 +386,7 @@
 <script src="js/provided.js"></script>
 <script src="js/matchingVis.js"></script>
 <script src="js/timechart.js"></script>
+<script src="js/linechart.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
