@@ -23,6 +23,8 @@ class BarChartAnimals {
 		vis.width = vis.config.width - vis.config.margin.left - vis.config.margin.right;
 		vis.height = vis.config.height - vis.config.margin.top - vis.config.margin.bottom;
 
+		d3.select("#" + vis.parentElement).select("svg").remove(); // Remove any existing chart
+
 		vis.svg = d3.select("#" + vis.parentElement).append("svg")
 			.attr("width", vis.width + vis.config.margin.left + vis.config.margin.right)
 			.attr("height", vis.height + vis.config.margin.top + vis.config.margin.bottom)
@@ -171,12 +173,20 @@ class BarChartAnimals {
 					.html(`
                         <div>
                             <strong>${d.key}</strong>
-                            <svg width="220" height="120">
-                                <g transform="translate(10, 10)">
+                            <svg width="220" height="140">
+                                <text x="110" y="12" text-anchor="middle" font-size="12" font-weight="bold">Trade Trends Over Time</text>
+                                <g transform="translate(10, 20)">
                                     <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
                                     ${speciesTrend.map(point => `
                                         <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
                                     `).join("")}
+                                    <g class="x-axis" transform="translate(0, 100)">
+                                        ${speciesTrend.map(point => `<text x="${xScale(point.Year)}" y="10" text-anchor="middle" font-size="8">${point.Year}</text>`).join("")}
+                                    </g>
+                                    <g class="y-axis">
+                                        <text x="-5" y="0" text-anchor="end" font-size="8">High</text>
+                                        <text x="-5" y="100" text-anchor="end" font-size="8">Low</text>
+                                    </g>
                                 </g>
                             </svg>
                         </div>
