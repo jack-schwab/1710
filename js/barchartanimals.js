@@ -11,7 +11,7 @@ class BarChartAnimals {
 			barColor: "#4682b4",
 			hoverColor: "#2c5282",
 			selectedColor: "#1d3557",
-			...config
+			...config,
 		};
 
 		this.displayData = data;
@@ -67,27 +67,11 @@ class BarChartAnimals {
 			.style("text-anchor", "middle")
 			.text("Mammal Species");
 
-		vis.tooltip = d3.select("#" + vis.parentElement)
-			.append("div")
-			.attr("class", "tooltip")
+		vis.tooltip = d3.select("#tooltip-container")
 			.style("opacity", 0)
-			.style("position", "absolute")
-			.style("pointer-events", "none")
-			.style("background", "white")
-			.style("padding", "10px")
-			.style("border", "1px solid #ccc")
-			.style("border-radius", "5px")
-			.style("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)");
+			.style("position", "absolute");
 
 		vis.selectedBar = null; // Track the selected bar
-
-		vis.trendPriority = {
-			"Python regius": 1,
-			"Pandinus imperator": 2,
-			"Scleractinia spp.": 3,
-			"Psittacus erithacus": 4,
-			"Aloe ferox": 5
-		}; // Priority mapping for correlation
 
 		vis.wrangleData();
 	}
@@ -95,19 +79,23 @@ class BarChartAnimals {
 	wrangleData() {
 		let vis = this;
 
-		console.log("Original Data:", vis.data);
+		// Filter for mammals and sum quantities by species
+		let mammalData = vis.data.filter(d => d.Class === "Mammalia");
+
 		let groupedData = d3.rollup(
-			vis.data,
+			mammalData,
 			leaves => d3.sum(leaves, d => d.Quantity || 0),
 			d => d.Taxon
 		);
 
 		let dataArray = Array.from(groupedData, ([key, value]) => ({ key, value }));
-		vis.displayData = dataArray
-			.sort((a, b) => vis.trendPriority[b.key] - vis.trendPriority[a.key]) // Sort based on priority
-			.slice(0, 5);
 
-		console.log("Display Data:", vis.displayData);
+		// Get the top 5 traded mammals
+		vis.displayData = dataArray.sort((a, b) => b.value - a.value).slice(0, 5);
+
+		// Extract trend data for the top 5 mammals
+		vis.trendData = mammalData.filter(d => vis.displayData.some(m => m.key === d.Taxon));
+
 		vis.updateVis();
 	}
 
@@ -163,57 +151,60 @@ class BarChartAnimals {
 
 				let speciesTrend = vis.trendData.filter(trend => trend.Taxon === d.key);
 
-				if (speciesTrend.length === 0) {
-					speciesTrend = Array.from({ length: 20 }, (_, i) => ({
-						Year: 2003 + i,
-						Quantity: Math.floor(Math.random() * (vis.trendPriority[d.key] * 100))
-					}));
-				}
-
 				let xScale = d3.scaleLinear()
-					.domain([2003, 2023])
-					.range([30, 220]); // Padding for readability
+					.domain(d3.extent(speciesTrend, d => d.Year))
+					.range([0, 250]);
 
 				let yScale = d3.scaleLinear()
 					.domain([0, d3.max(speciesTrend, d => d.Quantity)])
-					.range([100, 20]); // Padding for readability
+					.range([150, 0]);
 
 				let line = d3.line()
 					.curve(d3.curveMonotoneX)
 					.x(d => xScale(d.Year))
 					.y(d => yScale(d.Quantity));
 
-				vis.tooltip
+				const tooltipContent = d3.select("#tooltip-container")
+					.html("")
+					.append("svg")
+					.attr("width", 300)
+					.attr("height", 200);
+
+				tooltipContent
+					.append("path")
+					.datum(speciesTrend)
+					.attr("fill", "none")
+					.attr("stroke", "#4682b4")
+					.attr("stroke-width", 2)
+					.attr("d", line);
+
+				tooltipContent.append("g")
+					.selectAll("circle")
+					.data(speciesTrend)
+					.enter()
+					.append("circle")
+					.attr("cx", d => xScale(d.Year))
+					.attr("cy", d => yScale(d.Quantity))
+					.attr("r", 3)
+					.attr("fill", "#4682b4");
+
+				tooltipContent.append("text")
+					.attr("x", 150)
+					.attr("y", 15)
+					.attr("text-anchor", "middle")
+					.attr("font-size", "14px")
+					.attr("font-weight", "bold")
+					.text(`${d.key} Trade Trends`);
+
+				d3.select("#tooltip-container")
 					.style("opacity", 1)
 					.style("left", (event.pageX + 10) + "px")
-					.style("top", (event.pageY - 10) + "px")
-					.html(`
-                        <div>
-                            <strong>${d.key} Trade Trends</strong>
-                            <svg width="250" height="180">
-                                <text x="125" y="15" text-anchor="middle" font-size="12" font-weight="bold">Trade Trends for ${d.key}</text>
-                                <g transform="translate(0, 20)">
-                                    <g transform="translate(30, 0)">
-                                        <path d="${line(speciesTrend)}" fill="none" stroke="#4682b4" stroke-width="2"></path>
-                                        ${speciesTrend.map(point => `
-                                            <circle cx="${xScale(point.Year)}" cy="${yScale(point.Quantity)}" r="3" fill="#4682b4"></circle>
-                                        `).join("\n")}
-                                        <g class="x-axis">
-                                            ${[2003, 2008, 2013, 2018, 2023].map(year => `<text x="${xScale(year)}" y="115" text-anchor="middle" font-size="8">${year}</text>`).join("\n")}
-                                        </g>
-                                        <g class="y-axis">
-                                            ${yScale.ticks(5).map(val => `<text x="-10" y="${yScale(val)}" text-anchor="end" font-size="8">${val}</text>`).join("\n")}
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                    `);
+					.style("top", (event.pageY - 10) + "px");
 			})
 			.on("mouseout", (event, d) => {
 				d3.select(event.currentTarget)
 					.attr("fill", d => vis.selectedBar === d.key ? vis.config.selectedColor : vis.config.barColor);
-				vis.tooltip.style("opacity", 0);
+				d3.select("#tooltip-container").style("opacity", 0);
 			})
 			.on("click", (event, d) => {
 				vis.selectedBar = vis.selectedBar === d.key ? null : d.key;
@@ -229,12 +220,5 @@ d3.csv("/data/20-year-data.csv").then(data => {
 		d.Quantity = +d["Exporter reported quantity"] || 0;
 	});
 
-	let groupedData = d3.rollup(data,
-		leaves => leaves.map(d => ({ Year: d.Year, Taxon: d.Taxon, Quantity: d.Quantity })),
-		d => d.Taxon
-	);
-
-	let flatTrendData = Array.from(groupedData.values()).flat();
-
-	new BarChartAnimals("bar-chart", data, flatTrendData, {});
+	new BarChartAnimals("bar-chart", data, [], {});
 });
