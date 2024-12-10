@@ -25,6 +25,7 @@
         }
 
         figure {
+            text-align: center;
             position: -webkit-sticky;
             position: sticky;
             left: 0;
@@ -38,7 +39,7 @@
         }
 
         figure p {
-            text-align: center;
+
             padding: 1rem;
             position: absolute;
             top: 50%;
@@ -46,8 +47,7 @@
             -moz-transform: translate(-50%, -50%);
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-            font-size: 8rem;
-            font-weight: 900;
+            font-size: 24px;
             color: #fff;
         }
 
@@ -75,19 +75,14 @@
     </style>
 </head>
 <body>
-<header class="africa-header py-4 text-center">
-    <h1 id="project-title">Endangered Species Trading in Africa</h1>
-    <img src="img/header.webp" width="600" alt="Endangered Species">
-</header>
 
 <main class="container">
 
     <div id="section-1" class="page-section section-transition">
+        <h2 class="section-title">ENDANGERED SPECIES IN AFRICA</h2>
         <section id="scrolly">
             <figure>
-                <h1>ENDANGERED SPECIES IN AFRICA</h1>
-                <h2>Scroll to get started!</h2>
-                <p></p>
+                <p>Scroll to get started!</p>
             </figure>
 
             <article>
@@ -107,7 +102,6 @@
         </section>
         <div class="row my-5">
             <div class="col-lg-8">
-                <h2 class="section-title">Why Does the Endangered Species Trade Matter?</h2>
                 <p class="text-muted">The illegal trade of endangered species in Africa is a critical environmental issue with devastating consequences for biodiversity. Research reveals that over <b>80%</b> of endangered species are directly impacted by the wildlife trade, which threatens their survival. This multi-billion-dollar industry, valued at an estimated <b>4 to 20 billion dollars annually</b>, fuels a thriving market for animals and plants. For instance, in just one year, records showed the trade of 1.5 million live birds and 440,000 tonnes of medicinal plants. The impact is catastrophic: wildlife trade has led to over 60% declines in species abundance, pushing many to the brink of extinction. Addressing this crisis is crucial to preserving the planet's ecological balance and protecting its most vulnerable species.</p>
             </div>
             <div class="col-lg-4">
@@ -118,7 +112,7 @@
 
     <div id="section-2" class="page-section section-transition">
         <div class="row my-5">
-            <h2 class="section-title">What Does the Endangered Species Trade Mean?</h2>
+            <h2 class="section-title">Video</h2>
             <p class="text-muted">The endangered species trade refers to the buying, selling, and exchange of animals and plants that are at risk of extinction. This global black market exploits rare species for everything from exotic pets and traditional medicine to luxury goods like ivory and furs. It's a billion-dollar industry fueled by demand and weak enforcement, and it poses a direct threat to biodiversity. Why does this matter? Every species plays a role in its ecosystem. When one disappears, it can cause a domino effect, destabilizing the environment. This trade isn't just about cute or majestic animals—it impacts plants, birds, reptiles, and even insects, all of which are vital to maintaining ecological balance. Efforts like the Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) aim to regulate this trade and protect vulnerable species, but challenges remain. Loopholes, corruption, and high demand make enforcement tough, while climate change and habitat loss amplify the pressure. In short, the endangered species trade is not just an environmental issue—it's a wake-up call. It's about protecting the delicate threads that hold our ecosystems together, and ultimately, safeguarding the planet we all share.</p>
         </div>
     </div>
@@ -394,6 +388,10 @@
         scroller.resize();
     }
 
+    const paragraphs = ["lol hi", "The illegal trade of endangered species in Africa is a critical environmental issue with devastating consequences for biodiversity. Research reveals that over 80% of endangered species are directly impacted by the wildlife trade, which threatens their survival. This multi-billion-dollar industry, valued at an estimated 4 to 20 billion dollars annually, fuels a thriving market for animals and plants.",
+        "For instance, in just one year, records showed the trade of 1.5 million live birds and 440,000 tonnes of medicinal plants. The impact is catastrophic: wildlife trade has led to over 60% declines in species abundance, pushing many to the brink of extinction. Addressing this crisis is crucial to preserving the planet's ecological balance and protecting its most vulnerable species.",
+        "The endangered species trade refers to the buying, selling, and exchange of animals and plants that are at risk of extinction. This global black market exploits rare species for everything from exotic pets and traditional medicine to luxury goods like ivory and furs. It's a billion-dollar industry fueled by demand and weak enforcement, and it poses a direct threat to biodiversity. Why does this matter? Every species plays a role in its ecosystem. When one disappears, it can cause a domino effect, destabilizing the environment. This trade isn't just about cute or majestic animals—it impacts plants, birds, reptiles, and even insects, all of which are vital to maintaining ecological balance.",
+        "Efforts like the Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) aim to regulate this trade and protect vulnerable species, but challenges remain. Loopholes, corruption, and high demand make enforcement tough, while climate change and habitat loss amplify the pressure. In short, the endangered species trade is not just an environmental issue—it's a wake-up call. It's about protecting the delicate threads that hold our ecosystems together, and ultimately, safeguarding the planet we all share."]
     // scrollama event handlers
     function handleStepEnter(response) {
         console.log(response);
@@ -405,7 +403,7 @@
         });
 
         // update graphic based on step
-        figure.select("p").text(response.index + 1);
+        figure.select("p").text(paragraphs[response.index + 1]);
     }
 
 

@@ -142,8 +142,10 @@ body {
 
 /* Section titles */
 .section-title {
+    text-align: center;
     margin-bottom: 2rem;
-    color: #333;
+    background-color: #0e2e64;
+    color: antiquewhite;
     font-weight: 500;
 }
 
@@ -405,7 +407,7 @@ html {
 .page-section {
     border: solid 10px #f7d381;
     border-radius: 25px;
-    padding: 20px;
+
     margin: 100px 0px;
     background-color: #f5f5f5;
 }
