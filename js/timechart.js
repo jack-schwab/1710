@@ -121,42 +121,26 @@ function drawChart(data) {
 
     console.log("Area chart drawn.");
 
-    // Add brushing
     const brush = d3.brushX()
         .extent([[margin.left, 0], [width - margin.right, height - margin.bottom]])
-        .on("brush end", function (event) {
-            const selection = event.selection;
-            console.log("Brush event triggered. Selection:", selection);
+        .on("brush end", function () {
+            const selection = d3.event.selection; // Access global event
+            console.log("Brush 'end' event:", d3.event);
+            console.log("Selection during 'end':", selection);
 
             if (selection) {
                 // Update global variables
                 window.startYear = Math.floor(xScale.invert(selection[0])); // Round down to nearest year
                 window.endYear = Math.ceil(xScale.invert(selection[1]));   // Round up to nearest year
+                console.log(`Selection made: Start Year = ${window.startYear}, End Year = ${window.endYear}`);
 
-                console.log(`Updated global variables: Start Year = ${window.startYear}, End Year = ${window.endYear}`);
-
-                // Dynamically update the map visualization
-                if (typeof window.myMapVis !== "undefined") {
-
-                    console.log("typeof myMapVis.wrangleData:", typeof window.myMapVis.wrangleData);
-                    if (typeof window.myMapVis.wrangleData === "function") {
-                        console.log("Calling myMapVis.wrangleData with:", window.startYear, window.endYear);
-                        window.myMapVis.wrangleData(window.startYear, window.endYear);
-                    } else {
-                        console.error("myMapVis.wrangleData is not a function!");
-                    }
-
-                    console.log("Calling myMapVis.updateVis to refresh map...");
+                // Update visualization if applicable
+                if (typeof window.myMapVis !== "undefined" && typeof window.myMapVis.wrangleData === "function") {
+                    window.myMapVis.wrangleData(window.startYear, window.endYear);
                     window.myMapVis.updateVis();
-
-                    // Ensure initVis is only called if necessary for full reinitialization
-                    console.log("Re-initializing visualization via initVis...");
-
-                } else {
-                    console.error("myMapVis instance is not defined!");
                 }
             } else {
-                console.log("Brush cleared. No selection made.");
+                console.log("No selection (brush cleared).");
             }
         });
 
