@@ -141,14 +141,7 @@ body {
     }
 }
 
-/* Section titles */
-.section-title {
-    text-align: center;
-    background-color: #0e2e64;
-    color: #f7d381;
-    font-weight: 500;
-    margin-top: -32px;
-}
+
 
 /* Animal cards styling */
 .card {
@@ -246,7 +239,7 @@ html {
     --card-height: 175px;
 }
 
-#section-10 {
+#section-2 {
     margin: 0;
     background-position: center;
     background-size: cover;
@@ -255,7 +248,7 @@ html {
     min-height: 100vh;
 }
 
-#section-10 h1 {
+#section-2 h1 {
     text-align: center;
 }
 
@@ -407,7 +400,21 @@ html {
 .page-section {
     border: solid 10px #f7d381;
     border-radius: 25px;
+    padding: 20px;
 
     margin: 100px 0px;
     background-color: #f5f5f5;
+}
+
+#video-section {
+    padding: auto;
+}
+
+/* Section titles */
+.section-title {
+    text-align: center;
+    background-color: #0e2e64;
+    color: #f7d381;
+    font-weight: 500;
+    margin: -22px -20px 0 -20px;
 }
