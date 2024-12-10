@@ -1,6 +1,7 @@
 body {
-    font-family: "Roboto", Arial, sans-serif;
+    font-family: "Kanit", Arial, sans-serif;
     background-color: #282528;
+    text-shadow: 2px 2px 3px rgb(177, 177, 177);
     color: #333;
     margin: 0;
     padding: 0;
@@ -98,7 +99,7 @@ body {
     padding: 2rem 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+
     position: relative;
     opacity: 0;
     transform: translateY(20px);
@@ -250,8 +251,7 @@ html {
     background-position: center;
     background-size: cover;
     color: #5e5447;
-    font-family: "Kanit", sans-serif;
-    text-shadow: 2px 2px 3px rgb(177, 177, 177);
+
     min-height: 100vh;
 }
 
