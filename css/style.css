@@ -413,3 +413,8 @@ html {
     font-weight: 500;
     margin: -22px -20px 0 -20px;
 }
+
+.vis-description {
+    text-align: center;
+    margin: 20px;
+}
