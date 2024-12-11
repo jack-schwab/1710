@@ -335,14 +335,24 @@ class WorldMapVis {
     wrangleData() {
         let vis = this;
 
-        // Filter data to include only rows where the exporter is Ethiopia
-        vis.filteredAnimalData = vis.animalData.filter(d => d.Exporter === "ET");
+        // Get the selected country (exporter) from the global variable
+        const selectedCountry = window.selectedCountry1 || null;
+
+        // Convert the selected country name to a code
+        const exporterCode = selectedCountry ? vis.countryNameToCode[selectedCountry] : null;
+
+        console.log(`Filtering by exporter: ${selectedCountry} (${exporterCode})`);
+
+        // Filter data based on the selected exporter
+        vis.filteredAnimalData = vis.animalData.filter(d => {
+            if (!exporterCode) return true; // Include all exporters if no selection
+            return d.Exporter === exporterCode;
+        });
 
         console.log("Filtered Animal Data:", vis.filteredAnimalData);
-        console.log("Filtered Animal Data for Exporter 'ET':", vis.filteredAnimalData);
 
         if (vis.filteredAnimalData.length === 0) {
-            console.warn("No data for Ethiopia as an exporter. Check the dataset.");
+            console.warn(`No data found for exporter: ${selectedCountry}`);
         }
 
         // Create data structure to hold import statistics by country
@@ -362,12 +372,11 @@ class WorldMapVis {
                 console.warn(`Invalid data row:`, d);
             }
         });
+
         console.log("Aggregated Import Stats:", vis.importStats);
 
-        console.log("Import Stats:", vis.importStats);
-
         // Find max import value for color scale
-        let maxImport = d3.max(Object.values(vis.importStats));
+        let maxImport = d3.max(Object.values(vis.importStats)) || 0;
 
         // Update color scale domain
         vis.colorScale = d3.scaleQuantile()
@@ -428,7 +437,7 @@ class WorldMapVis {
 
 }
 // init global variables, switches, helper functions
-let myMapVis;
+let myWorldMapVis;
 
 // load data using promises
 let worldMapPromises = [
@@ -455,5 +464,5 @@ Promise.all(worldMapPromises)
 function initWorldMapPage(allDataArray) {
     const container = document.getElementById('world-map')
 
-    myMapVis = new WorldMapVis('world-map', allDataArray[0], allDataArray[1]);
+    window.myWorldMapVis = new WorldMapVis('world-map', allDataArray[0], allDataArray[1]);
 }

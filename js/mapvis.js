@@ -332,6 +332,7 @@ class AfricanMapVis {
                 }
                 console.log("Selected country:", window.selectedCountry1);
                 window.displayFlags();
+                window.myWorldMapVis.wrangleData();
             });
 
 
