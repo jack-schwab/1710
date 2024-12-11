@@ -255,7 +255,7 @@ class WorldMapVis {
         //create projection
 
         vis.projection = d3.geoOrthographic()// d3.geoStereographic()
-            .scale(Math.min(vis.width, vis.height)/2.7)
+            .scale(Math.min(vis.width, vis.height) / 2.7)
             .translate([vis.width / 2, vis.height / 2])
         //geo generator
         vis.path = d3.geoPath()
@@ -268,7 +268,7 @@ class WorldMapVis {
             .datum({type: "Sphere"})
             .attr("class", "graticule")
             .attr('fill', '#ADDEFF')
-            .attr("stroke","rgba(129,129,129,0.35)")
+            .attr("stroke", "rgba(129,129,129,0.35)")
             .attr("d", vis.path);
         //draw countries
         vis.countries = vis.svg.selectAll(".country")
@@ -285,27 +285,27 @@ class WorldMapVis {
         let legendrectsize = 20
         let valueScale = d3.scaleLinear()
             .domain([0, 100])
-            .range([0,4*legendrectsize]);
+            .range([0, 4 * legendrectsize]);
         let xAxis = d3.axisBottom()
             .scale(valueScale)
             .ticks(2)
         vis.svg.append("g")
             .attr("class", "axis x-axis")
-            .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height-20})`)
+            .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20})`)
             .call(xAxis);
         vis.legend = vis.svg.append("g")
             .attr('class', 'legend')
-            .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20- legendrectsize})`)
+            .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20 - legendrectsize})`)
         vis.legend.selectAll().data(vis.colors)
             .enter()
             .append("rect")
-            .attr("x", (d,index)=>{
-                return legendrectsize*index
+            .attr("x", (d, index) => {
+                return legendrectsize * index
             })
             .attr("y", 0)
             .attr("width", legendrectsize)
             .attr("height", legendrectsize)
-            .attr("fill", (d,index)=>{
+            .attr("fill", (d, index) => {
                 return vis.colors[index]
             })
 
@@ -369,7 +369,7 @@ class WorldMapVis {
             const year = parseInt(d.Year, 10);
             const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
             const importedQty = parseInt(d['Importer reported quantity']) || 0;
-
+            /*
             console.log(`Record ${index + 1}/${vis.animalData.length}:`, {
                 Exporter: d.Exporter,
                 Class: d.Class,
@@ -377,7 +377,7 @@ class WorldMapVis {
                 ExportedQty: exportedQty,
                 ImportedQty: importedQty
             });
-
+            */
             // Apply filters: exporter, animal class, and year range
             if (
                 (!selectedExporter || d.Exporter === selectedExporter) &&
@@ -421,7 +421,7 @@ class WorldMapVis {
                     console.log(`Updated yearly total for Year ${year}:`, vis.countryStats[d.Exporter].yearlyTotals[year]);
                 }
             } else {
-                console.log("Record does not match filters:", d);
+                //console.log("Record does not match filters:", d);
             }
         });
 
@@ -450,9 +450,10 @@ class WorldMapVis {
         vis.updateVis();
     }
 
-
+    // Add a variable to store the selected country
 
     updateVis() {
+        let selectedCountry = null;
         let vis = this;
 
         // Update country colors
@@ -462,7 +463,8 @@ class WorldMapVis {
                 const stats = vis.countryStats[countryCode];
                 return stats ? vis.colorScale(stats.totalExported) : "#ccc";
             })
-            .on('mouseover', function(event, d) {
+            .classed("selected", d => d.properties.name === selectedCountry) // Ensure selected country class is applied
+            .on('mouseover', function (event, d) {
                 const xPos = event.clientX;
                 const yPos = event.clientY;
 
@@ -479,21 +481,21 @@ class WorldMapVis {
                     let years = Object.keys(stats.yearlyTotals).sort().slice(-3);
 
                     tooltipContent += `
-                    <strong>${d.properties.name}</strong><br>
-                    <hr style="margin: 5px 0">
-                    <strong>Total Exported:</strong> ${d3.format(",")(stats.totalExported)}<br>
-                    <strong>Total Imported:</strong> ${d3.format(",")(stats.totalImported)}<br>
-                    <br>
-                    <strong>Top Species:</strong><br>
-                    ${topSpecies.map(([species, count]) =>
+                <strong>${d.properties.name}</strong><br>
+                <hr style="margin: 5px 0">
+                <strong>Total Exported:</strong> ${d3.format(",")(stats.totalExported)}<br>
+                <strong>Total Imported:</strong> ${d3.format(",")(stats.totalImported)}<br>
+                <br>
+                <strong>Top Species:</strong><br>
+                ${topSpecies.map(([species, count]) =>
                         `- ${species}: ${count} trades`
                     ).join('<br>')}
-                    <br>
-                    <strong>Recent Years:</strong><br>
-                    ${years.map(year =>
+                <br>
+                <strong>Recent Years:</strong><br>
+                ${years.map(year =>
                         `${year}: ${d3.format(",")(stats.yearlyTotals[year])} specimens`
                     ).join('<br>')}
-                `;
+            `;
                 } else {
                     tooltipContent += `<strong>${d.properties.name}</strong><br>No trade data available`;
                 }
@@ -512,16 +514,37 @@ class WorldMapVis {
                     .style("top", (yPos + 10) + "px")
                     .style("opacity", 1);
             })
-            .on('mouseout', function(event, d) {
+            .on('mouseout', function (event, d) {
                 d3.select(this)
                     .attr('stroke-width', '0px');
 
                 vis.tooltip.style("opacity", 0);
             })
-            .on('mousemove', function(event) {
+            .on('mousemove', function (event) {
                 vis.tooltip
                     .style("left", (event.clientX + 10) + "px")
                     .style("top", (event.clientY + 10) + "px");
+            })
+            .on('click', function (event, d) {
+                const clickedCountry = d.properties.name;
+
+                // Deselect previous country
+                if (selectedCountry) {
+                    d3.selectAll(".country")
+                        .filter(country => country.properties.name === selectedCountry)
+                        .classed("selected", false);
+                }
+
+                // Update selected country
+                if (selectedCountry === clickedCountry) {
+                    selectedCountry = null; // Deselect if clicked again
+                } else {
+                    selectedCountry = clickedCountry;
+                    d3.select(this)
+                        .classed("selected", true);
+                }
+
+                console.log("Selected country:", selectedCountry);
             });
 
         // Update legend

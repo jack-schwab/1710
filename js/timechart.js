@@ -22,7 +22,7 @@ async function loadAndProcessData() {
                 return null; // Skip invalid rows
             }
 
-            console.log(`Processed row:`, { year, importerQuantity, exporterQuantity });
+            //console.log(`Processed row:`, { year, importerQuantity, exporterQuantity });
 
             return {
                 year: year,
