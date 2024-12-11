@@ -313,7 +313,25 @@ class AfricanMapVis {
                 return vis.colorScale(exportCount);
             });
 
-
+        vis.countries
+            .on("click", function (event, d) {
+                const clickedCountry = d.properties.name;
+                // Deselect the previously selected country
+                if (window.selectedCountry1) {
+                    d3.selectAll(".african-map-country")
+                        .filter(country => country.properties.name === window.selectedCountry1)
+                        .classed("selected", false);
+                }
+                // Update the selected country
+                if (window.selectedCountry1 === clickedCountry) {
+                    window.selectedCountry1 = null; // Deselect if clicked again
+                } else {
+                    window.selectedCountry1 = clickedCountry;
+                    d3.select(this).classed("selected", true);
+                }
+                console.log("Selected country:", window.selectedCountry1);
+                window.displayFlags();
+            });
 
         console.log("Map visualization updated.");
     }
