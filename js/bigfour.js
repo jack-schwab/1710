@@ -78,20 +78,21 @@ class MatrixVis {
         vis.initData()
 
         let cellHeight = 20, cellWidth = 20, cellPadding = 10;
-        for (let i = 0; i <vis.numfamilies; i++){
+        for (let i = 0; i <vis.numCountries; i++){
             let svgrow = vis.svg.append("g")
                 .attr("class", "matrixrow")
                 .attr("transform", `translate(0, ${(cellWidth + cellPadding)*i})`)
                 .attr("id", "row" + i);
+            //might have id overlap
             // D3's enter, update, exit pattern
-            let trianglePath = svgrow.selectAll(".triangle-path")
+            let squarePath = svgrow.selectAll(".square-path")
                 .data(vis.displayData[i]);
-            console.log(trianglePath);
-            trianglePath.enter().append("path")
-                .attr("class", "triangle-path");
+            console.log(squarePath);
+            squarePath.enter().append("path")
+                .attr("class", "square-path");
             console.log("bo")
-            trianglePath.attr("d", function(d, index) {
-                // Shift the triangles on the x-axis (columns)
+            squarePath.attr("d", function(d, index) {
+                // Shift the squares on the x-axis (columns)
                 console.log("shen")
                 let x = (cellWidth + cellPadding) * index;
 
@@ -99,43 +100,44 @@ class MatrixVis {
                 // Vertical shifting is already done by transforming the group elements
                 let y = 0;
                 console.log("bo")
-                return 'M ' + x +' '+ y + ' L ' + cellWidth + ' 0 L 0 ' + cellHeight + ' z';
+                return 'M ' + x +' '+ y + ' L ' + cellWidth + ' 0 L 0 ' + cellHeight + ' L ' + -cellWiddth + ' 0 ' + ' z';
             })
                 .attr("fill", "grey");
         }
     }
-    initData(){
+    initData() {
         let vis = this;
         vis.displayData = [];
-        let uniqueExporters = new Set(vis.animalData.map(d=>{
+        let uniqueExporters = new Set(vis.animalData.map(d => {
             return d.Exporter
         }))
-        let uniqueImporters = new Set(vis.animalData.map(d=>{
+        let uniqueImporters = new Set(vis.animalData.map(d => {
             return d.Importer
         }))
         vis.uniqueCountries = [...uniqueExporters.union(uniqueImporters)]
         vis.numCountries = vis.uniqueCountries.length
         vis.countryCodeToId = {}
-        for(let i = 0; i < vis.numCountries; i++){
+        for (let i = 0; i < vis.numCountries; i++) {
             vis.countryCodeToId[vis.uniqueCountries[i]] = i;
         }
-
-        for(let i = 0; i < vis.numCountries; i++){
+        vis.importExportCountMatrix = Array(vis.numCountries).fill().map(() => Array(vis.numCountries).fill(0))
+        for (let i = 0; i < vis.animalData.length; i++) {
+            let exporter = vis.animalData[i].Exporter
+            let importer = vis.animalData[i].Importer
+            let exporterId = vis.countryCodeToId[exporter]
+            let importerId = vis.countryCodeToId[importer]
+            vis.importExportCountMatrix[exporterId][importerId]++;
+        }
+        for (let i = 0; i < vis.numCountries; i++) {
             let row = {
                 "index": i,
                 "name": africanCountryCodeToName[vis.uniqueCountries[i]],
-                "allRelations":
-                "businessTies": d3.sum(vis.business[i]),
-                "businessValues": vis.business[i],
-                "marriages": d3.sum(vis.marriage[i]),
-                "marriageValues": vis.marriage[i],
-                "numberPriorates": vis.metaData[i].Priorates,
-                "wealth": vis.metaData[i].Wealth
+                "totalCount": d3.sum(vis.importExportCountMatrix[i])
             }
-            row.allRelations = row.businessTies + row.marriages;
             vis.displayData.push(row);
         }
         console.log(vis.displayData)
+    }
     //Draw the matrix rows: assign a class (e.g. .matrix-row), append a svg group element per row,
     // translate its height, and append a text field (basically the y-axis label of that row).
     // You should now see a column of labels showing numbers from 0 -15.
