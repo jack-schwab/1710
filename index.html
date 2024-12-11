@@ -115,9 +115,39 @@
 
     <div class="part-title">PART 1: ENDANGERED ANIMAL SPECIES IN AFRICA</div>
 
+    <div id="matching-game-section" class="page-section section-transition">
+        <h1 class="section-title">Endangered Species Matching Game</h1>
+        <p class="vis-description">First, let's learn about some of the various endangered species in Africa! Play this matching game to find matches and learn about various endangered species.</p>
+        <section id="game-container">
+            <div id="ui-container">
+                <h3>Flips: <span id="flip-count">0</span></h3>
+                <h3>Matches: <span id="match-count">0</span></h3>
+            </div>
+
+            <!-- This is where we display the flip and match counters -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+
+
+                        <!-- This is where our cards will be rendered -->
+                        <div id="card-container">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <p id="species-explanation">When you find a match, a paragraph about that species will appear here. Good luck!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button class="reset-btn" onclick="resetGame()">Reset</button>
+            </div>
+        </section>
+    </div>
+
     <div id="fun-facts-section" class="page-section section-transition">
         <h1 class="section-title">Animal Fun Facts</h1>
-        <p class="vis-description">Click on an animal to learn interesting facts about them!</p>
+        <p class="vis-description">Although we will include data from many endangered species in our project, the main focus of our project will be these four groups: <b>rhinos</b>, <b>lions</b>, <b>elephants</b>, and <b>leopards</b>. If you want to learn even more about these animals, click on an animal to learn interesting facts about them!</p>
 
         <div class="row my-5">
 
@@ -205,35 +235,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="matching-game-section" class="page-section section-transition">
-        <h1 class="section-title">Endangered Species Matching Game</h1>
-        <section id="game-container">
-            <div id="ui-container">
-                <h3>Flips: <span id="flip-count">0</span></h3>
-                <h3>Matches: <span id="match-count">0</span></h3>
-            </div>
-
-            <!-- This is where we display the flip and match counters -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-9">
-
-
-                        <!-- This is where our cards will be rendered -->
-                        <div id="card-container">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <p id="species-explanation">Let's learn some more about endangered species in Africa! Play this matching game to find matches and learn about various endangered species. When you find a match, a paragraph about that species will appear here. Good luck!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="btn-container">
-                <button class="reset-btn" onclick="resetGame()">Reset</button>
-            </div>
-        </section>
     </div>
 
     <div class="part-title">PART 2: ENDANGERED SPECIES TRADING</div>
