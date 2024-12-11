@@ -137,15 +137,29 @@ class BarChartAnimals {
 				d3.select(event.currentTarget).attr("fill", vis.config.hoverColor);
 
 				// Fetch common name and fact
-				let { commonName, fact } = mammalFacts[d.key] || { commonName: "Unknown", fact: "No data available." };
+				const mammalInfo = mammalFacts[d.key];
+				let commonName = "Unknown";
+				let fact = "No data available.";
+				if (mammalInfo) {
+					commonName = mammalInfo.commonName;
+					fact = mammalInfo.fact;
+				}
 
+				// Set tooltip content
 				d3.select("#tooltip-container")
 					.style("opacity", 1)
-					.style("left", (event.pageX + 10) + "px")
-					.style("top", (event.pageY - 10) + "px")
-					.html(`<strong>${commonName}</strong><br>${fact}`);
+					.style("left", `${event.pageX + 15}px`) // Adjust tooltip position
+					.style("top", `${event.pageY - 35}px`) // Adjust tooltip position
+					.html(`
+            <div style="font-size: 14px; font-weight: bold;">${commonName}</div>
+            <div style="font-size: 12px;">${fact}</div>
+        `);
 			})
 			.on("mouseout", (event, d) => {
+				d3.select(event.currentTarget).attr("fill", vis.config.barColor);
+				d3.select("#tooltip-container").style("opacity", 0);
+			})
+	.on("mouseout", (event, d) => {
 				d3.select(event.currentTarget).attr("fill", d => vis.selectedBar === d.key ? vis.config.selectedColor : vis.config.barColor);
 				d3.select("#tooltip-container").style("opacity", 0);
 			})
