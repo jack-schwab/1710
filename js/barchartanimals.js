@@ -1,16 +1,7 @@
-// Mapping of animal Latin names to common names
-const animalLatintoName = {
-	"Agapornis fischeri": "Fischer's Lovebird",
-	"Eolophus roseicapilla": "Galah",
-	"Ara ararauna": "Blue-and-yellow Macaw",
-	"Macaca fascicularis": "Crab-eating Macaque",
-	"Panthera leo": "Lion"
-};
-
 class BarChartAnimals {
-	constructor(parentElement, data, config) {
+	constructor(parentElement, filePath, config) {
 		this.parentElement = parentElement;
-		this.data = data;
+		this.filePath = filePath; // Path to the CSV file
 		this.config = {
 			margin: { top: 40, right: 60, bottom: 80, left: 180 },
 			height: 400,
@@ -20,13 +11,14 @@ class BarChartAnimals {
 			hoverColor: "#2c5282",
 			...config
 		};
-		this.mapping = animalLatintoName;
-		this.displayData = data;
 		this.initVis();
 	}
 
-	initVis() {
+	async initVis() {
 		const vis = this;
+
+		// Load data from CSV
+		vis.data = await d3.csv(vis.filePath, d3.autoType);
 
 		// Define margins, width, and height
 		vis.margin = vis.config.margin;
@@ -87,18 +79,19 @@ class BarChartAnimals {
 	wrangleData() {
 		const vis = this;
 
-		// Filter and process data
-		let filteredData = vis.data.filter(d => d.Class);
+		// Filter and process data for mammals
+		let mammalsData = vis.data.filter(d => d.Class === "Mammalia");
+
+		// Calculate total quantity per Taxon
 		let groupedData = d3.rollup(
-			filteredData,
-			leaves => d3.sum(leaves, d => d.TotalQuantity),
-			d => d[vis.config.key]
+			mammalsData,
+			leaves => d3.sum(leaves, d => (d["Importer reported quantity"] || 0) + (d["Exporter reported quantity"] || 0)),
+			d => d.Taxon
 		);
 
 		vis.displayData = Array.from(groupedData, ([key, value]) => ({
 			key,
-			value,
-			displayName: vis.mapping[key] || key
+			value
 		}))
 			.sort((a, b) => b.value - a.value)
 			.slice(0, 5);
@@ -136,13 +129,14 @@ class BarChartAnimals {
 			.attr("height", vis.y.bandwidth())
 			.attr("width", 0)
 			.attr("fill", vis.config.barColor)
-			.on("click", (event, d) => {
+			.on("mouseover", (event, d) => {
 				vis.tooltip
 					.style("opacity", 1)
 					.style("left", `${event.pageX + 10}px`)
 					.style("top", `${event.pageY - 10}px`)
-					.html(`<strong>English Name: ${d.displayName}</strong><br>Latin Name: ${d.key}<br>Quantity: ${d3.format(",")(d.value)}`);
+					.html(`<strong>Latin Name:</strong> ${d.key}<br><strong>Quantity:</strong> ${d3.format(",")(d.value)}`);
 			})
+			.on("mouseout", () => vis.tooltip.style("opacity", 0))
 			.merge(bars)
 			.transition()
 			.duration(vis.config.transitionDuration)
@@ -152,3 +146,5 @@ class BarChartAnimals {
 		bars.exit().remove();
 	}
 }
+
+export default BarChartAnimals;
