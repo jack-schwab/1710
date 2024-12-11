@@ -186,6 +186,52 @@ class AfricanMapVis {
             console.warn("Data selector element not found!");
         }
 
+        // Set up the legend
+        vis.legendWidth = 300;
+        vis.legendHeight = 20;
+        vis.legendMargin = { top: 10, right: 10, bottom: 10, left: 10 };
+
+        vis.legend = vis.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(20, 50)`); // Position the legend
+
+        vis.legendScale = d3.scaleLinear()
+            .domain([0, 1]) // Initial domain, updated in updateVis
+            .range([0, vis.legendWidth]);
+
+        vis.legendAxis = d3.axisBottom(vis.legendScale)
+            .ticks(5)
+            .tickFormat(d3.format(".0s"));
+
+        vis.legendGradient = vis.legend.append("defs")
+            .append("linearGradient")
+            .attr("id", "legend-gradient")
+            .attr("x1", "0%")
+            .attr("x2", "100%")
+            .attr("y1", "0%")
+            .attr("y2", "0%");
+
+        vis.legendGradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", d3.interpolateBlues(0));
+
+        vis.legendGradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", d3.interpolateBlues(1));
+
+        vis.legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", vis.legendWidth)
+            .attr("height", vis.legendHeight)
+            .style("fill", "url(#legend-gradient)");
+
+        vis.legend.append("g")
+            .attr("class", "legend-axis")
+            .attr("transform", `translate(0, ${vis.legendHeight})`)
+            .call(vis.legendAxis);
+
+
         vis.wrangleData();
     }
 
@@ -254,6 +300,10 @@ class AfricanMapVis {
         const maxExports = d3.max(Object.values(vis.countryExports));
         vis.colorScale.domain([0, maxExports]);
 
+        vis.legendScale.domain([0, maxExports]);
+        vis.svg.select(".legend-axis")
+            .call(vis.legendAxis);
+
         vis.countries
             .transition()
             .duration(500)
@@ -263,28 +313,7 @@ class AfricanMapVis {
                 return vis.colorScale(exportCount);
             });
 
-        vis.countries
-            .on("click", function (event, d) {
-                const clickedCountry = d.properties.name;
 
-                // Deselect the previously selected country
-                if (window.selectedCountry1) {
-                    d3.selectAll(".african-map-country")
-                        .filter(country => country.properties.name === window.selectedCountry1)
-                        .classed("selected", false);
-                }
-
-                // Update the selected country
-                if (window.selectedCountry1 === clickedCountry) {
-                    window.selectedCountry1 = null; // Deselect if clicked again
-                } else {
-                    window.selectedCountry1 = clickedCountry;
-                    d3.select(this).classed("selected", true);
-                }
-
-                console.log("Selected country:", window.selectedCountry1);
-                window.displayFlags();
-            });
 
         console.log("Map visualization updated.");
     }
