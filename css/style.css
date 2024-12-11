@@ -1,3 +1,19 @@
+#timeline-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0;
+}
+
+.timeline-year {
+    padding: 0.5em 1em;
+    margin: 0 0.2em;
+    border-radius: 5px;
+    background-color: #ddd; /* Default background */
+    color: #333; /* Default text color */
+    transition: background-color 0.5s, color 0.5s;
+}
+
 body {
     font-family: "Kanit", Arial, sans-serif;
     background-image: url("../img/wallpaper.avif");
@@ -32,6 +48,31 @@ body {
     display: block;
 }
 
+#flagContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    gap: 20px;
+}
+.flagDisplay {
+    width: 45%;
+    text-align: center;
+}
+.flagDisplay img {
+    width: 300px;
+    height: 200px;
+}
+
+.country.selected {
+    stroke: blue;
+    stroke-width: 3px;
+    fill: #ffa500 !important; /* Orange fill for selected country */
+}
+.african-map-country.selected {
+    stroke: black; /* Black border for the selected country */
+    stroke-width: 3px;
+}
 
 button {
     font-family: 'Poppins', sans-serif;

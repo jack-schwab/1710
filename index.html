@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.css" integrity="sha512-DGB74Gyw93qON+V0QxSRs1er6sqoPyFoy23HBL5LN7MRJBcjeCU22zega+vOEGE0XQLoVrv4ExcaesSTwZQA2w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500|Satisfy" rel="stylesheet">
@@ -164,8 +163,6 @@
         </div>
     </div>
 
-
-
     <div id="section-6" class="page-section section-transition">
         <div class="row my-5">
             <div class="col-md-6">
@@ -177,10 +174,6 @@
                 <div id="import-chart"></div>
             </div>
         </div>
-        <div class="d-flex align-items-center my-3">
-            <label for="year-selector" class="me-2">Select Year:</label>
-            <select id="year-selector" class="form-select"></select>
-        </div>
     </div>
 
     <div id="section-6.5" class="page-section section-transition">
@@ -190,12 +183,19 @@
         </div>
     </div>
 
-
     <div id="section-7" class="page-section section-transition">
         <h1 class="section-title">Exports Over Time</h1>
+        <p class="vis-description">Continuing to examine the trends of exports over time, we now examine the quantities of these exports. This visualization allows us to view three different quantities of imports and exports. The importer quantity refers to the number of animals imported among the data. The exporter quantity refers to the number of animals exported among the data. Note that these two values are NOT the same: partially since some of our data sets only refer to select countries, and partially because animals sometimes die along the way while being imported/exported. The total quantity refers to the sum of the importer and exporter quantities.</p>
         <div class="row my-5">
 
-
+            <div class="form-group">
+                <!-- Select box to choose the ranking type -->
+                <select id="ranking-type">
+                    <option value="total-quantity">Total Quantity</option>
+                    <option value="importer-quantity">Importer Quantity</option>
+                    <option value="exporter-quantity">Exporter Quantity</option>
+                </select>
+            </div>
             <div id="time-chart"></div>
 
         </div>
@@ -225,6 +225,18 @@
             <div class="col-md-12">
 
                 <div id="world-map"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="section-8.5" class="page-section section-transition">
+        <h2>Country Flag Finder</h2>
+        <div id="flagContainer">
+            <div id="flagDisplayLeft" class="flagDisplay">
+                <!-- Left flag will be displayed here -->
+            </div>
+            <div id="flagDisplayRight" class="flagDisplay">
+                <!-- Right flag will be displayed here -->
             </div>
         </div>
     </div>
@@ -278,54 +290,9 @@
         <h1 class="section-title">Death Valley: Why Is This Route the Most Dangerous?</h1>
         <div class="row my-5">
             <div class="col-6">
-                <div class="form-group">
-                    <!-- Select box to choose the ranking type -->
-                    <select id="ranking-type">
-                        <option value="goals">Goals</option>
-                        <option value="average-goals">Average Goals</option>
-                        <option value="matches">Matches</option>
-                        <option value="teams">Teams</option>
-                        <option value="average-attendance">Average Attendance</option>
-                    </select>
-                </div>
 
-                <span class="range-slider-value" id="first-year">2004</span>
-
-                <div id="time-period-slider"></div>
-
-                <span class="range-slider-value" id="second-year">2023</span>
-                <div id="line-chart"></div>
             </div>
             <div class="col-6">
-                <div id="world-cup-edition">
-                    <h3 id="world-cup-title"></h3>
-                    <table class="table">
-                        <tr>
-                            <th>Winner</th>
-                            <td id="winner"></td>
-                        </tr>
-                        <tr>
-                            <th>Goals</th>
-                            <td id="goals"></td>
-                        </tr>
-                        <tr>
-                            <th>Average Goals</th>
-                            <td id="average-goals"></td>
-                        </tr>
-                        <tr>
-                            <th>Matches</th>
-                            <td id="matches"></td>
-                        </tr>
-                        <tr>
-                            <th>Teams</th>
-                            <td id="teams"></td>
-                        </tr>
-                        <tr>
-                            <th>Average Attendance</th>
-                            <td id="average-attendance"></td>
-                        </tr>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
@@ -399,6 +366,7 @@
 <script src="js/provided.js"></script>
 <script src="js/matchingVis.js"></script>
 <script src="js/timechart.js"></script>
+<script src="js/countryflags.js"></script>
 
 
 <script>
@@ -949,7 +917,7 @@
         scroller.resize();
     }
 
-    const paragraphs = ["lol hi", "The illegal trade of endangered species in Africa is a critical environmental issue with devastating consequences for biodiversity. Research reveals that over 80% of endangered species are directly impacted by the wildlife trade, which threatens their survival. This multi-billion-dollar industry, valued at an estimated 4 to 20 billion dollars annually, fuels a thriving market for animals and plants.",
+    const paragraphs = ["", "The illegal trade of endangered species in Africa is a critical environmental issue with devastating consequences for biodiversity. Research reveals that over 80% of endangered species are directly impacted by the wildlife trade, which threatens their survival. This multi-billion-dollar industry, valued at an estimated 4 to 20 billion dollars annually, fuels a thriving market for animals and plants.",
         "For instance, in just one year, records showed the trade of 1.5 million live birds and 440,000 tonnes of medicinal plants. The impact is catastrophic: wildlife trade has led to over 60% declines in species abundance, pushing many to the brink of extinction. Addressing this crisis is crucial to preserving the planet's ecological balance and protecting its most vulnerable species.",
         "The endangered species trade refers to the buying, selling, and exchange of animals and plants that are at risk of extinction. This global black market exploits rare species for everything from exotic pets and traditional medicine to luxury goods like ivory and furs. It's a billion-dollar industry fueled by demand and weak enforcement, and it poses a direct threat to biodiversity. Why does this matter? Every species plays a role in its ecosystem. When one disappears, it can cause a domino effect, destabilizing the environment. This trade isn't just about cute or majestic animals—it impacts plants, birds, reptiles, and even insects, all of which are vital to maintaining ecological balance.",
         "Efforts like the Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) aim to regulate this trade and protect vulnerable species, but challenges remain. Loopholes, corruption, and high demand make enforcement tough, while climate change and habitat loss amplify the pressure. In short, the endangered species trade is not just an environmental issue—it's a wake-up call. It's about protecting the delicate threads that hold our ecosystems together, and ultimately, safeguarding the planet we all share."]
@@ -988,15 +956,6 @@
     // kick things off
     init();
 </script>
-
-<!-- embedding JS libraries -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"
-        integrity="sha512-mZXUH8DAODwCHioWP3gltQwa953LbABMlzTYwYkKqv8eNxOk37B1HgNNuCMfFxgrpW5C34WJbxPDcM58+s1dJA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- d3 -->
-<script src="js/linechart.js"></script>
 
 </body>
 </html>
