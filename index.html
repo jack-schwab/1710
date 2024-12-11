@@ -265,14 +265,16 @@
 
     <div id="pi-chart-section" class="page-section section-transition">
         <h1 class="section-title">Top Exporters and Importers for Animals</h1>
-        <div class="row my-5">
-            <div class="col-md-6">
-                <h2>Top Exporters for Animals</h2>
-                <div id="export-chart"></div>
-            </div>
-            <div class="col-md-6">
-                <h2>Top Importers for Animals</h2>
-                <div id="import-chart"></div>
+        <div id="pi-chart-main-section">
+            <div class="row my-5">
+                <div class="col-md-6">
+                    <h2>Top Exporters for Animals</h2>
+                    <div id="export-chart"></div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Top Importers for Animals</h2>
+                    <div id="import-chart"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -289,6 +291,43 @@
                 <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
             </div>
             <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <div id="trade-analysis-section" class="page-section">
+        <h1 class="section-title">Wildlife Trade Analysis: 2004-2023</h1>
+        <div class="container">
+            <h3>This dashboard visualizes 20 years of wildlife trade data, showing patterns and trends across different taxonomic classifications.</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <div id="area-chart" class="chart">Timeline Overview Chart</div>
+                    </div>
+                    <div class = "chart-container text-center">
+                        <h5>Please use these visualizations to unlock the story of wildlife trade over the past 20 years. The area chart acts as your timeline, revealing how trade volumes have risen, fallen, or shifted. It highlights pivotal moments—spikes that may signal policy changes, economic disruptions, or heightened demand. Use the brush tool to zoom into specific periods and uncover the seasonal or yearly patterns behind the data.
+                            Dive deeper with the bar chart, which uncover the biological heartbeat of the trade. The Species Class Distribution highlights which groups, like mammals or reptiles, dominate the industry. The Order, Family, and Taxon charts peel back the layers, pinpointing specific groups or species driving the numbers.
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h4>Species Class Distribution</h4>
+                        <div id="bar-chart-class" class="chart">Bar Chart - Species Class</div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Order</h4>
+                        <div id="bar-chart-order" class="chart">Bar Chart - Order</div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Family</h4>
+                        <div id="bar-chart-family" class="chart">Bar Chart - Family</div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Taxon</h4>
+                        <div id="bar-chart-taxon" class="chart">Bar Chart - Taxon</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -359,43 +398,6 @@
             </div>
         </div>
         <div id="flag-chart"></div>
-    </div>
-
-    <div id="section-10" class="page-section">
-        <h1 class="section-title">Wildlife Trade Analysis: 2004-2023</h1>
-        <div class="container">
-            <h3>This dashboard visualizes 20 years of wildlife trade data, showing patterns and trends across different taxonomic classifications.</h3>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="chart-container">
-                        <div id="area-chart" class="chart">Timeline Overview Chart</div>
-                    </div>
-                    <div class = "chart-container text-center">
-                        <h5>Please use these visualizations to unlock the story of wildlife trade over the past 20 years. The area chart acts as your timeline, revealing how trade volumes have risen, fallen, or shifted. It highlights pivotal moments—spikes that may signal policy changes, economic disruptions, or heightened demand. Use the brush tool to zoom into specific periods and uncover the seasonal or yearly patterns behind the data.
-                            Dive deeper with the bar chart, which uncover the biological heartbeat of the trade. The Species Class Distribution highlights which groups, like mammals or reptiles, dominate the industry. The Order, Family, and Taxon charts peel back the layers, pinpointing specific groups or species driving the numbers.
-                        </h5>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="chart-container">
-                        <h4>Species Class Distribution</h4>
-                        <div id="bar-chart-class" class="chart">Bar Chart - Species Class</div>
-                    </div>
-                    <div class="chart-container">
-                        <h4>Order</h4>
-                        <div id="bar-chart-order" class="chart">Bar Chart - Order</div>
-                    </div>
-                    <div class="chart-container">
-                        <h4>Family</h4>
-                        <div id="bar-chart-family" class="chart">Bar Chart - Family</div>
-                    </div>
-                    <div class="chart-container">
-                        <h4>Taxon</h4>
-                        <div id="bar-chart-taxon" class="chart">Bar Chart - Taxon</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div id="credits-section" class="page-section section-transition">
