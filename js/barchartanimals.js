@@ -15,6 +15,7 @@ class BarChartAnimals {
 	}
 
 	async initVis() {
+		// bars.exit().remove();
 		const vis = this;
 
 		// Load data from CSV
@@ -141,10 +142,12 @@ class BarChartAnimals {
 			.transition()
 			.duration(vis.config.transitionDuration)
 			.attr("width", d => vis.x(d.value));
-
-		// Exit
-		bars.exit().remove();
 	}
 }
+
+// Entry point to instantiate the BarChartAnimals class when the page loads
+window.onload = () => {
+	const barChart = new BarChartAnimals('bar-chart', '/data/20-year-data.csv', {});
+};
 
 export default BarChartAnimals;
