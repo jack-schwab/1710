@@ -1,28 +1,12 @@
-// Mammal facts dataset
-const mammalFacts = {
-	"Cercopithecus ascanius": {
-		commonName: "Red-tailed Monkey",
-		fact: "Red-tailed monkeys are commonly traded for their distinctive hide that can be made into clothing."
-	},
-	"Panthera leo": {
-		commonName: "Lion",
-		fact: "Lions are traded primarily for their bones and other body parts, often used in traditional medicines."
-	},
-	"Macaca fascicularis": {
-		commonName: "Long-tailed Macaque",
-		fact: "Long-tailed macaques are often traded for use in biomedical research."
-	},
-	"Lophocebus aterrimus": {
-		commonName: "Black Crested Mangabey",
-		fact: "Black crested mangabeys are traded for their meat and occasionally as exotic pets."
-	},
-	"Cercopithecus neglectus": {
-		commonName: "De Brazza's Monkey",
-		fact: "De Brazza's monkeys are sought after for their unique fur and as exotic pets."
-	}
+// Mapping of animal Latin names to common names
+const animalLatintoName = {
+	"Agapornis fischeri": "Fischer's Lovebird",
+	"Eolophus roseicapilla": "Galah",
+	"Ara ararauna": "Blue-and-yellow Macaw",
+	"Macaca fascicularis": "Crab-eating Macaque",
+	"Panthera leo": "Lion"
 };
 
-// Update the BarChartAnimals class
 class BarChartAnimals {
 	constructor(parentElement, data, config) {
 		this.parentElement = parentElement;
@@ -34,148 +18,137 @@ class BarChartAnimals {
 			transitionDuration: 1000,
 			barColor: "#4682b4",
 			hoverColor: "#2c5282",
-			selectedColor: "#1d3557",
-			...config,
+			...config
 		};
-
+		this.mapping = animalLatintoName;
 		this.displayData = data;
 		this.initVis();
 	}
 
 	initVis() {
-		let vis = this;
+		const vis = this;
 
-		vis.width = vis.config.width - vis.config.margin.left - vis.config.margin.right;
-		vis.height = vis.config.height - vis.config.margin.top - vis.config.margin.bottom;
+		// Define margins, width, and height
+		vis.margin = vis.config.margin;
+		vis.width = vis.config.width - vis.margin.left - vis.margin.right;
+		vis.height = vis.config.height - vis.margin.top - vis.margin.bottom;
 
-		d3.select("#" + vis.parentElement).select("svg").remove();
-
-		vis.svg = d3.select("#" + vis.parentElement).append("svg")
-			.attr("width", vis.width + vis.config.margin.left + vis.config.margin.right)
-			.attr("height", vis.height + vis.config.margin.top + vis.config.margin.bottom)
+		// SVG drawing area
+		vis.svg = d3.select(`#${vis.parentElement}`).append("svg")
+			.attr("width", vis.width + vis.margin.left + vis.margin.right)
+			.attr("height", vis.height + vis.margin.top + vis.margin.bottom)
 			.append("g")
-			.attr("transform", `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+			.attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
+		// Scales
 		vis.x = d3.scaleLinear().range([0, vis.width]);
-		vis.y = d3.scaleBand().rangeRound([vis.height, 0]).paddingInner(0.2);
+		vis.y = d3.scaleBand().range([vis.height, 0]).paddingInner(0.2);
 
+		// Axes
 		vis.xAxis = d3.axisBottom(vis.x).ticks(5).tickFormat(d3.format(",d")).tickSizeOuter(0);
 		vis.yAxis = d3.axisLeft(vis.y).tickSizeOuter(0);
 
-		vis.svg.append("g").attr("class", "x-axis axis").attr("transform", `translate(0,${vis.height})`);
-		vis.svg.append("g").attr("class", "y-axis axis");
+		// Append axes groups
+		vis.svg.append("g").attr("class", "x-axis").attr("transform", `translate(0,${vis.height})`);
+		vis.svg.append("g").attr("class", "y-axis");
 
+		// Tooltip
+		vis.tooltip = d3.select(`#${vis.parentElement}`).append("div")
+			.attr("class", "tooltip")
+			.style("opacity", 0)
+			.style("position", "absolute")
+			.style("background", "white")
+			.style("padding", "10px")
+			.style("border", "1px solid #ccc")
+			.style("border-radius", "5px")
+			.style("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)");
+
+		// Axes labels
 		vis.svg.append("text")
 			.attr("class", "x-axis-label")
 			.attr("x", vis.width / 2)
-			.attr("y", vis.height + 50)
+			.attr("y", vis.height + 40)
 			.style("text-anchor", "middle")
-			.text("Total Quantity Traded");
+			.style("font-size", "12px")
+			.text("Quantity Traded: 2017-2023");
 
 		vis.svg.append("text")
 			.attr("class", "y-axis-label")
 			.attr("transform", "rotate(-90)")
-			.attr("y", -vis.config.margin.left + 20)
+			.attr("y", -vis.margin.left + 50)
 			.attr("x", -(vis.height / 2))
 			.style("text-anchor", "middle")
-			.text("Mammal Species");
-
-		vis.tooltip = d3.select("#tooltip-container").style("opacity", 0).style("position", "absolute");
+			.style("font-size", "12px")
+			.text("Species");
 
 		vis.wrangleData();
 	}
 
 	wrangleData() {
-		let vis = this;
+		const vis = this;
 
-		let mammalData = vis.data.filter(d => d.Class === "Mammalia");
+		// Filter and process data
+		let filteredData = vis.data.filter(d => d.Class);
 		let groupedData = d3.rollup(
-			mammalData,
-			leaves => d3.sum(leaves, d => d.Quantity || 0),
-			d => d.Taxon
+			filteredData,
+			leaves => d3.sum(leaves, d => d.TotalQuantity),
+			d => d[vis.config.key]
 		);
 
-		let dataArray = Array.from(groupedData, ([key, value]) => ({ key, value }));
-		vis.displayData = dataArray.sort((a, b) => b.value - a.value).slice(0, 5);
+		vis.displayData = Array.from(groupedData, ([key, value]) => ({
+			key,
+			value,
+			displayName: vis.mapping[key] || key
+		}))
+			.sort((a, b) => b.value - a.value)
+			.slice(0, 5);
 
 		vis.updateVis();
 	}
 
 	updateVis() {
-		let vis = this;
+		const vis = this;
 
+		// Update scales
 		vis.x.domain([0, d3.max(vis.displayData, d => d.value)]);
 		vis.y.domain(vis.displayData.map(d => d.key));
 
-		vis.svg.select(".x-axis").transition().duration(vis.config.transitionDuration).call(vis.xAxis);
-		vis.svg.select(".y-axis").transition().duration(vis.config.transitionDuration).call(vis.yAxis);
+		// Update axes
+		vis.svg.select(".x-axis")
+			.transition()
+			.duration(vis.config.transitionDuration)
+			.call(vis.xAxis);
 
-		let bars = vis.svg.selectAll(".bar").data(vis.displayData, d => d.key);
+		vis.svg.select(".y-axis")
+			.transition()
+			.duration(vis.config.transitionDuration)
+			.call(vis.yAxis);
 
-		bars.exit().transition().duration(vis.config.transitionDuration).attr("width", 0).remove();
+		// Data binding
+		const bars = vis.svg.selectAll(".bar").data(vis.displayData, d => d.key);
 
-		let barsEnter = bars.enter()
+		// Enter
+		bars.enter()
 			.append("rect")
 			.attr("class", "bar")
 			.attr("x", 0)
 			.attr("y", d => vis.y(d.key))
 			.attr("height", vis.y.bandwidth())
 			.attr("width", 0)
-			.attr("fill", vis.config.barColor);
-
-		barsEnter.merge(bars)
+			.attr("fill", vis.config.barColor)
+			.on("click", (event, d) => {
+				vis.tooltip
+					.style("opacity", 1)
+					.style("left", `${event.pageX + 10}px`)
+					.style("top", `${event.pageY - 10}px`)
+					.html(`<strong>English Name: ${d.displayName}</strong><br>Latin Name: ${d.key}<br>Quantity: ${d3.format(",")(d.value)}`);
+			})
+			.merge(bars)
 			.transition()
 			.duration(vis.config.transitionDuration)
-			.attr("x", 0)
-			.attr("y", d => vis.y(d.key))
-			.attr("width", d => vis.x(d.value))
-			.attr("height", vis.y.bandwidth())
-			.attr("fill", d => vis.selectedBar === d.key ? vis.config.selectedColor : vis.config.barColor);
+			.attr("width", d => vis.x(d.value));
 
-		barsEnter.merge(bars)
-			.on("mouseover", (event, d) => {
-				d3.select(event.currentTarget).attr("fill", vis.config.hoverColor);
-
-				// Fetch common name and fact
-				const mammalInfo = mammalFacts[d.key];
-				let commonName = "Unknown";
-				let fact = "No data available.";
-				if (mammalInfo) {
-					commonName = mammalInfo.commonName;
-					fact = mammalInfo.fact;
-				}
-
-				// Set tooltip content
-				d3.select("#tooltip-container")
-					.style("opacity", 1)
-					.style("left", `${event.pageX + 15}px`) // Adjust tooltip position
-					.style("top", `${event.pageY - 35}px`) // Adjust tooltip position
-					.html(`
-            <div style="font-size: 14px; font-weight: bold;">${commonName}</div>
-            <div style="font-size: 12px;">${fact}</div>
-        `);
-			})
-			.on("mouseout", (event, d) => {
-				d3.select(event.currentTarget).attr("fill", vis.config.barColor);
-				d3.select("#tooltip-container").style("opacity", 0);
-			})
-	.on("mouseout", (event, d) => {
-				d3.select(event.currentTarget).attr("fill", d => vis.selectedBar === d.key ? vis.config.selectedColor : vis.config.barColor);
-				d3.select("#tooltip-container").style("opacity", 0);
-			})
-			.on("click", (event, d) => {
-				vis.selectedBar = vis.selectedBar === d.key ? null : d.key;
-				vis.updateVis();
-			});
+		// Exit
+		bars.exit().remove();
 	}
 }
-
-// Load the data and initialize the chart
-d3.csv("/data/20-year-data.csv").then(data => {
-	data.forEach(d => {
-		d.Year = +d.Year;
-		d.Quantity = +d["Exporter reported quantity"] || 0;
-	});
-
-	new BarChartAnimals("bar-chart", data, {});
-});
