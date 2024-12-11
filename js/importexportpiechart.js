@@ -187,7 +187,7 @@ async function initVisualizationWithAnimation(csvPath) {
         yearDisplay.style.fontSize = "1.5em";
         yearDisplay.style.textAlign = "center";
         yearDisplay.style.marginBottom = "1em";
-        document.getElementById("pi-chart-section").prepend(yearDisplay);
+        document.getElementById("pi-chart-main-section").prepend(yearDisplay);
 
         // Create the timeline
         createTimeline(years);
