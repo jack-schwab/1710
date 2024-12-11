@@ -275,16 +275,16 @@ class WorldMapVis {
             .range(vis.colors);
 
         // Legend
-        let legendrectsize = 20;
-        let valueScale = d3.scaleLinear()
+        let legendrectsize = 50;
+        vis.legendScale = d3.scaleLinear()
             .domain([0, 100]) // Default domain; will be updated in `wrangleData`
             .range([0, 4 * legendrectsize]);
 
-        let xAxis = d3.axisBottom().scale(valueScale).ticks(2);
+        vis.xAxis = d3.axisBottom().scale(vis.legendScale).ticks(2);
         vis.svg.append("g")
             .attr("class", "axis x-axis")
             .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20})`)
-            .call(xAxis);
+            .call(vis.xAxis);
 
         vis.legend = vis.svg.append("g")
             .attr('class', 'legend')
@@ -376,15 +376,7 @@ class WorldMapVis {
         console.log("Aggregated Import Stats:", vis.importStats);
 
         // Find max import value for color scale
-        let maxImport = d3.max(Object.values(vis.importStats)) || 0;
-
-        // Update color scale domain
-        vis.colorScale = d3.scaleQuantile()
-            .domain([0, maxImport])
-            .range(vis.colors);
-
-        console.log("Max import value:", maxImport);
-        console.log("Color scale domain:", vis.colorScale.domain());
+        vis.maxImport = d3.max(Object.values(vis.importStats)) || 0;
 
         vis.updateVis();
     }
@@ -392,6 +384,18 @@ class WorldMapVis {
 
     updateVis() {
         let vis = this;
+
+        // Update color scale domain
+        vis.colorScale = d3.scaleQuantile()
+            .domain([0, vis.maxImport])
+            .range(vis.colors);
+
+        vis.legendScale.domain([0, vis.maxImport]);
+        vis.svg.select(".x-axis")
+            .call(vis.xAxis);
+
+        console.log("Max import value:", vis.maxImport);
+        console.log("Color scale domain:", vis.colorScale.domain());
 
         vis.countries
             .attr("fill", d => {
