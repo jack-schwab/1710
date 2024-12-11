@@ -1,8 +1,3 @@
-// /* * * * * * * * * * * * * *
-// *          MapVis          *
-// * * * * * * * * * * * * * */
-
-
 class WorldMapVis {
 
     constructor(parentElement, animalData, geoData) {
@@ -348,39 +343,11 @@ class WorldMapVis {
 
         // Create data structure to hold country statistics
         vis.countryStats = {};
-        window.selectedExporter = 'South Africa';
-
-        // Ensure global variables are set
-        const selectedExporter = window.selectedExporter || null;
-        const selectedAnimal = document.getElementById('data-selector')?.value || null;
-        const startYear = window.startYear || 0;
-        const endYear = window.endYear || Infinity;
-
-        console.log("Starting wrangleData...");
-        console.log("Filter criteria:", {
-            Exporter: selectedExporter || 'All',
-            Animal: selectedAnimal || 'All',
-            YearRange: `${startYear}-${endYear}`
-        });
-        console.log(`Total dataset records: ${vis.animalData.length}`);
 
         // Process each trade record
-        vis.animalData.forEach((d, index) => {
-            const year = parseInt(d.Year, 10);
-            const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
-            const importedQty = parseInt(d['Importer reported quantity']) || 0;
-
-
-            // Apply filters: exporter, animal class, and year range
-            if (
-                (!selectedExporter || d.Exporter === selectedExporter) &&
-                (!selectedAnimal || d.Class === selectedAnimal) &&
-                year >= startYear && year <= endYear
-            ) {
-                console.log("Record matches filters:", d);
-
+        vis.animalData.forEach(d => {
+            if (d.Exporter && (d.Class === 'Aves' || d.Class === 'Mammalia')) {
                 if (!vis.countryStats[d.Exporter]) {
-                    console.log(`Creating new stats entry for Exporter: ${d.Exporter}`);
                     vis.countryStats[d.Exporter] = {
                         totalExported: 0,
                         totalImported: 0,
@@ -390,177 +357,73 @@ class WorldMapVis {
                     };
                 }
 
+                const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
+                const importedQty = parseInt(d['Importer reported quantity']) || 0;
+
                 vis.countryStats[d.Exporter].totalExported += exportedQty;
                 vis.countryStats[d.Exporter].totalImported += importedQty;
-
-                console.log(`Updated stats for Exporter ${d.Exporter}:`, {
-                    TotalExported: vis.countryStats[d.Exporter].totalExported,
-                    TotalImported: vis.countryStats[d.Exporter].totalImported
-                });
 
                 if (d.Taxon) {
                     vis.countryStats[d.Exporter].speciesCounts[d.Taxon] =
                         (vis.countryStats[d.Exporter].speciesCounts[d.Taxon] || 0) + 1;
-
-                    console.log(`Updated species count for Taxon ${d.Taxon}:`, vis.countryStats[d.Exporter].speciesCounts[d.Taxon]);
                 }
 
-                if (year) {
-                    if (!vis.countryStats[d.Exporter].yearlyTotals[year]) {
-                        vis.countryStats[d.Exporter].yearlyTotals[year] = 0;
+                if (d.Year) {
+                    if (!vis.countryStats[d.Exporter].yearlyTotals[d.Year]) {
+                        vis.countryStats[d.Exporter].yearlyTotals[d.Year] = 0;
                     }
-                    vis.countryStats[d.Exporter].yearlyTotals[year] += exportedQty;
-
-                    console.log(`Updated yearly total for Year ${year}:`, vis.countryStats[d.Exporter].yearlyTotals[year]);
+                    vis.countryStats[d.Exporter].yearlyTotals[d.Year] += exportedQty;
                 }
             }
         });
 
-        // Check if any data matches the filters
-        if (Object.keys(vis.countryStats).length === 0) {
-            console.warn("No data matches the current filters.");
-        } else {
-            console.log("Filtered country statistics:", vis.countryStats);
-        }
-
         // Find max export value for color scale
-        let maxExport = d3.max(
-            Object.values(vis.countryStats),
-            stats => stats.totalExported
-        ) || 0;
-
-        console.log("Max export value calculated:", maxExport);
+        let maxExport = 100;
 
         // Update color scale domain
         vis.colorScale = d3.scaleQuantile()
             .domain([0, maxExport])
             .range(vis.colors);
 
-        console.log("Color scale domain updated:", vis.colorScale.domain());
+        console.log("Max export value:", maxExport);
+        console.log("Color scale domain:", vis.colorScale.domain());
 
         vis.updateVis();
     }
 
-
     updateVis() {
-        window.selectedCountry2 = null;
         let vis = this;
 
-        // Update country colors
         vis.countries
             .attr("fill", d => {
                 const countryCode = vis.countryNameToCode[d.properties.name];
                 const stats = vis.countryStats[countryCode];
                 return stats ? vis.colorScale(stats.totalExported) : "#ccc";
             })
-            .classed("selected", d => d.properties.name === window.selectedCountry2) // Ensure selected country class is applied
-            .on('mouseover', function (event, d) {
-                const xPos = event.clientX;
-                const yPos = event.clientY;
-
-                const countryCode = vis.countryNameToCode[d.properties.name];
-                const stats = vis.countryStats[countryCode];
-
-                let tooltipContent = `<div style="min-width: 200px;">`;
-
-                if (stats) {
-                    let topSpecies = Object.entries(stats.speciesCounts)
-                        .sort((a, b) => b[1] - a[1])
-                        .slice(0, 3);
-
-                    let years = Object.keys(stats.yearlyTotals).sort().slice(-3);
-
-                    tooltipContent += `
-                <strong>${d.properties.name}</strong><br>
-                <hr style="margin: 5px 0">
-                <strong>Total Exported:</strong> ${d3.format(",")(stats.totalExported)}<br>
-                <strong>Total Imported:</strong> ${d3.format(",")(stats.totalImported)}<br>
-                <br>
-                <strong>Top Species:</strong><br>
-                ${topSpecies.map(([species, count]) =>
-                        `- ${species}: ${count} trades`
-                    ).join('<br>')}
-                <br>
-                <strong>Recent Years:</strong><br>
-                ${years.map(year =>
-                        `${year}: ${d3.format(",")(stats.yearlyTotals[year])} specimens`
-                    ).join('<br>')}
-            `;
-                } else {
-                    tooltipContent += `<strong>${d.properties.name}</strong><br>No trade data available`;
-                }
-
-                tooltipContent += `</div>`;
-
-                // Highlight country
-                d3.select(this)
-                    .attr('stroke-width', '2px')
-                    .attr('stroke', 'black');
-
-                // Position and show tooltip
-                vis.tooltip
-                    .html(tooltipContent)
-                    .style("left", (xPos + 10) + "px")
-                    .style("top", (yPos + 10) + "px")
-                    .style("opacity", 1);
+            .attr("stroke-width", d => {
+                return d.properties.name === vis.selectedCountry ? "4px" : "0px";
             })
-            .on('mouseout', function (event, d) {
-                d3.select(this)
-                    .attr('stroke-width', '0px');
-
-                vis.tooltip.style("opacity", 0);
-            })
-            .on('mousemove', function (event) {
-                vis.tooltip
-                    .style("left", (event.clientX + 10) + "px")
-                    .style("top", (event.clientY + 10) + "px");
+            .attr("stroke", d => {
+                return d.properties.name === vis.selectedCountry ? "black" : "none";
             })
             .on('click', function (event, d) {
                 const clickedCountry = d.properties.name;
 
-                // Deselect previous country
-                if (window.selectedCountry2) {
-                    d3.selectAll(".country")
-                        .filter(country => country.properties.name === window.selectedCountry2)
-                        .classed("selected", false);
-                }
+                // Update the selected country
+                vis.selectedCountry = clickedCountry;
+                window.selectedCountry2 = clickedCountry;
+                console.log(`Selected Country: ${clickedCountry}`);
 
-                // Update selected country
-                if (window.selectedCountry2 === clickedCountry) {
-                    window.selectedCountry2 = null; // Deselect if clicked again
+                // Trigger the flag function
+                if (typeof window.displayFlags === 'function') {
+                    window.displayFlags();
                 } else {
-                    window.selectedCountry2= clickedCountry;
-                    d3.select(this)
-                        .classed("selected", true);
+                    console.warn("window.getFlags() is not defined");
                 }
 
-                console.log("Selected country:", window.selectedCountry2);
-                window.displayFlags();
+                // Update visualization to reflect the new selection
+                vis.updateVis();
             });
-
-        // Update legend
-        let legendRectSize = 20;
-        let valueScale = d3.scaleLinear()
-            .domain([0, d3.max(Object.values(vis.countryStats), d => d.totalExported)])
-            .range([0, 4 * legendRectSize]);
-
-        let xAxis = d3.axisBottom()
-            .scale(valueScale)
-            .ticks(4)
-            .tickFormat(d3.format(",d"));
-
-        vis.svg.select(".x-axis")
-            .call(xAxis);
-
-        // Update legend colors
-        vis.legend.selectAll("rect")
-            .data(vis.colors)
-            .join("rect")
-            .attr("x", (d, index) => legendRectSize * index)
-            .attr("y", 0)
-            .attr("width", legendRectSize)
-            .attr("height", legendRectSize)
-            .attr("fill", d => d);
     }
 }
 // init global variables, switches, helper functions
