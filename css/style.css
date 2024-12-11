@@ -1,3 +1,19 @@
+#timeline-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0;
+}
+
+.timeline-year {
+    padding: 0.5em 1em;
+    margin: 0 0.2em;
+    border-radius: 5px;
+    background-color: #ddd; /* Default background */
+    color: #333; /* Default text color */
+    transition: background-color 0.5s, color 0.5s;
+}
+
 body {
     font-family: "Kanit", Arial, sans-serif;
     background-image: url("../img/wallpaper.avif");

@@ -103,31 +103,97 @@ function updateCharts(importData, exportData, year) {
     });
 }
 
-// Initialize the visualization
-async function initVisualization(csvPath) {
+// Function to create and animate the timeline
+function createTimeline(years) {
+    const timelineContainer = document.createElement("div");
+    timelineContainer.id = "timeline-container";
+    timelineContainer.style.display = "flex";
+    timelineContainer.style.flexWrap = "wrap";
+    timelineContainer.style.justifyContent = "center";
+    timelineContainer.style.alignItems = "center";
+    timelineContainer.style.margin = "1em 0";
+
+    // Create individual year markers
+    years.forEach((year, index) => {
+        const yearMarker = document.createElement("div");
+        yearMarker.className = "timeline-year";
+        yearMarker.textContent = year;
+        yearMarker.style.padding = "0.5em 1em";
+        yearMarker.style.margin = "0.2em";
+        yearMarker.style.borderRadius = "5px";
+        yearMarker.style.transition = "background-color 0.5s, color 0.5s";
+        yearMarker.style.backgroundColor = "#ddd";
+        yearMarker.style.color = "#333";
+        yearMarker.dataset.index = index;
+        timelineContainer.appendChild(yearMarker);
+    });
+
+    document.getElementById("section-6").appendChild(timelineContainer);
+}
+
+function highlightYear(index, years) {
+    const timelineYears = document.querySelectorAll(".timeline-year");
+    timelineYears.forEach((yearMarker, i) => {
+        if (i === index) {
+            yearMarker.style.backgroundColor = "#007bff"; // Highlight color
+            yearMarker.style.color = "#fff"; // Text color
+        } else {
+            yearMarker.style.backgroundColor = "#ddd"; // Default background
+            yearMarker.style.color = "#333"; // Default text color
+        }
+    });
+}
+
+// Modified startAnimation function to include timeline animation
+function startAnimation(importData, exportData, years) {
+    let index = 0; // Start with the first year
+    const intervalDuration = 2000; // Duration for each year (in milliseconds)
+
+    // Stop any existing interval before starting a new one
+    if (window.yearAnimationInterval) {
+        clearInterval(window.yearAnimationInterval);
+    }
+
+    // Start the animation
+    window.yearAnimationInterval = setInterval(() => {
+        const currentYear = years[index];
+        updateCharts(importData, exportData, currentYear);
+
+        // Highlight the current year in the timeline
+        highlightYear(index, years);
+
+        // Update the display to show the current year
+        const yearDisplay = document.getElementById("year-display");
+        yearDisplay.textContent = `Year: ${currentYear}`;
+
+        // Move to the next year
+        index = (index + 1) % years.length; // Loop back to the start
+    }, intervalDuration);
+}
+
+// Initialize the visualization with animation and timeline
+async function initVisualizationWithAnimation(csvPath) {
     try {
         const rawData = await loadCSVData(csvPath);
         if (!rawData) throw new Error("No data loaded");
         const { importData, exportData } = processData(rawData);
 
-        // Populate dropdown with unique years
-        const years = [...new Set(importData.map(d => d.Year))];
-        const dropdown = document.getElementById('year-selector');
-        years.forEach(year => {
-            const option = document.createElement('option');
-            option.value = year;
-            option.textContent = year;
-            dropdown.appendChild(option);
-        });
+        // Get unique years and sort them
+        const years = [...new Set(importData.map(d => d.Year))].sort();
 
-        // Render initial charts with the first year
-        updateCharts(importData, exportData, years[0]);
+        // Create a display for the current year
+        const yearDisplay = document.createElement("div");
+        yearDisplay.id = "year-display";
+        yearDisplay.style.fontSize = "1.5em";
+        yearDisplay.style.textAlign = "center";
+        yearDisplay.style.marginBottom = "1em";
+        document.getElementById("section-6").prepend(yearDisplay);
 
-        // Update charts on year selection
-        dropdown.addEventListener('change', (e) => {
-            const selectedYear = e.target.value;
-            updateCharts(importData, exportData, selectedYear);
-        });
+        // Create the timeline
+        createTimeline(years);
+
+        // Start the timeline animation
+        startAnimation(importData, exportData, years);
     } catch (error) {
         console.error("Error initializing visualization:", error);
     }
@@ -135,4 +201,4 @@ async function initVisualization(csvPath) {
 
 // Set the file path to the uploaded CSV
 const csvFilePath = 'data/20-year-data.csv';
-initVisualization(csvFilePath);
+initVisualizationWithAnimation(csvFilePath);
