@@ -28,14 +28,6 @@ h1, h3, h4 {
     margin-bottom: 15px;
 }
 
-h1.section-title {
-    background-color: #0e2e64;
-    color: #f7d381;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -103,9 +95,6 @@ button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.page-section {
-    margin-bottom: 50px;
-}
 
 @media (max-width: 768px) {
     .col-md-6 {
@@ -134,12 +123,9 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
 }
 
-#project-title {
-    font-family: cursive;
-    padding: 10px;
-}
 
 .page-section {
+    margin-bottom: 50px;
     display: none;
     padding: 20px 0;
 }
@@ -375,18 +361,6 @@ html {
     --card-height: 175px;
 }
 
-#section-2 {
-    margin: 0;
-    background-position: center;
-    background-size: cover;
-    color: #5e5447;
-
-    min-height: 100vh;
-}
-
-#section-2 h1 {
-    text-align: center;
-}
 
 #ui-container {
     text-align: center;
@@ -542,7 +516,7 @@ html {
     background-color: #f5f5f5;
 }
 
-#video-section {
+#video-container {
     padding: auto;
 }
 
@@ -553,6 +527,8 @@ html {
     color: #f7d381;
     font-weight: 500;
     margin: -22px -20px 0 -20px;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .vis-description {
@@ -883,6 +859,15 @@ svg {
     text-align: center;
 }
 
-.part-header {
+.part-title {
+    font-family: cursive;
+    border: solid 10px #f7d381;
+    border-radius: 25px;
+    text-align: center;
+    background-color: #0e2e64;
+    color: #f7d381;
+    font-weight: 1000;
+    font-size: 50px;
+    padding: 20px;
 
 }

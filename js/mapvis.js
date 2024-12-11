@@ -129,6 +129,7 @@ class AfricanMapVis {
                     .text(countryName);
 
                 console.log("Tooltip content set:", countryName);
+
             })
             .on("mousemove", function (event) {
                 console.log("Mousemove event. Positioning tooltip...");
