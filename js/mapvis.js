@@ -288,4 +288,5 @@ class AfricanMapVis {
         console.log("Map visualization updated.");
     }
 
+
 }
