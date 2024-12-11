@@ -225,19 +225,17 @@ class WorldMapVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 20, left: 20};
+        vis.margin = { top: 20, right: 20, bottom: 20, left: 20 };
         vis.height = 500 - vis.margin.top - vis.margin.bottom;
         vis.width = 500 - vis.margin.left - vis.margin.right;
-        // vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        // vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
-        // init drawing area
+        // Initialize drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width)
             .attr("height", vis.height)
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
-        // add title
+        // Add title
         vis.svg.append('g')
             .attr('class', 'title')
             .attr('id', 'map-title')
@@ -246,71 +244,66 @@ class WorldMapVis {
             .attr('transform', `translate(${vis.width / 2}, 20)`)
             .attr('text-anchor', 'middle');
 
-        // TODO
-        //create projection
-
-        vis.projection = d3.geoOrthographic()// d3.geoStereographic()
+        // Create projection
+        vis.projection = d3.geoOrthographic()
             .scale(Math.min(vis.width, vis.height) / 2.7)
-            .translate([vis.width / 2, vis.height / 2])
-        //geo generator
-        vis.path = d3.geoPath()
-            .projection(vis.projection);
+            .translate([vis.width / 2, vis.height / 2]);
 
-        //TopoJSON data into GeoJSON data structure
-        vis.world = topojson.feature(vis.geoData, vis.geoData.objects.countries).features
-        //ocean
+        // Geo generator
+        vis.path = d3.geoPath().projection(vis.projection);
+
+        // Convert TopoJSON data into GeoJSON structure
+        vis.world = topojson.feature(vis.geoData, vis.geoData.objects.countries).features;
+
+        // Draw ocean
         vis.svg.append("path")
-            .datum({type: "Sphere"})
+            .datum({ type: "Sphere" })
             .attr("class", "graticule")
             .attr('fill', '#ADDEFF')
             .attr("stroke", "rgba(129,129,129,0.35)")
             .attr("d", vis.path);
-        //draw countries
+
+        // Draw countries
         vis.countries = vis.svg.selectAll(".country")
             .data(vis.world)
             .enter().append("path")
             .attr('class', 'country')
             .attr("d", vis.path);
 
+        // Initialize color scale
         vis.colorScale = d3.scaleQuantile()
             .range(vis.colors);
 
-
-        //legend
-        let legendrectsize = 20
+        // Legend
+        let legendrectsize = 20;
         let valueScale = d3.scaleLinear()
-            .domain([0, 100])
+            .domain([0, 100]) // Default domain; will be updated in `wrangleData`
             .range([0, 4 * legendrectsize]);
-        let xAxis = d3.axisBottom()
-            .scale(valueScale)
-            .ticks(2)
+
+        let xAxis = d3.axisBottom().scale(valueScale).ticks(2);
         vis.svg.append("g")
             .attr("class", "axis x-axis")
             .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20})`)
             .call(xAxis);
+
         vis.legend = vis.svg.append("g")
             .attr('class', 'legend')
-            .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20 - legendrectsize})`)
+            .attr('transform', `translate(${vis.width * 1.5 / 4}, ${vis.height - 20 - legendrectsize})`);
+
         vis.legend.selectAll().data(vis.colors)
             .enter()
             .append("rect")
-            .attr("x", (d, index) => {
-                return legendrectsize * index
-            })
+            .attr("x", (d, index) => legendrectsize * index)
             .attr("y", 0)
             .attr("width", legendrectsize)
             .attr("height", legendrectsize)
-            .attr("fill", (d, index) => {
-                return vis.colors[index]
-            })
+            .attr("fill", (d, index) => vis.colors[index]);
 
-        let m0,
-            o0;
-
+        // Drag interaction
+        let m0, o0;
         vis.svg.call(
             d3.drag()
                 .on("start", function (event) {
-
                     let lastRotationParams = vis.projection.rotate();
                     m0 = [event.x, event.y];
                     o0 = [-lastRotationParams[0], -lastRotationParams[1]];
@@ -324,86 +317,91 @@ class WorldMapVis {
 
                     // Update the map
                     vis.path = d3.geoPath().projection(vis.projection);
-                    d3.selectAll(".country").attr("d", vis.path)
-                    d3.selectAll(".graticule").attr("d", vis.path)
+                    d3.selectAll(".country").attr("d", vis.path);
+                    d3.selectAll(".graticule").attr("d", vis.path);
                 })
-        )
-// append tooltip
+        );
+
+        // Append tooltip
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
-            .attr('id', 'globeToolTip')
+            .attr('id', 'globeToolTip');
 
-
-        vis.wrangleData()
-
+        // Call wrangleData
+        vis.wrangleData();
     }
+
 
     wrangleData() {
         let vis = this;
 
-        // Create data structure to hold country statistics
-        vis.countryStats = {};
+        // Filter data to include only rows where the exporter is Ethiopia
+        vis.filteredAnimalData = vis.animalData.filter(d => d.Exporter === "ET");
 
-        // Process each trade record
-        vis.animalData.forEach(d => {
-            if (d.Exporter && (d.Class === 'Aves' || d.Class === 'Mammalia')) {
-                if (!vis.countryStats[d.Exporter]) {
-                    vis.countryStats[d.Exporter] = {
-                        totalExported: 0,
-                        totalImported: 0,
-                        speciesCounts: {},
-                        termCounts: {},
-                        yearlyTotals: {}
-                    };
+        console.log("Filtered Animal Data:", vis.filteredAnimalData);
+        console.log("Filtered Animal Data for Exporter 'ET':", vis.filteredAnimalData);
+
+        if (vis.filteredAnimalData.length === 0) {
+            console.warn("No data for Ethiopia as an exporter. Check the dataset.");
+        }
+
+        // Create data structure to hold import statistics by country
+        vis.importStats = {};
+
+        // Aggregate imports for each country
+        vis.filteredAnimalData.forEach(d => {
+            let importer = d.Importer ? d.Importer.trim().toUpperCase() : null;
+            let importedQty = d['Importer reported quantity'] ? parseInt(d['Importer reported quantity']) : 0;
+
+            if (importer && importedQty > 0) {
+                if (!vis.importStats[importer]) {
+                    vis.importStats[importer] = 0;
                 }
-
-                const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
-                const importedQty = parseInt(d['Importer reported quantity']) || 0;
-
-                vis.countryStats[d.Exporter].totalExported += exportedQty;
-                vis.countryStats[d.Exporter].totalImported += importedQty;
-
-                if (d.Taxon) {
-                    vis.countryStats[d.Exporter].speciesCounts[d.Taxon] =
-                        (vis.countryStats[d.Exporter].speciesCounts[d.Taxon] || 0) + 1;
-                }
-
-                if (d.Year) {
-                    if (!vis.countryStats[d.Exporter].yearlyTotals[d.Year]) {
-                        vis.countryStats[d.Exporter].yearlyTotals[d.Year] = 0;
-                    }
-                    vis.countryStats[d.Exporter].yearlyTotals[d.Year] += exportedQty;
-                }
+                vis.importStats[importer] += importedQty;
+            } else {
+                console.warn(`Invalid data row:`, d);
             }
         });
+        console.log("Aggregated Import Stats:", vis.importStats);
 
-        // Find max export value for color scale
-        let maxExport = 100;
+        console.log("Import Stats:", vis.importStats);
+
+        // Find max import value for color scale
+        let maxImport = d3.max(Object.values(vis.importStats));
 
         // Update color scale domain
         vis.colorScale = d3.scaleQuantile()
-            .domain([0, maxExport])
+            .domain([0, maxImport])
             .range(vis.colors);
 
-        console.log("Max export value:", maxExport);
+        console.log("Max import value:", maxImport);
         console.log("Color scale domain:", vis.colorScale.domain());
 
         vis.updateVis();
     }
+
 
     updateVis() {
         let vis = this;
 
         vis.countries
             .attr("fill", d => {
-                const countryCode = vis.countryNameToCode[d.properties.name];
-                const stats = vis.countryStats[countryCode];
-                return stats ? vis.colorScale(stats.totalExported) : "#ccc";
+                const countryName = d.properties.name;
+                const countryCode = vis.countryNameToCode[countryName];
+                const imports = vis.importStats[countryCode];
+
+                // Debugging logs
+                console.log(`Country: ${countryName}, Code: ${countryCode}, Imports: ${imports}`);
+
+                // Color countries based on imports or fallback to default
+                return imports && imports > 0 ? vis.colorScale(imports) : "#ccc";
             })
             .attr("stroke-width", d => {
+                // Highlight the selected country
                 return d.properties.name === vis.selectedCountry ? "4px" : "0px";
             })
             .attr("stroke", d => {
+                // Black stroke for the selected country
                 return d.properties.name === vis.selectedCountry ? "black" : "none";
             })
             .on('click', function (event, d) {
@@ -412,19 +410,22 @@ class WorldMapVis {
                 // Update the selected country
                 vis.selectedCountry = clickedCountry;
                 window.selectedCountry2 = clickedCountry;
+
                 console.log(`Selected Country: ${clickedCountry}`);
 
                 // Trigger the flag function
                 if (typeof window.displayFlags === 'function') {
                     window.displayFlags();
                 } else {
-                    console.warn("window.getFlags() is not defined");
+                    console.warn("window.displayFlags is not defined");
                 }
 
                 // Update visualization to reflect the new selection
                 vis.updateVis();
             });
     }
+
+
 }
 // init global variables, switches, helper functions
 let myMapVis;
