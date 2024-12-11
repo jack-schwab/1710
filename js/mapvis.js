@@ -261,7 +261,7 @@ class AfricanMapVis {
         const filteredData = year_1 && year_2
             ? vis.tradeData.filter(row => {
                 const year = parseInt(row.Year, 10);
-                console.log(`Filtering row: Year = ${year}, In range: ${year >= year_1 && year <= year_2}`);
+                //console.log(`Filtering row: Year = ${year}, In range: ${year >= year_1 && year <= year_2}`);
                 return year >= year_1 && year <= year_2;
             })
             : vis.tradeData;

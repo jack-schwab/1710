@@ -222,6 +222,13 @@ function initVis() {
         console.warn("Data selector element not found!");
     }
 
+    // Filter the data and produce the line chart
+    if (tradeData) {
+        const filteredData = filterData(tradeData);
+        console.log(`[initVis] Filtered Data for Visualization:`, filteredData);
+        createLineChart(filteredData);
+    }
+
     // Log the current state of global variables
     console.log("State variables:", {
         startYear: window.startYear,
@@ -230,6 +237,181 @@ function initVis() {
         selectedCountry2: window.selectedCountry2,
     });
 }
+
+function createLineChart(data) {
+    console.log("Creating line chart with filtered data:", data);
+
+    // Aggregate the data by year
+    const aggregatedData = d3.rollup(
+        data,
+        (v) => v.length, // Count the number of trades
+        (d) => d.Year // Group by year
+    );
+
+    const lineData = Array.from(aggregatedData, ([year, count]) => ({ year: +year, count })).sort((a, b) => a.year - b.year);
+
+    console.log("Aggregated data for line chart:", lineData);
+
+    if (!lineData || lineData.length === 0) {
+        console.warn("No data to plot.");
+        d3.select("#line-chart").html("<p>No data available for the selected filters.</p>");
+        return;
+    }
+
+    // Set chart dimensions
+    const margin = { top: 20, right: 30, bottom: 50, left: 50 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    console.log("Chart dimensions:", { width, height, margin });
+
+    const svg = d3
+        .select("#line-chart")
+        .html("") // Clear previous content
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    console.log("SVG element created.");
+
+    // Set scales
+    const xScale = d3
+        .scaleLinear()
+        .domain(d3.extent(lineData, (d) => d.year))
+        .range([0, width]);
+
+    const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(lineData, (d) => d.count)])
+        .range([height, 0]);
+
+    console.log("Scales created:", { xScaleDomain: xScale.domain(), yScaleDomain: yScale.domain() });
+
+    // Create axes
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
+    const yAxis = d3.axisLeft(yScale);
+
+    // Add x-axis
+    svg
+        .append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(xAxis)
+        .append("text")
+        .attr("x", width / 2)
+        .attr("y", 40)
+        .attr("fill", "black")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+    console.log("X-axis created.");
+
+    // Add y-axis
+    svg
+        .append("g")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y", -40)
+        .attr("fill", "black")
+        .style("text-anchor", "middle")
+        .text("Number of Trades");
+
+    console.log("Y-axis created.");
+
+    // Add line path
+    const line = d3
+        .line()
+        .x((d) => xScale(d.year))
+        .y((d) => yScale(d.count));
+
+    svg
+        .append("path")
+        .datum(lineData)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 2)
+        .attr("d", line);
+
+    console.log("Line path added.");
+
+    // Add points to the line
+    svg
+        .selectAll("circle")
+        .data(lineData)
+        .enter()
+        .append("circle")
+        .attr("cx", (d) => xScale(d.year))
+        .attr("cy", (d) => yScale(d.count))
+        .attr("r", 4)
+        .attr("fill", "steelblue")
+        .on("mouseover", (event, d) => {
+            const tooltip = d3.select("#line-chart-tooltip");
+            tooltip.style("display", "block");
+            tooltip.html(`Year: ${d.year}<br>Trades: ${d.count}`)
+                .style("left", `${event.pageX + 10}px`)
+                .style("top", `${event.pageY - 10}px`);
+        })
+        .on("mouseout", () => {
+            d3.select("#line-chart-tooltip").style("display", "none");
+        });
+
+    console.log("Points added to the line.");
+
+    // Tooltip for interaction
+    d3.select("body").append("div")
+        .attr("id", "line-chart-tooltip")
+        .style("position", "absolute")
+        .style("display", "none")
+        .style("background-color", "white")
+        .style("border", "1px solid black")
+        .style("padding", "5px")
+        .style("border-radius", "5px");
+
+    console.log("Tooltip initialized.");
+}
+
+
+
+function filterData(data) {
+    console.log(`[filterData] Initial Trade Data:`, data);
+
+    // Get selected country names from global variables
+    const exporterName = window.selectedCountry1;
+    const importerName = window.selectedCountry2;
+    const startYear = window.startYear;
+    const endYear = window.endYear;
+
+    // Convert country names to codes using `countryNameToCode`
+    const exporterCode = exporterName ? countryNameToCode[exporterName] : null;
+    const importerCode = importerName ? countryNameToCode[importerName] : null;
+
+    if (exporterName && !exporterCode) {
+        console.warn(`Exporter "${exporterName}" does not have a valid country code.`);
+    }
+    if (importerName && !importerCode) {
+        console.warn(`Importer "${importerName}" does not have a valid country code.`);
+    }
+
+    return data.filter((row) => {
+        // Match exporter by code
+        const matchesExporter = exporterCode ? row.Exporter === exporterCode : true;
+
+        // Match importer by code
+        const matchesImporter = importerCode ? row.Importer === importerCode : true;
+
+        // Parse year and filter by range
+        const year = parseInt(row.Year, 10);
+        const matchesYearRange = (startYear && endYear) ? (year >= startYear && year <= endYear) : true;
+
+        // Return true only if all conditions are satisfied
+        return matchesExporter && matchesImporter && matchesYearRange;
+    });
+}
+
+
 
 function loadNewData(selectedFileBaseName) {
     console.log('Loading new data...');

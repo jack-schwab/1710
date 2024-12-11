@@ -81,6 +81,18 @@ button {
     transition: all 0.3s ease-in-out;
 }
 
+#line-chart {
+    width: 100%; /* Responsive width */
+    height: 500px; /* Fixed height for the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Ensures absolute elements like tooltips align correctly */
+    background-color: #f9f9f9; /* Light background for better visibility */
+    border: 1px solid #ddd; /* Optional border for debugging */
+}
+
+
 button:hover {
     transform: scale(1.05);
     background: linear-gradient(to right, #00bcd4, #1e90ff);
