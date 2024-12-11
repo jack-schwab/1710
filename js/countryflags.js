@@ -210,8 +210,8 @@ function getFlagFileName(countryName) {
 }
 
 // Variables containing the country names
-const countryNameLeft = "United States"; // Example: Replace with dynamic value
-const countryNameRight = "France";      // Example: Replace with dynamic value
+const countryNameLeft = window.selectedCountry1; // Example: Replace with dynamic value
+const countryNameRight = window.selectedCountry2;      // Example: Replace with dynamic value
 
 // Display the flags
 function displayFlags() {

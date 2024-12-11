@@ -443,7 +443,7 @@ class WorldMapVis {
 
 
     updateVis() {
-        let selectedCountry = null;
+        window.selectedCountry2 = null;
         let vis = this;
 
         // Update country colors
@@ -453,7 +453,7 @@ class WorldMapVis {
                 const stats = vis.countryStats[countryCode];
                 return stats ? vis.colorScale(stats.totalExported) : "#ccc";
             })
-            .classed("selected", d => d.properties.name === selectedCountry) // Ensure selected country class is applied
+            .classed("selected", d => d.properties.name === window.selectedCountry2) // Ensure selected country class is applied
             .on('mouseover', function (event, d) {
                 const xPos = event.clientX;
                 const yPos = event.clientY;
@@ -519,22 +519,23 @@ class WorldMapVis {
                 const clickedCountry = d.properties.name;
 
                 // Deselect previous country
-                if (selectedCountry) {
+                if (window.selectedCountry2) {
                     d3.selectAll(".country")
-                        .filter(country => country.properties.name === selectedCountry)
+                        .filter(country => country.properties.name === window.selectedCountry2)
                         .classed("selected", false);
                 }
 
                 // Update selected country
-                if (selectedCountry === clickedCountry) {
-                    selectedCountry = null; // Deselect if clicked again
+                if (window.selectedCountry2 === clickedCountry) {
+                    window.selectedCountry2 = null; // Deselect if clicked again
                 } else {
-                    selectedCountry = clickedCountry;
+                    window.selectedCountry2= clickedCountry;
                     d3.select(this)
                         .classed("selected", true);
                 }
 
-                console.log("Selected country:", selectedCountry);
+                console.log("Selected country:", window.selectedCountry2);
+                displayFlags();
             });
 
         // Update legend

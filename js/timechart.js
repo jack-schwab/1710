@@ -135,12 +135,12 @@ function drawChart(data) {
         .attr("d", area);
 
     console.log("Area chart drawn.");
-
+    console.log("D3 version:", d3.version);
     const brush = d3.brushX()
         .extent([[margin.left, 0], [width - margin.right, height - margin.bottom]])
-        .on("brush end", function () {
-            const selection = d3.event.selection; // Access global event
-            console.log("Brush 'end' event:", d3.event);
+        .on("brush end", function (event) { // Explicitly use 'event' for D3 v7
+            const selection = event.selection; // Access the selection from the event
+            console.log("Brush 'end' event:", event);
             console.log("Selection during 'end':", selection);
 
             if (selection) {
@@ -158,6 +158,7 @@ function drawChart(data) {
                 console.log("No selection (brush cleared).");
             }
         });
+
 
 
 

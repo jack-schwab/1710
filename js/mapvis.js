@@ -246,7 +246,7 @@ class AfricanMapVis {
     }
 
     updateVis() {
-        let selectedCountry = null; // Variable to store the currently selected country
+        window.selectedCountry1 = null; // Variable to store the currently selected country
         let vis = this;
 
         console.log("Updating map visualization...");
@@ -268,21 +268,21 @@ class AfricanMapVis {
                 const clickedCountry = d.properties.name;
 
                 // Deselect the previously selected country
-                if (selectedCountry) {
+                if (window.selectedCountry1) {
                     d3.selectAll(".african-map-country")
-                        .filter(country => country.properties.name === selectedCountry)
+                        .filter(country => country.properties.name === window.selectedCountry1)
                         .classed("selected", false);
                 }
 
                 // Update the selected country
-                if (selectedCountry === clickedCountry) {
-                    selectedCountry = null; // Deselect if clicked again
+                if (window.selectedCountry1 === clickedCountry) {
+                    window.selectedCountry1 = null; // Deselect if clicked again
                 } else {
-                    selectedCountry = clickedCountry;
+                    window.selectedCountry1 = clickedCountry;
                     d3.select(this).classed("selected", true);
                 }
 
-                console.log("Selected country:", selectedCountry);
+                console.log("Selected country:", window.selectedCountry1);
             });
 
         console.log("Map visualization updated.");
