@@ -1,6 +1,3 @@
-
-
-
 countryNameToCode =
     {
     "Afghanistan": "AF",
