@@ -231,6 +231,7 @@ function displayFlags() {
         imgLeft.src = `png100px/${flagFileNameLeft}`;
         imgLeft.alt = `Flag of ${countryNameLeft}`;
         flagDisplayLeft.appendChild(imgLeft);
+        document.getElementById("exporter-name").innerText = countryNameLeft;
 
         // Test if image loads
         imgLeft.onerror = () => {
@@ -252,6 +253,7 @@ function displayFlags() {
         imgRight.src = `png100px/${flagFileNameRight}`;
         imgRight.alt = `Flag of ${countryNameRight}`;
         flagDisplayRight.appendChild(imgRight);
+        document.getElementById("importer-name").innerText = countryNameRight;
 
         // Test if image loads
         imgRight.onerror = () => {
