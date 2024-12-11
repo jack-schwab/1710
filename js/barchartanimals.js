@@ -136,23 +136,12 @@ class BarChartAnimals {
 			.attr("height", vis.y.bandwidth())
 			.attr("width", 0)
 			.attr("fill", vis.config.barColor)
-			.on("mouseover", (event, d) => {
-				d3.select(event.currentTarget)
-					.transition()
-					.duration(200)
-					.attr("fill", vis.config.hoverColor);
+			.on("click", (event, d) => {
 				vis.tooltip
 					.style("opacity", 1)
 					.style("left", `${event.pageX + 10}px`)
 					.style("top", `${event.pageY - 10}px`)
-					.html(`<strong>English Name: ${vis.mapping[d.key] || "Unknown"}</strong><br>Latin Name: ${d.key}<br>Quantity: ${d3.format(",")(d.value)}`);
-			})
-			.on("mouseout", (event) => {
-				d3.select(event.currentTarget)
-					.transition()
-					.duration(200)
-					.attr("fill", vis.config.barColor);
-				vis.tooltip.style("opacity", 0);
+					.html(`<strong>English Name: ${d.displayName}</strong><br>Latin Name: ${d.key}<br>Quantity: ${d3.format(",")(d.value)}`);
 			})
 			.merge(bars)
 			.transition()
