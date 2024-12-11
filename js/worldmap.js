@@ -370,13 +370,7 @@ class WorldMapVis {
             const exportedQty = parseInt(d['Exporter reported quantity']) || 0;
             const importedQty = parseInt(d['Importer reported quantity']) || 0;
 
-            console.log(`Record ${index + 1}/${vis.animalData.length}:`, {
-                Exporter: d.Exporter,
-                Class: d.Class,
-                Year: year,
-                ExportedQty: exportedQty,
-                ImportedQty: importedQty
-            });
+
 
             // Apply filters: exporter, animal class, and year range
             if (
@@ -420,8 +414,6 @@ class WorldMapVis {
 
                     console.log(`Updated yearly total for Year ${year}:`, vis.countryStats[d.Exporter].yearlyTotals[year]);
                 }
-            } else {
-                console.log("Record does not match filters:", d);
             }
         });
 
