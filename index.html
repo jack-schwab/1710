@@ -83,17 +83,19 @@
 
     <div id="intro-section" class="page-section section-transition">
         <h1 class="section-title">Introduction</h1>
-        <p class="vis-description">Welcome to our project! Scroll to get started learning about endangered species trading!</p>
-        <div class="audio-player" style="text-align: center; margin-top: 20px;">
+        <div class="audio-player" style="text-align: center; margin-top: 20px; border: solid black 5px; border-radius: 5px;">
             <h3>Enjoy some background music:</h3>
             <audio controls>
                 <source src="img/jungle.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
+        <p class="vis-description">
+            Welcome to our project! Scroll to get started learning about endangered species trading!
+        </p>
         <section id="scrolly">
             <figure>
-                <p>Welcome to our project! Scroll to get started learning about endangered species trading!</p>
+                <p>Scroll to start learning about endangered species trading! This text will change as you scroll.</p>
             </figure>
 
             <article>
@@ -115,9 +117,43 @@
 
     <div class="part-title">PART 1: ENDANGERED ANIMAL SPECIES IN AFRICA</div>
 
+    <div id="matching-game-section" class="page-section section-transition">
+        <h1 class="section-title">Endangered Species Matching Game</h1>
+        <p class="vis-description">
+            First, let's learn about some of the various endangered species in Africa! <b>Play this matching game</b> to find matches and learn about various endangered species.
+        </p>
+        <section id="game-container">
+            <div id="ui-container">
+                <h3>Flips: <span id="flip-count">0</span></h3>
+                <h3>Matches: <span id="match-count">0</span></h3>
+            </div>
+
+            <!-- This is where we display the flip and match counters -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+
+
+                        <!-- This is where our cards will be rendered -->
+                        <div id="card-container">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <p id="species-explanation">When you find a match, a paragraph about that species will appear here. Good luck!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button class="reset-btn" onclick="resetGame()">Reset</button>
+            </div>
+        </section>
+    </div>
+
     <div id="fun-facts-section" class="page-section section-transition">
         <h1 class="section-title">Animal Fun Facts</h1>
-        <p class="vis-description">Click on an animal to learn interesting facts about them!</p>
+        <p class="vis-description">
+            Although we will include data from many endangered species in our project, the main focus of our project will be these four groups: <b>rhinos</b>, <b>lions</b>, <b>elephants</b>, and <b>leopards</b>. If you want to learn even more about these animals, <b>click on an animal</b> to learn interesting facts about them!
+        </p>
 
         <div class="row my-5">
 
@@ -207,40 +243,13 @@
         </div>
     </div>
 
-    <div id="matching-game-section" class="page-section section-transition">
-        <h1 class="section-title">Endangered Species Matching Game</h1>
-        <section id="game-container">
-            <div id="ui-container">
-                <h3>Flips: <span id="flip-count">0</span></h3>
-                <h3>Matches: <span id="match-count">0</span></h3>
-            </div>
-
-            <!-- This is where we display the flip and match counters -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-9">
-
-
-                        <!-- This is where our cards will be rendered -->
-                        <div id="card-container">
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <p id="species-explanation">Let's learn some more about endangered species in Africa! Play this matching game to find matches and learn about various endangered species. When you find a match, a paragraph about that species will appear here. Good luck!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="btn-container">
-                <button class="reset-btn" onclick="resetGame()">Reset</button>
-            </div>
-        </section>
-    </div>
-
-    <div class="part-title">PART 2: ENDANGERED SPECIES TRADING</div>
+    <div class="part-title">PART 2: ENDANGERED SPECIES TRADING AS A WHOLE</div>
 
     <div id="video-section" class="page-section section-transition">
         <h1 class="section-title">Video Exploring Illegal Trading</h1>
-        <p class="vis-description">Curious to see what illegal endangered species trades look like in practice? In this clip from CNN, reporters investigate a warehouse filled with items from the endangered species trade. The video provides more details about the products of these trades and what measures governments take to stop illegal trading. The video also helps emphasize the scale of this issue, showing how much it impacts certain critically endangered species, such as the <b>black rhino</b>, of which only <b>2,500</b> remained at the time of this video in 2015. After some research, we discovered that the current number in 2024 is an estimated <b>6,400</b> black rhinos; although this increase in population is cause to be optimistic, the species is still critically endangered.</p>
+        <p class="vis-description">
+            Curious to see what illegal endangered species trades look like in practice? In this clip from CNN, reporters investigate a warehouse filled with items from the endangered species trade. The video provides more details about the products of these trades and what measures governments take to stop illegal trading. The video also helps emphasize the scale of this issue, showing how much it impacts certain critically endangered species, such as the <b>black rhino</b>, of which only <b>2,500</b> remained at the time of this video in 2015. After some research, we discovered that the current number in 2024 is an estimated <b>6,400</b> black rhinos; although this increase in population is cause to be optimistic, the species is still critically endangered.
+        </p>
         <div class="row my-5">
             <div class="col-1"></div>
             <div id="video-container" class="col-10 d-flex justify-content-center">
@@ -253,44 +262,15 @@
 
     <div id="bubble-chart-section" class="page-section section-transition">
         <h1 class="section-title">Endangered Species' Traded Products Based On Year</h1>
-        <p class="vis-description">We now know that endangered species are traded for a variety of marketable products, but what does the distribution of these products look like? This chart details the breakdown of traded products for every year. Move the slider to see which products increase or decrease in popularity through the years!</p>
+        <p class="vis-description">
+            We now know that endangered species are traded for a variety of marketable products, but what does the distribution of these products look like? This chart details the breakdown of traded products for every year. <b>Move the slider</b> to see which products increase or decrease in popularity through the years!
+        </p>
         <div class="row my-5">
             <div class="d-flex align-items-center my-3">
                 <label for="year-slider" class="me-2">Select Year:</label>
                 <input id="year-slider" type="range" class="form-range" />
             </div>
             <div id="chart" class="d-flex justify-content-center"></div>
-        </div>
-    </div>
-
-    <div id="pi-chart-section" class="page-section section-transition">
-        <h1 class="section-title">Top Exporters and Importers for Animals</h1>
-        <div id="pi-chart-main-section">
-            <div class="row my-5">
-                <div class="col-md-6">
-                    <h2>Top Exporters for Animals</h2>
-                    <div id="export-chart"></div>
-                </div>
-                <div class="col-md-6">
-                    <h2>Top Importers for Animals</h2>
-                    <div id="import-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="matrix-section" class="page-section section-transition">
-        <h1 class="section-title">Relationship Between Importers and Exporters</h1>
-        <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
-            <div class="section-header"></div>
-            <h2 style="text-align: center;">Trade Matrix</h2>
-            <div id="info" style="margin: 20px auto 10px auto; max-width: 800px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                <h6 style="text-align: center;">Rows: Exporting countries</h6>
-                <h6 style="text-align: center;">Columns: Importing countries</h6>
-                <h6 style="text-align: center;">Color intensity shows number of trades</h6>
-                <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
-            </div>
-            <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
         </div>
     </div>
 
@@ -304,7 +284,7 @@
                         <div id="area-chart" class="chart">Timeline Overview Chart</div>
                     </div>
                     <div class = "chart-container text-center">
-                        <h5>Please use these visualizations to unlock the story of wildlife trade over the past 20 years. The area chart acts as your timeline, revealing how trade volumes have risen, fallen, or shifted. It highlights pivotal moments—spikes that may signal policy changes, economic disruptions, or heightened demand. Use the brush tool to zoom into specific periods and uncover the seasonal or yearly patterns behind the data.
+                        <h5>Please use these visualizations to unlock the story of wildlife trade over the past 20 years. The area chart acts as your timeline, revealing how trade volumes have risen, fallen, or shifted. It highlights pivotal moments—spikes that may signal policy changes, economic disruptions, or heightened demand. <b>Use the brush tool</b> to zoom into specific periods and uncover the seasonal or yearly patterns behind the data.
                             Dive deeper with the bar chart, which uncover the biological heartbeat of the trade. The Species Class Distribution highlights which groups, like mammals or reptiles, dominate the industry. The Order, Family, and Taxon charts peel back the layers, pinpointing specific groups or species driving the numbers.
                         </h5>
                     </div>
@@ -331,11 +311,55 @@
         </div>
     </div>
 
-    <div class="part-title">PART 3: EXPLORING SPECIFIC IMPORT/EXPORT RELATIONS BETWEEN COUNTRIES</div>
+    <div class="part-title">PART 3: ENDANGERED SPECIES TRADING BY COUNTRY</div>
+
+    <div id="matrix-section" class="page-section section-transition">
+        <h1 class="section-title">Relationship Between Importers and Exporters</h1>
+        <p class="vis-description">
+            In our research, we found four major countries in which endangered species trading is particularly common: <b>South Africa</b>, <b>Ghana</b>, <b>Nigeria</b>, and <b>Democratic Republic of the Congo</b>. This visualization shows how each of these four countries compare to one another in both <b>imports</b> and <b>exports</b>, and how much each country has traded with each other one. <b>Click on a square</b> in the matrix to see the quantity of trades from one country to another.
+        </p>
+        <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
+            <div class="section-header"></div>
+            <h2 style="text-align: center;">Trade Matrix</h2>
+            <div id="info" style="margin: 20px auto 10px auto; max-width: 800px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h6 style="text-align: center;">Rows: Exporting countries</h6>
+                <h6 style="text-align: center;">Columns: Importing countries</h6>
+                <h6 style="text-align: center;">Color intensity shows number of trades</h6>
+                <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
+            </div>
+            <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <div id="pi-chart-section" class="page-section section-transition">
+        <h1 class="section-title">Top Exporters and Importers for Animals</h1>
+        <p class="vis-description">
+            Expanding upon the previous visualization, this visualization goes through every year in chronological order and shows what percentage of imports and exports each country was responsible for, relative to one another. <b>Click on a slice of the pi chart</b> to see a tooltip detailing the country name and number of imports/exports.
+        </p>
+        <div id="pi-chart-main-section">
+            <div class="row my-5">
+                <div class="col-md-6">
+                    <h2>Top Exporters for Animals</h2>
+                    <div id="export-chart"></div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Top Importers for Animals</h2>
+                    <div id="import-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="part-title">PART 4: EXPLORING SPECIFIC IMPORT/EXPORT RELATIONS BETWEEN COUNTRIES</div>
 
     <div id="time-chart-section" class="page-section section-transition">
-        <h1 class="section-title">Exports Over Time</h1>
-        <p class="vis-description">Continuing to examine the trends of exports over time, we now examine the quantities of these exports. This visualization allows us to view three different quantities of imports and exports. The importer quantity refers to the number of animals imported among the data. The exporter quantity refers to the number of animals exported among the data. Note that these two values are NOT the same: partially since some of our data sets only refer to select countries, and partially because animals sometimes die along the way while being imported/exported. The total quantity refers to the sum of the importer and exporter quantities.</p>
+        <h1 class="section-title">Exports and imports Over Time</h1>
+        <p class="vis-description">
+            This visualization allows us to view three different quantities of imports and exports over time. The <b>importer quantity</b> refers to the number of animals imported among the data. The <b>exporter quantity</b> refers to the number of animals exported among the data. Note that these two values are NOT the same: partially since some of our data sets only refer to select countries, and partially because animals sometimes die along the way while being imported/exported. The <b>total quantity</b> refers to the sum of the importer and exporter quantities.
+        </p>
+        <p class="vis-description">
+            <b>Please select a time range using the brush tool.</b> Your selection will <b>modify the bottom three visualizations</b>, so feel free to play around with selecting different time ranges to see how the visualizations below change.
+        </p>
         <div class="row my-5">
 
             <div class="form-group">
@@ -353,6 +377,9 @@
 
     <div id="africa-map-section" class="page-section section-transition">
         <h1 class="section-title">African Trade by Animal</h1>
+        <p class="vis-description">
+            Given an animal species, this map reveals which countries export the most of that animal <b>throughout the time interval of the brushed range</b> you selected above. Please select an <b>animal species</b> and an <b>African country exporter</b> to explore trade routes. Your selection will <b>modify the bottom two visualizations</b>, so feel free to play around with making different selections to see how the visualizations below change.
+        </p>
         <div id="map-controls" class="d-flex align-items-center my-3">
             <label for="data-selector" class="me-2">Select Species:</label>
             <select id="data-selector" class="form-select">
@@ -363,10 +390,6 @@
             </select>
         </div>
         <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
-
-            <p style="text-align: center; font-size: 1.2em; margin-top: 1vh;">
-                Please select an African country exporter to explore trade routes.
-            </p>
             <div id="map" class="row" style="height: 1200px;"></div>
         </div>
     </div>
@@ -374,8 +397,8 @@
 
     <div id="globe-map-section" class="page-section section-transition">
         <h1 class="section-title">Global Trade</h1>
-        <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
-            Please select a global importer to explore trade routes.
+        <p class="vis-description">
+            Given an animal species, this map reveals which countries import the most of the <b>animal</b> selected above from the <b>exporter country</b> selected above <b>through the time interval</b> selected above. Please select a <b>global country importer</b> to explore trade routes. Your selection will <b>modify the bottom visualization</b>, so feel free to play around with selecting different countries to see how the visualization below changes.
         </p>
         <div class="row my-5">
             <div class="col-md-12">
@@ -387,6 +410,9 @@
 
     <div id="flag-chart-section" class="page-section section-transition">
         <h1 class="section-title">Country Flag Finder</h1>
+        <p class="vis-description">
+            Finally, please enjoy a visualization that explores the import/export dynamic between the <b>countries</b> selected for the <b>animal</b> and <b>time frame</b> you selected.
+        </p>
         <div id="flagContainer">
             <p>Exporter country: <span id="exporter-name"></span></p>
             <div id="flagDisplayLeft" class="flagDisplay">

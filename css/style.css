@@ -534,6 +534,7 @@ html {
 .vis-description {
     text-align: center;
     margin: 20px;
+    font-size: 20px;
 }
 
 #time-period-slider {
