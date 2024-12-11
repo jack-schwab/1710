@@ -581,3 +581,84 @@ html {
     font-weight: bold;
     color: #333;
 }
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 0 2%;
+}
+
+
+.chart-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 2%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.chart-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.chart {
+    position: relative;
+    height: 40vh; /* Use viewport height for a responsive chart */
+    margin-bottom: 3%;
+}
+
+.chart h4 {
+    top: 10px;
+    left: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #555;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.bar {
+    background: linear-gradient(135deg, #e9ecef, #dee2e6);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.barChartRect {
+    fill: #3498db;
+    transition: fill 0.3s;
+}
+
+.barChartRect:hover {
+    fill: #1abc9c;
+}
+
+h1, h4 {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#leftColumn {
+    padding-right: 15px;
+}
