@@ -117,7 +117,7 @@
 
     <div id="matching-game-section" class="page-section section-transition">
         <h1 class="section-title">Endangered Species Matching Game</h1>
-        <p class="vis-description">First, let's learn about some of the various endangered species in Africa! Play this matching game to find matches and learn about various endangered species.</p>
+        <p class="vis-description">First, let's learn about some of the various endangered species in Africa! <b>Play this matching game</b> to find matches and learn about various endangered species.</p>
         <section id="game-container">
             <div id="ui-container">
                 <h3>Flips: <span id="flip-count">0</span></h3>
@@ -147,7 +147,7 @@
 
     <div id="fun-facts-section" class="page-section section-transition">
         <h1 class="section-title">Animal Fun Facts</h1>
-        <p class="vis-description">Although we will include data from many endangered species in our project, the main focus of our project will be these four groups: <b>rhinos</b>, <b>lions</b>, <b>elephants</b>, and <b>leopards</b>. If you want to learn even more about these animals, click on an animal to learn interesting facts about them!</p>
+        <p class="vis-description">Although we will include data from many endangered species in our project, the main focus of our project will be these four groups: <b>rhinos</b>, <b>lions</b>, <b>elephants</b>, and <b>leopards</b>. If you want to learn even more about these animals, <b>click on an animal</b> to learn interesting facts about them!</p>
 
         <div class="row my-5">
 
@@ -237,7 +237,7 @@
         </div>
     </div>
 
-    <div class="part-title">PART 2: ENDANGERED SPECIES TRADING</div>
+    <div class="part-title">PART 2: ENDANGERED SPECIES TRADING AS A WHOLE</div>
 
     <div id="video-section" class="page-section section-transition">
         <h1 class="section-title">Video Exploring Illegal Trading</h1>
@@ -254,44 +254,13 @@
 
     <div id="bubble-chart-section" class="page-section section-transition">
         <h1 class="section-title">Endangered Species' Traded Products Based On Year</h1>
-        <p class="vis-description">We now know that endangered species are traded for a variety of marketable products, but what does the distribution of these products look like? This chart details the breakdown of traded products for every year. Move the slider to see which products increase or decrease in popularity through the years!</p>
+        <p class="vis-description">We now know that endangered species are traded for a variety of marketable products, but what does the distribution of these products look like? This chart details the breakdown of traded products for every year. <b>Move the slider</b> to see which products increase or decrease in popularity through the years!</p>
         <div class="row my-5">
             <div class="d-flex align-items-center my-3">
                 <label for="year-slider" class="me-2">Select Year:</label>
                 <input id="year-slider" type="range" class="form-range" />
             </div>
             <div id="chart" class="d-flex justify-content-center"></div>
-        </div>
-    </div>
-
-    <div id="pi-chart-section" class="page-section section-transition">
-        <h1 class="section-title">Top Exporters and Importers for Animals</h1>
-        <div id="pi-chart-main-section">
-            <div class="row my-5">
-                <div class="col-md-6">
-                    <h2>Top Exporters for Animals</h2>
-                    <div id="export-chart"></div>
-                </div>
-                <div class="col-md-6">
-                    <h2>Top Importers for Animals</h2>
-                    <div id="import-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="matrix-section" class="page-section section-transition">
-        <h1 class="section-title">Relationship Between Importers and Exporters</h1>
-        <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
-            <div class="section-header"></div>
-            <h2 style="text-align: center;">Trade Matrix</h2>
-            <div id="info" style="margin: 20px auto 10px auto; max-width: 800px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                <h6 style="text-align: center;">Rows: Exporting countries</h6>
-                <h6 style="text-align: center;">Columns: Importing countries</h6>
-                <h6 style="text-align: center;">Color intensity shows number of trades</h6>
-                <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
-            </div>
-            <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
         </div>
     </div>
 
@@ -305,7 +274,7 @@
                         <div id="area-chart" class="chart">Timeline Overview Chart</div>
                     </div>
                     <div class = "chart-container text-center">
-                        <h5>Please use these visualizations to unlock the story of wildlife trade over the past 20 years. The area chart acts as your timeline, revealing how trade volumes have risen, fallen, or shifted. It highlights pivotal moments—spikes that may signal policy changes, economic disruptions, or heightened demand. Use the brush tool to zoom into specific periods and uncover the seasonal or yearly patterns behind the data.
+                        <h5>Please use these visualizations to unlock the story of wildlife trade over the past 20 years. The area chart acts as your timeline, revealing how trade volumes have risen, fallen, or shifted. It highlights pivotal moments—spikes that may signal policy changes, economic disruptions, or heightened demand. <b>Use the brush tool</b> to zoom into specific periods and uncover the seasonal or yearly patterns behind the data.
                             Dive deeper with the bar chart, which uncover the biological heartbeat of the trade. The Species Class Distribution highlights which groups, like mammals or reptiles, dominate the industry. The Order, Family, and Taxon charts peel back the layers, pinpointing specific groups or species driving the numbers.
                         </h5>
                     </div>
@@ -332,11 +301,46 @@
         </div>
     </div>
 
-    <div class="part-title">PART 3: EXPLORING SPECIFIC IMPORT/EXPORT RELATIONS BETWEEN COUNTRIES</div>
+    <div class="part-title">PART 3: ENDANGERED SPECIES TRADING BY COUNTRY</div>
+
+    <div id="pi-chart-section" class="page-section section-transition">
+        <h1 class="section-title">Top Exporters and Importers for Animals</h1>
+        <p class="vis-description">In our research, we found four major countries in which endangered species trading is particularly common: <b>South Africa</b>, <b>Ghana</b>, <b>Nigeria</b>, and <b>Democratic Republic of the Congo</b>. This visualization goes through every year in chronological order and shows what percentage of imports and exports each country was responsible for, relative to one another. <b>Click on a slice of the pi chart</b> to see a tooltip detailing the country name and number of imports/exports.</p>
+        <div id="pi-chart-main-section">
+            <div class="row my-5">
+                <div class="col-md-6">
+                    <h2>Top Exporters for Animals</h2>
+                    <div id="export-chart"></div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Top Importers for Animals</h2>
+                    <div id="import-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="matrix-section" class="page-section section-transition">
+        <h1 class="section-title">Relationship Between Importers and Exporters</h1>
+        <p class="vis-description">Now,</p>
+        <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
+            <div class="section-header"></div>
+            <h2 style="text-align: center;">Trade Matrix</h2>
+            <div id="info" style="margin: 20px auto 10px auto; max-width: 800px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h6 style="text-align: center;">Rows: Exporting countries</h6>
+                <h6 style="text-align: center;">Columns: Importing countries</h6>
+                <h6 style="text-align: center;">Color intensity shows number of trades</h6>
+                <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
+            </div>
+            <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <div class="part-title">PART 4: EXPLORING SPECIFIC IMPORT/EXPORT RELATIONS BETWEEN COUNTRIES</div>
 
     <div id="time-chart-section" class="page-section section-transition">
         <h1 class="section-title">Exports Over Time</h1>
-        <p class="vis-description">Continuing to examine the trends of exports over time, we now examine the quantities of these exports. This visualization allows us to view three different quantities of imports and exports. The importer quantity refers to the number of animals imported among the data. The exporter quantity refers to the number of animals exported among the data. Note that these two values are NOT the same: partially since some of our data sets only refer to select countries, and partially because animals sometimes die along the way while being imported/exported. The total quantity refers to the sum of the importer and exporter quantities.</p>
+        <p class="vis-description">Continuing to examine the trends of exports over time, we now examine the quantities of these exports. This visualization allows us to view three different quantities of imports and exports. The <b>importer quantity</b> refers to the number of animals imported among the data. The <b>exporter quantity</b> refers to the number of animals exported among the data. Note that these two values are NOT the same: partially since some of our data sets only refer to select countries, and partially because animals sometimes die along the way while being imported/exported. The <b>total quantity</b> refers to the sum of the importer and exporter quantities.</p>
         <div class="row my-5">
 
             <div class="form-group">
