@@ -17,3 +17,5 @@ function initMainPage(data){
     console.log("myMapVis initialized and attached to window:", window.myMapVis);
 }
 
+console.log(d3.version);
+
