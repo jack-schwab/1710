@@ -1,69 +1,34 @@
-// const africanCountryCodeToName = {
-//     AO: "Angola",
-//     BI: "Burundi",
-//     BJ: "Benin",
-//     BF: "Burkina Faso",
-//     BW: "Botswana",
-//     CF: "Central African Rep.",
-//     CI: "Côte d'Ivoire",
-//     CM: "Cameroon",
-//     CD: "Dem. Rep. Congo",
-//     CG: "Congo",
-//     DJ: "Djibouti",
-//     DZ: "Algeria",
-//     EG: "Egypt",
-//     ER: "Eritrea",
-//     ET: "Ethiopia",
-//     GA: "Gabon",
-//     GH: "Ghana",
-//     GN: "Guinea",
-//     GM: "Gambia",
-//     GW: "Guinea-Bissau",
-//     GQ: "Eq. Guinea",
-//     KE: "Kenya",
-//     LR: "Liberia",
-//     LY: "Libya",
-//     LS: "Lesotho",
-//     MA: "Morocco",
-//     MG: "Madagascar",
-//     ML: "Mali",
-//     MZ: "Mozambique",
-//     MR: "Mauritania",
-//     MW: "Malawi",
-//     NA: "Namibia",
-//     NE: "Niger",
-//     NG: "Nigeria",
-//     RW: "Rwanda",
-//     EH: "W. Sahara",
-//     SD: "Sudan",
-//     SS: "S. Sudan",
-//     SN: "Senegal",
-//     SL: "Sierra Leone",
-//     SO: "Somalia",
-//     SZ: "Swaziland",
-//     TD: "Chad",
-//     TG: "Togo",
-//     TN: "Tunisia",
-//     TZ: "Tanzania",
-//     UG: "Uganda",
-//     ZA: "South Africa",
-//     ZM: "Zambia",
-//     ZW: "Zimbabwe"
-// };
-//assuming this exists elsewhere
-
 class MatrixVis {
     constructor(parentElement, animalData){
         this.parentElement = parentElement;
         this.animalData = animalData;
-        this.initVis()
+
+        // Remove any existing tooltips
+        d3.select("#matrixTooltip").remove();
+
+        // Create tooltip with specific styles
+        this.tooltip = d3.select("body")
+            .append("div")
+            .attr("id", "matrixTooltip")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("background-color", "white")
+            .style("border", "2px solid #333")
+            .style("border-radius", "6px")
+            .style("padding", "12px")
+            .style("font-family", "Kanit, Arial, sans-serif")
+            .style("font-size", "14px")
+            .style("box-shadow", "3px 3px 10px rgba(0,0,0,0.2)")
+            .style("z-index", "1000");
+
+        this.initVis();
     }
 
     initVis(){
         let vis = this;
-        vis.margin = {top: 400, right: 150, bottom: 20, left: 200};
-        vis.width = 800 - vis.margin.left - vis.margin.right;
-        vis.height = 800 - vis.margin.top - vis.margin.bottom;
+        vis.margin = {top: 250, right: 250, bottom: 50, left: 250};
+        vis.width = 1200 - vis.margin.left - vis.margin.right;
+        vis.height = 1200 - vis.margin.top - vis.margin.bottom;
 
         vis.linearColor = d3.scaleLinear()
             .range(["lightgreen","darkgreen"]);
@@ -79,7 +44,10 @@ class MatrixVis {
         let maxCount = d3.max(vis.displayData, d => d3.max(d.counts));
         vis.linearColor.domain([0, maxCount]);
 
-        vis.cellHeight = 50, vis.cellWidth = 50, vis.cellPadding = 20;
+        vis.cellHeight = 65;
+        vis.cellWidth = 65;
+        vis.cellPadding = 30;
+
         for (let i = 0; i <vis.numCountries; i++) {
             let svgrow = vis.svg.append("g")
                 .attr("class", "matrixrow")
@@ -98,22 +66,57 @@ class MatrixVis {
                 })
                 .attr("fill", d => {
                     if (d === 0) {
-                        return "#D3D3D3";  // Light gray for zero values
+                        return "#D3D3D3";
                     } else {
-                        return vis.linearColor(d);  // Color scale for non-zero values
+                        return vis.linearColor(d);
                     }
+                })
+                .on("mouseover", function(event, d) {
+                    let rowIndex = i;
+                    let columnIndex = vis.displayData[i].counts.indexOf(d);
+                    let exporterName = vis.displayData[rowIndex].name;
+                    let importerName = vis.displayData[columnIndex].name;
+
+                    vis.tooltip
+                        .style("visibility", "visible")
+                        .html(`
+                            <strong style="font-size: 16px;">Trade Details</strong><br><br>
+                            <strong>From:</strong> ${exporterName}<br>
+                            <strong>To:</strong> ${importerName}<br>
+                            <strong>Number of Trades:</strong> ${d}
+                        `)
+                        .style("left", (event.pageX + 15) + "px")
+                        .style("top", (event.pageY - 10) + "px");
+
+                    d3.select(this)
+                        .style("stroke", "#333")
+                        .style("stroke-width", "3px");
+                })
+                .on("mousemove", function(event) {
+                    vis.tooltip
+                        .style("left", (event.pageX + 15) + "px")
+                        .style("top", (event.pageY - 10) + "px");
+                })
+                .on("mouseout", function() {
+                    vis.tooltip.style("visibility", "hidden");
+                    d3.select(this)
+                        .style("stroke", null)
+                        .style("stroke-width", null);
                 });
 
             svgrow.append("text")
-                .attr("x", -10)
-                .attr("y", vis.cellHeight - 5)
+                .attr("x", -20)
+                .attr("y", vis.cellHeight/2 + 5)
                 .attr("text-anchor", "end")
                 .attr("fill", "black")
+                .style("font-size", "14px")
                 .text(vis.displayData[i].name);
 
             vis.svg.append("text")
                 .text(vis.displayData[i].name)
-                .attr("transform", "rotate(-90) translate(10," + ((vis.cellWidth + vis.cellPadding) * i + vis.cellWidth * 0.75) + ")");
+                .attr("transform", `rotate(-90) translate(5, ${(vis.cellWidth + vis.cellPadding) * i + vis.cellWidth/2})`)
+                .style("font-size", "14px")
+                .style("text-anchor", "middle");
         }
 
         vis.addLegend(maxCount);
@@ -123,12 +126,10 @@ class MatrixVis {
     addLegend(maxCount) {
         let vis = this;
 
-        // Create legend group
         let legend = vis.svg.append("g")
             .attr("class", "legend")
             .attr("transform", `translate(${vis.width + 20}, 0)`);
 
-        // Add gradient definition
         let defs = legend.append("defs");
         let gradient = defs.append("linearGradient")
             .attr("id", "color-gradient")
@@ -143,15 +144,13 @@ class MatrixVis {
             .attr("offset", "100%")
             .attr("stop-color", "lightgreen");
 
-        // Add gradient rectangle
         legend.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("width", 20)
+            .attr("width", 30)
             .attr("height", 150)
             .style("fill", "url(#color-gradient)");
 
-        // Add scale to gradient
         let scale = d3.scaleLinear()
             .domain([maxCount, 0])
             .range([0, 150]);
@@ -160,46 +159,45 @@ class MatrixVis {
             .ticks(5);
 
         legend.append("g")
-            .attr("transform", "translate(20,0)")
-            .call(axis);
+            .attr("transform", "translate(30,0)")
+            .call(axis)
+            .style("font-size", "12px");
 
-        // Add legend title
         legend.append("text")
             .attr("x", -10)
             .attr("y", -10)
             .style("text-anchor", "start")
             .style("font-weight", "bold")
+            .style("font-size", "14px")
             .text("Number of Trades");
 
-        // Add zero value indicator
         legend.append("rect")
             .attr("x", 0)
             .attr("y", 170)
-            .attr("width", 20)
+            .attr("width", 30)
             .attr("height", 20)
             .style("fill", "#D3D3D3");
 
         legend.append("text")
-            .attr("x", 25)
+            .attr("x", 35)
             .attr("y", 185)
+            .style("font-size", "12px")
             .text("No trade");
     }
 
     addMatrixExplanation() {
         let vis = this;
 
-        // Add title
         vis.svg.append("text")
             .attr("x", vis.width / 2)
-            .attr("y", -vis.margin.top / 2)
+            .attr("y", -vis.margin.top/2)
             .attr("text-anchor", "middle")
-            .style("font-size", "20px")
+            .style("font-size", "24px")
             .style("font-weight", "bold")
             .text("African Wildlife Trade Matrix");
 
-        // Add explanation
         let explanation = vis.svg.append("g")
-            .attr("transform", `translate(0, ${-vis.margin.top / 2 + 30})`);
+            .attr("transform", `translate(0, ${-vis.margin.top/2 + 40})`);
 
         let explanationText = [
             "• Rows: Exporting countries",
@@ -211,8 +209,8 @@ class MatrixVis {
         explanationText.forEach((text, i) => {
             explanation.append("text")
                 .attr("x", 0)
-                .attr("y", i * 20)
-                .style("font-size", "12px")
+                .attr("y", i * 25)
+                .style("font-size", "14px")
                 .text(text);
         });
     }
