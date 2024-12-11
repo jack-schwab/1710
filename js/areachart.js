@@ -19,9 +19,9 @@ class AreaChart {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 10, bottom: 20, left: 40};
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = 250 - vis.margin.top - vis.margin.bottom;
+        vis.margin = {top: 20, right: 10, bottom: 20, left: 100};
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right - 40;
+        vis.height = 300 - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -111,6 +111,10 @@ class AreaChart {
         // Update axes
         vis.svg.select(".y-axis").call(vis.yAxis);
         vis.svg.select(".x-axis").call(vis.xAxis);
+
+        d3.select(`#${vis.parentElement} svg`)
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
+            .attr("viewBox", `0 0 ${vis.width + vis.margin.left + vis.margin.right} ${vis.height + vis.margin.top + vis.margin.bottom}`);
     }
 }
 
@@ -127,8 +131,8 @@ class BarChart {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 50, bottom: 30, left: 50};
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        vis.margin = {top: 20, right: 50, bottom: 30, left: 100};
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right -40;
         vis.height = 200 - vis.margin.top - vis.margin.bottom;
 
         // Create SVG area
@@ -149,7 +153,8 @@ class BarChart {
 
         // Axes
         vis.xAxis = d3.axisBottom()
-            .scale(vis.x);
+            .scale(vis.x)
+            .ticks(5);
 
         vis.yAxis = d3.axisLeft()
             .scale(vis.y);
@@ -232,6 +237,10 @@ class BarChart {
         // Update axes
         vis.svg.select(".x-axis").transition().duration(500).call(vis.xAxis);
         vis.svg.select(".y-axis").transition().duration(500).call(vis.yAxis);
+
+        d3.select(`#${vis.parentElement} svg`)
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
+            .attr("viewBox", `0 0 ${vis.width + vis.margin.left + vis.margin.right} ${vis.height + vis.margin.top + vis.margin.bottom}`);
     }
 
     selectionChanged(timeRange) {

@@ -26,7 +26,7 @@ class MatrixVis {
 
     initVis(){
         let vis = this;
-        vis.margin = {top: 250, right: 250, bottom: 50, left: 250};
+        vis.margin = {top: 250, right: 250, bottom: 50, left: 350};
         vis.width = 1200 - vis.margin.left - vis.margin.right;
         vis.height = 1200 - vis.margin.top - vis.margin.bottom;
 
@@ -114,7 +114,7 @@ class MatrixVis {
 
             vis.svg.append("text")
                 .text(vis.displayData[i].name)
-                .attr("transform", `rotate(-90) translate(5, ${(vis.cellWidth + vis.cellPadding) * i + vis.cellWidth/2})`)
+                .attr("transform", `rotate(-90) translate(58, ${(vis.cellWidth + vis.cellPadding) * i + vis.cellWidth/2})`)
                 .style("font-size", "14px")
                 .style("text-anchor", "middle");
         }
@@ -190,14 +190,14 @@ class MatrixVis {
 
         vis.svg.append("text")
             .attr("x", vis.width / 2)
-            .attr("y", -vis.margin.top/2)
+            .attr("y", -vis.margin.top + 20)
             .attr("text-anchor", "middle")
             .style("font-size", "24px")
             .style("font-weight", "bold")
             .text("African Wildlife Trade Matrix");
 
         let explanation = vis.svg.append("g")
-            .attr("transform", `translate(0, ${-vis.margin.top/2 + 40})`);
+            .attr("transform", `translate(0, ${-vis.margin.top + 45})`);
 
         let explanationText = [
             "• Rows: Exporting countries",

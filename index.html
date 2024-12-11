@@ -173,7 +173,8 @@
 
     <div id="section-6.5" class="page-section section-transition">
         <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
-            <div class="section-header">Relationship Between Importers and Exporters</div>
+            <h1 class="section-title">Relationship Between Importers and Exporters</h1>
+            <div class="section-header"></div>
             <div id = "importExportMatrix" class="row" style="height: 1200px"></div>
         </div>
     </div>
@@ -248,87 +249,120 @@
     <div id="section-9" class="page-section section-transition">
         <h1 class="section-title">Animal Fun Facts</h1>
         <div class="row my-5">
-            <p>This is interactive. There will be a tooltip/ it'll bring you to a different visualization specific to the animal</p>
+            <p>Click on an animal to learn interesting facts about them!</p>
 
             <div class="col-md-3">
-                <div class="card animal-card" onClick="window.location.href='rhino.html'">
+                <div class="card animal-card" data-animal="rhino">
                     <img src="img/rhino.jpg" class="rounded-circle animal-headshot" alt="Rhino">
                     <h4>Rhino</h4>
                     <div class="card-overlay">
                         <span>Click to learn more</span>
                     </div>
                 </div>
+                <div class="fun-facts rhino-facts" style="display: none;">
+                    <div class="facts-container">
+                        <h5>Rhino Facts:</h5>
+                        <ul>
+                            <li>A rhino's horn is made of keratin - the same material as human fingernails</li>
+                            <li>They can run at speeds of up to 30 miles per hour</li>
+                            <li>A group of rhinos is called a "crash"</li>
+                            <li>Rhinos have existed on Earth for more than 50 million years</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card animal-card" onClick="window.location.href='lion.html'">
+                <div class="card animal-card" data-animal="lion">
                     <img src="img/lion.jpg" class="rounded-circle animal-headshot" alt="Lion">
                     <h4>Lion</h4>
                     <div class="card-overlay">
                         <span>Click to learn more</span>
                     </div>
                 </div>
+                <div class="fun-facts lion-facts" style="display: none;">
+                    <div class="facts-container">
+                        <h5>Lion Facts:</h5>
+                        <ul>
+                            <li>Lions are the only cats that live in groups, called prides</li>
+                            <li>A lion's roar can be heard from up to 5 miles away</li>
+                            <li>Female lions do 85-90% of the pride's hunting</li>
+                            <li>Lions spend about 20 hours of each day sleeping or resting</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
             <div class="col-md-3">
-                <div class="card animal-card" onClick="window.location.href='elephant.html'">
+                <div class="card animal-card" data-animal="elephant">
                     <img src="img/elephant.jpg" class="rounded-circle animal-headshot" alt="Elephant">
                     <h4>Elephant</h4>
                     <div class="card-overlay">
                         <span>Click to learn more</span>
                     </div>
                 </div>
+                <div class="fun-facts elephant-facts" style="display: none;">
+                    <div class="facts-container">
+                        <h5>Elephant Facts:</h5>
+                        <ul>
+                            <li>Elephants are the only mammals that can't jump</li>
+                            <li>They communicate through vibrations that can travel through the ground</li>
+                            <li>An elephant's trunk has around 40,000 muscles</li>
+                            <li>They're one of the few animals that can recognize themselves in a mirror</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
             <div class="col-md-3">
-                <div class="card animal-card" onClick="window.location.href='leopard.html'">
+                <div class="card animal-card" data-animal="leopard">
                     <img src="img/leopard.jpg" class="rounded-circle animal-headshot" alt="Leopard">
                     <h4>Leopard</h4>
                     <div class="card-overlay">
                         <span>Click to learn more</span>
                     </div>
                 </div>
+                <div class="fun-facts leopard-facts" style="display: none;">
+                    <div class="facts-container">
+                        <h5>Leopard Facts:</h5>
+                        <ul>
+                            <li>Leopards can carry prey twice their body weight up a tree</li>
+                            <li>They can run at speeds of up to 58 kilometers per hour</li>
+                            <li>Each leopard's spots are unique, like human fingerprints</li>
+                            <li>They're excellent swimmers and enjoy being in water</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="section-10" class="page-section section-transition">
+    <div id="section-10" class="page-section">
         <h1 class="section-title">Wildlife Trade Analysis: 2004-2023</h1>
-        <div class="row my-5">
-            <div class="col-md-12">
-
-                <div class="container mt-5">
-                    <div class="text-center mb-4">
-                        <h1 class="display-4"></h1>
+        <div class="container">
+            <h3>This dashboard visualizes 20 years of wildlife trade data, showing patterns and trends across different taxonomic classifications.</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <div id="area-chart" class="chart">Timeline Overview Chart</div>
                     </div>
-                    <div class="row">
-                        <div id="leftColumn" class="col-md-6">
-                            <div id="area-chart" class="chart-container">
-                            </div>
-                        </div>
-                        <div id="rightColumn" class="col-md-6">
-                            <div class="chart">
-                                <h4>Species Class Distribution</h4>
-                                <div id="bar-chart-class" class="bar">
-                                </div>
-                            </div>
-
-                            <div class="chart">
-                                <h4>Order</h4>
-                                <div id="bar-chart-order" class="bar">
-                                </div>
-                            </div>
-
-                            <div class="chart">
-                                <h4>Family</h4>
-                                <div id="bar-chart-family" class="bar">
-                                </div>
-                            </div>
-
-                            <div class="chart">
-                                <h4>Taxon</h4>
-                                <div id="bar-chart-taxon" class="bar">
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h4>Species Class Distribution</h4>
+                        <div id="bar-chart-class" class="chart">Bar Chart - Species Class</div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Order</h4>
+                        <div id="bar-chart-order" class="chart">Bar Chart - Order</div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Family</h4>
+                        <div id="bar-chart-family" class="chart">Bar Chart - Family</div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Taxon</h4>
+                        <div id="bar-chart-taxon" class="chart">Bar Chart - Taxon</div>
                     </div>
                 </div>
             </div>
@@ -510,6 +544,26 @@
     init();
 </script>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const animalCards = document.querySelectorAll('.animal-card');
+
+        animalCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const animal = this.dataset.animal;
+                const factSection = document.querySelector(`.${animal}-facts`);
+
+                // Toggle the clicked animal's facts
+                if (factSection.style.display === 'none') {
+                    factSection.style.display = 'block';
+                } else {
+                    factSection.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 
 
 
