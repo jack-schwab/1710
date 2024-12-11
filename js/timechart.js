@@ -69,7 +69,7 @@ function drawChart(data) {
 
     const width = 800;
     const height = 400;
-    const margin = { top: 50, right: 30, bottom: 50, left: 50 };
+    const margin = { top: 50, right: 30, bottom: 50, left: 90 };
 
     console.log("Chart dimensions:", { width, height, margin });
 
