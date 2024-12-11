@@ -23,6 +23,7 @@ const termDescriptions = {
     "timber": "Processed or raw wood materials from endangered plant species, used in various industries.",
     "tusks": "Ivory tusks, commonly sourced from elephants, used in jewelry, carvings, or traditional medicine."
 };
+
 // Set dimensions for the SVG canvas
 const width = 800;
 const height = 600;
@@ -41,7 +42,19 @@ const legend = d3.select("#chart")
     .attr("id", "legend")
     .style("margin-top", "20px")
     .style("font-size", "14px")
-    .style("text-align", "left");
+    .style("text-align", "left")
+    .style("position", "absolute")
+    .style("top", "750px") // Positioning the legend further below the chart
+    .style("width", "100%");
+
+// Add a label to display the selected year
+const yearLabel = d3.select("#chart")
+    .append("div")
+    .attr("id", "year-label")
+    .style("text-align", "center")
+    .style("font-size", "16px")
+    .style("margin", "10px 0")
+    .text("Year: ");
 
 // Define a consistent color scale with unique colors
 const colorScale = d3.scaleOrdinal(d3.schemeTableau10)
@@ -78,7 +91,9 @@ d3.csv("/data/20-year-data.csv").then(data => {
         .attr("max", d3.max(years))
         .attr("step", 1)
         .on("input", function () {
-            update(+this.value);
+            const selectedYear = +this.value;
+            yearLabel.text(`Year: ${selectedYear}`); // Update the year label
+            update(selectedYear);
         });
 
     function update(selectedYear) {
@@ -86,11 +101,16 @@ d3.csv("/data/20-year-data.csv").then(data => {
 
         const radiusScale = d3.scaleSqrt()
             .domain([0, d3.max(yearData, d => d.total) || 1])
-            .range([10, 80]); // Increased max size for better differentiation
+            .range([10, 80]);
 
-        const gridCols = Math.ceil(Math.sqrt(yearData.length));
-        const gridSpacingX = width / (gridCols + 1);
-        const gridSpacingY = height / (Math.ceil(yearData.length / gridCols) + 1);
+        // Use a simulation for non-overlapping circles
+        const simulation = d3.forceSimulation(yearData)
+            .force("x", d3.forceX(width / 2).strength(0.05))
+            .force("y", d3.forceY(height / 2).strength(0.05))
+            .force("collide", d3.forceCollide(d => radiusScale(d.total) + 5))
+            .stop();
+
+        for (let i = 0; i < 300; i++) simulation.tick();
 
         const circles = svg.selectAll("circle")
             .data(yearData, d => d.term);
@@ -101,8 +121,8 @@ d3.csv("/data/20-year-data.csv").then(data => {
             .transition()
             .duration(800)
             .attr("r", d => radiusScale(d.total))
-            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
-            .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y)
             .attr("fill", d => colorScale(d.term));
 
         circles.exit()
@@ -119,11 +139,11 @@ d3.csv("/data/20-year-data.csv").then(data => {
             .merge(labels)
             .transition()
             .duration(800)
-            .text(d => `${d.total}`) // Display only the value inside the circle
-            .attr("x", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
-            .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY + 5) // Center text better
+            .text(d => `${d.total}`)
+            .attr("x", d => d.x)
+            .attr("y", d => d.y + 5) // Center text better
             .attr("text-anchor", "middle")
-            .style("font-size", d => `${Math.max(radiusScale(d.total) / 2, 10)}px`); // Ensure readability
+            .style("font-size", d => `${Math.max(radiusScale(d.total) / 2, 10)}px`);
 
         labels.exit().remove();
 
@@ -143,5 +163,6 @@ d3.csv("/data/20-year-data.csv").then(data => {
 
     const initialYear = years[0];
     slider.property("value", initialYear);
+    yearLabel.text(`Year: ${initialYear}`); // Set initial year label
     update(initialYear);
 });
