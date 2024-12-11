@@ -128,7 +128,7 @@ function createTimeline(years) {
         timelineContainer.appendChild(yearMarker);
     });
 
-    document.getElementById("section-6").appendChild(timelineContainer);
+    document.getElementById("pi-chart-section").appendChild(timelineContainer);
 }
 
 function highlightYear(index, years) {
@@ -187,7 +187,7 @@ async function initVisualizationWithAnimation(csvPath) {
         yearDisplay.style.fontSize = "1.5em";
         yearDisplay.style.textAlign = "center";
         yearDisplay.style.marginBottom = "1em";
-        document.getElementById("section-6").prepend(yearDisplay);
+        document.getElementById("pi-chart-section").prepend(yearDisplay);
 
         // Create the timeline
         createTimeline(years);
