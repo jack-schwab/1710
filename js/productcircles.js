@@ -23,8 +23,6 @@ const termDescriptions = {
     "timber": "Processed or raw wood materials from endangered plant species, used in various industries.",
     "tusks": "Ivory tusks, commonly sourced from elephants, used in jewelry, carvings, or traditional medicine."
 };
-
-
 // Set dimensions for the SVG canvas
 const width = 800;
 const height = 600;
@@ -45,20 +43,25 @@ const legend = d3.select("#chart")
     .style("font-size", "14px")
     .style("text-align", "left");
 
-// Load the data from the CSV file
+// Define a consistent color scale with unique colors
+const colorScale = d3.scaleOrdinal(d3.schemeTableau10)
+    .domain([
+        "live", "skulls", "leaves", "powder", "trophies", "scales", "skins", "specimens",
+        "extract", "shells", "rug", "derivatives", "sawn wood", "carvings", "leather products (small)",
+        "tissues", "specimens (frozen)", "feet", "leather products (large)", "logs", "timber", "tusks"
+    ]);
+
+// Load the data
 d3.csv("/data/20-year-data.csv").then(data => {
-    // Process the data: Ensure numeric fields are parsed correctly
     data.forEach(d => {
-        d.Year = +d.Year; // Convert Year to a number
+        d.Year = +d.Year;
         d["Importer reported quantity"] = +d["Importer reported quantity"] || 0;
         d["Exporter reported quantity"] = +d["Exporter reported quantity"] || 0;
         d.TotalQuantity = d["Importer reported quantity"] + d["Exporter reported quantity"];
     });
-// need to load multiple files and do data processing, refer to lab 10, promises.all
-    // Extract unique years
+
     const years = Array.from(new Set(data.map(d => d.Year))).sort();
 
-    // Summarize data by Year and Term
     const summarizedData = d3.rollups(
         data,
         v => d3.sum(v, d => d.TotalQuantity),
@@ -69,93 +72,64 @@ d3.csv("/data/20-year-data.csv").then(data => {
         terms: terms.map(([term, total]) => ({ term, total }))
     }));
 
-    // Populate the dropdown with years
-    const dropdown = d3.select("#year-select");
+    // Create year slider
+    const slider = d3.select("#year-slider")
+        .attr("min", d3.min(years))
+        .attr("max", d3.max(years))
+        .attr("step", 1)
+        .on("input", function () {
+            update(+this.value);
+        });
 
-    dropdown.selectAll("option")
-        .data(years)
-        .enter()
-        .append("option")
-        .attr("value", d => d)
-        .text(d => d);
-
-    // Function to update the visualization based on the selected year
     function update(selectedYear) {
-        // Find data for the selected year
-        const yearData = summarizedData.find(d => d.year == selectedYear)?.terms || [];
+        const yearData = summarizedData.find(d => d.year === selectedYear)?.terms || [];
 
-        // Set up scales
         const radiusScale = d3.scaleSqrt()
-            .domain([0, d3.max(yearData, d => d.total) || 1]) // Avoid errors if data is empty
-            .range([40, 100]); // Larger circles
+            .domain([0, d3.max(yearData, d => d.total) || 1])
+            .range([10, 80]); // Increased max size for better differentiation
 
-        const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
-        // Create a grid-like layout for circles
         const gridCols = Math.ceil(Math.sqrt(yearData.length));
-        const gridRows = Math.ceil(yearData.length / gridCols);
         const gridSpacingX = width / (gridCols + 1);
-        const gridSpacingY = height / (gridRows + 1);
+        const gridSpacingY = height / (Math.ceil(yearData.length / gridCols) + 1);
 
-        // Bind data to circles
         const circles = svg.selectAll("circle")
             .data(yearData, d => d.term);
 
-        // Enter: Add new circles
         circles.enter()
             .append("circle")
-            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
-            .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
-            .attr("r", 0)
-            .attr("fill", d => colorScale(d.term))
             .merge(circles)
             .transition()
             .duration(800)
             .attr("r", d => radiusScale(d.total))
-            .attr("cx", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
-            .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY);
-
-        // Update: Modify existing circles
-        circles
-            .transition()
-            .duration(800)
-            .attr("cx", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
+            .attr("cx", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
             .attr("cy", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
-            .attr("r", d => radiusScale(d.total))
             .attr("fill", d => colorScale(d.term));
 
-        // Exit: Remove old circles
         circles.exit()
             .transition()
             .duration(800)
             .attr("r", 0)
             .remove();
 
-        // Add labels inside the circles
         const labels = svg.selectAll("text")
             .data(yearData, d => d.term);
 
         labels.enter()
             .append("text")
-            .attr("x", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
-            .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY)
-            .attr("dy", "0.35em") // Center text vertically
-            .attr("text-anchor", "middle")
-            .style("font-size", d => `${Math.min(radiusScale(d.total) / 3, 14)}px`) // Dynamic font size
             .merge(labels)
             .transition()
             .duration(800)
-            .text(d => `${d.term}: ${d.total}`)
-            .attr("x", (_, i) => ((i % gridCols) + 0.25) * gridSpacingX)
-            .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY);
+            .text(d => `${d.total}`) // Display only the value inside the circle
+            .attr("x", (_, i) => ((i % gridCols) + 1) * gridSpacingX)
+            .attr("y", (_, i) => Math.floor(i / gridCols + 1) * gridSpacingY + 5) // Center text better
+            .attr("text-anchor", "middle")
+            .style("font-size", d => `${Math.max(radiusScale(d.total) / 2, 10)}px`); // Ensure readability
 
         labels.exit().remove();
 
-        // Update legend
         const legendItems = legend.selectAll("div")
             .data(yearData, d => d.term);
 
-        // Enter: Add legend items
         legendItems.enter()
             .append("div")
             .merge(legendItems)
@@ -164,35 +138,10 @@ d3.csv("/data/20-year-data.csv").then(data => {
                 <strong>${d.term}</strong>: ${termDescriptions[d.term] || "Description not available"}
             `);
 
-        // Remove unused legend items
         legendItems.exit().remove();
     }
 
-    // Set the initial year and render the chart
     const initialYear = years[0];
-    dropdown.property("value", initialYear);
+    slider.property("value", initialYear);
     update(initialYear);
-
-    // Update the chart when a new year is selected
-    dropdown.on("change", function () {
-        const selectedYear = d3.select(this).property("value");
-        update(selectedYear);
-    });
-    let countryCodes ={
-        ZA : 'South Africa',
-        CD: 'Democratic Republic of the Congo',
-        GH: 'Ghana',
-        NG: 'Nigeria',
-    }
-
-    let config = [
-        {key: "Taxon", title: "Species"},
-        {key: 'Exporter', title: 'Top Exporters', LabelTranslate: countryCodes},
-        {key: 'Importer', title: 'Top Importers', LabelTranslate: countryCodes}];
-
-    let barchartAnimals = new BarChartAnimals("bar-chart", data, config[0]);
-    let barchartExporters = new BarChartAnimals("bar-chart-2", data, config[1]);
-    let barChartImporters = new BarChartAnimals("bar-chart-3", data, config[2]);
-    // let photoChart = new PhotoChart("photo-chart", data);
-    // let globe = new MapVis("globe", data, geodate);
 });
