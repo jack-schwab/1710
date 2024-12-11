@@ -74,7 +74,7 @@ async function loadAndProcessData() {
 window.startYear = null;
 window.endYear = null;
 
-d3.select("#ranking-type").on("change", loadAndProcessData);
+d3.select("#ranking-type").on("change", updateTimeChart);
 
 // Function to draw the area charat with a brush
 function drawChart(data) {
@@ -85,6 +85,8 @@ function drawChart(data) {
     const margin = { top: 50, right: 30, bottom: 50, left: 90 };
 
     console.log("Chart dimensions:", { width, height, margin });
+
+    d3.select("#time-chart").selectAll("svg").remove();
 
     // Create SVG container
     const svg = d3.select("#time-chart")
@@ -166,13 +168,17 @@ function drawChart(data) {
     console.log("Brush added.");
 }
 
+function updateTimeChart() {
+    // Load data and draw chart
+    loadAndProcessData()
+        .then(data => {
+            console.log("Data successfully loaded and processed. Proceeding to draw chart.");
+            drawChart(data);
+        })
+        .catch(error => {
+            console.error("An error occurred during data loading or chart drawing:", error);
+        });
 
-// Load data and draw chart
-loadAndProcessData()
-    .then(data => {
-        console.log("Data successfully loaded and processed. Proceeding to draw chart.");
-        drawChart(data);
-    })
-    .catch(error => {
-        console.error("An error occurred during data loading or chart drawing:", error);
-    });
+}
+
+updateTimeChart();
