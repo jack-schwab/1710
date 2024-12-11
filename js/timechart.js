@@ -157,6 +157,7 @@ loadAndProcessData()
     .then(data => {
         console.log("Data successfully loaded and processed. Proceeding to draw chart.");
         drawChart(data);
+        makeLineChart(data);
     })
     .catch(error => {
         console.error("An error occurred during data loading or chart drawing:", error);
