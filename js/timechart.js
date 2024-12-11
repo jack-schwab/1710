@@ -36,18 +36,31 @@ async function loadAndProcessData() {
 
     console.log("All data loaded. Combining and aggregating by year...");
 
+    let rankVersion = d3.select("#ranking-type").property("value");
+
+    // Function that gets the property we will use for our y axis
+    let yRanking = function (d) {
+        if (rankVersion == "total-quantity") {
+            return d.importerQuantity + d.exporterQuantity;
+        } else if (rankVersion == "importer-quantity") {
+            return d.importerQuantity;
+        } else if (rankVersion == "exporter-quantity") {
+            return d.exporterQuantity;
+        }
+    };
+
     // Aggregate data by year
     const aggregatedData = d3.rollups(
         allData.filter(d => !isNaN(d.year)), // Ensure year is not NaN
         v => {
-            const total = d3.sum(v, d => d.importerQuantity + d.exporterQuantity);
-            console.log(`Year: ${v[0]?.year}, Total Quantity: ${total}`);
+            const total = d3.sum(v, d => yRanking(d));
+            console.log(`Year: ${v[0]?.year}, Quantity: ${total}`);
             return total;
         },
         d => d.year
-    ).map(([year, totalQuantity]) => {
-        console.log(`Aggregated data for year ${year}:`, totalQuantity);
-        return { year, totalQuantity };
+    ).map(([year, quantity]) => {
+        console.log(`Aggregated data for year ${year}:`, quantity);
+        return { year, quantity };
     });
 
     console.log("Final aggregated data before sorting:", aggregatedData);
@@ -60,6 +73,8 @@ async function loadAndProcessData() {
 // Declare and attach global variables to the window object
 window.startYear = null;
 window.endYear = null;
+
+d3.select("#ranking-type").on("change", loadAndProcessData);
 
 // Function to draw the area charat with a brush
 function drawChart(data) {
@@ -85,7 +100,7 @@ function drawChart(data) {
         .range([margin.left, width - margin.right]);
 
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.totalQuantity)])
+        .domain([0, d3.max(data, d => d.quantity)])
         .range([height - margin.bottom, margin.top]);
 
     console.log("Scales created. X scale domain:", xScale.domain(), "Y scale domain:", yScale.domain());
@@ -105,7 +120,7 @@ function drawChart(data) {
     const area = d3.area()
         .x(d => xScale(d.year))
         .y0(height - margin.bottom) // Baseline for the area
-        .y1(d => yScale(d.totalQuantity))
+        .y1(d => yScale(d.quantity))
         .curve(d3.curveMonotoneX); // Smooth curve
 
     console.log("Area generator created.");
@@ -157,7 +172,6 @@ loadAndProcessData()
     .then(data => {
         console.log("Data successfully loaded and processed. Proceeding to draw chart.");
         drawChart(data);
-        makeLineChart(data);
     })
     .catch(error => {
         console.error("An error occurred during data loading or chart drawing:", error);

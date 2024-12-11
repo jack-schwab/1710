@@ -186,9 +186,17 @@
 
     <div id="section-7" class="page-section section-transition">
         <h1 class="section-title">Exports Over Time</h1>
+        <p class="vis-description">Continuing to examine the trends of exports over time, we now examine the quantities of these exports.</p>
         <div class="row my-5">
 
-
+            <div class="form-group">
+                <!-- Select box to choose the ranking type -->
+                <select id="ranking-type">
+                    <option value="total-quantity">Total Quantity</option>
+                    <option value="importer-quantity">Importer Quantity</option>
+                    <option value="exporter-quantity">Exporter Quantity</option>
+                </select>
+            </div>
             <div id="time-chart"></div>
 
         </div>
@@ -258,16 +266,7 @@
         <h1 class="section-title">Death Valley: Why Is This Route the Most Dangerous?</h1>
         <div class="row my-5">
             <div class="col-6">
-                <div class="form-group">
-                    <!-- Select box to choose the ranking type -->
-                    <select id="ranking-type">
-                        <option value="goals">Goals</option>
-                        <option value="average-goals">Average Goals</option>
-                        <option value="matches">Matches</option>
-                        <option value="teams">Teams</option>
-                        <option value="average-attendance">Average Attendance</option>
-                    </select>
-                </div>
+
 
                 <span class="range-slider-value" id="first-year">2004</span>
 
