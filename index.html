@@ -313,10 +313,28 @@
 
     <div class="part-title">PART 3: ENDANGERED SPECIES TRADING BY COUNTRY</div>
 
+    <div id="matrix-section" class="page-section section-transition">
+        <h1 class="section-title">Relationship Between Importers and Exporters</h1>
+        <p class="vis-description">
+            In our research, we found four major countries in which endangered species trading is particularly common: <b>South Africa</b>, <b>Ghana</b>, <b>Nigeria</b>, and <b>Democratic Republic of the Congo</b>. This visualization shows how each of these four countries compare to one another in both <b>imports</b> and <b>exports</b>, and how much each country has traded with each other one. <b>Click on a square</b> in the matrix to see the quantity of trades from one country to another.
+        </p>
+        <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
+            <div class="section-header"></div>
+            <h2 style="text-align: center;">Trade Matrix</h2>
+            <div id="info" style="margin: 20px auto 10px auto; max-width: 800px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h6 style="text-align: center;">Rows: Exporting countries</h6>
+                <h6 style="text-align: center;">Columns: Importing countries</h6>
+                <h6 style="text-align: center;">Color intensity shows number of trades</h6>
+                <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
+            </div>
+            <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
+        </div>
+    </div>
+
     <div id="pi-chart-section" class="page-section section-transition">
         <h1 class="section-title">Top Exporters and Importers for Animals</h1>
         <p class="vis-description">
-            In our research, we found four major countries in which endangered species trading is particularly common: <b>South Africa</b>, <b>Ghana</b>, <b>Nigeria</b>, and <b>Democratic Republic of the Congo</b>. This visualization goes through every year in chronological order and shows what percentage of imports and exports each country was responsible for, relative to one another. <b>Click on a slice of the pi chart</b> to see a tooltip detailing the country name and number of imports/exports.
+            Expanding upon the previous visualization, this visualization goes through every year in chronological order and shows what percentage of imports and exports each country was responsible for, relative to one another. <b>Click on a slice of the pi chart</b> to see a tooltip detailing the country name and number of imports/exports.
         </p>
         <div id="pi-chart-main-section">
             <div class="row my-5">
@@ -332,28 +350,10 @@
         </div>
     </div>
 
-    <div id="matrix-section" class="page-section section-transition">
-        <h1 class="section-title">Relationship Between Importers and Exporters</h1>
-        <p class="vis-description">
-            Now,
-        </p>
-        <div class="container-fluid" style="height: 100vh; padding-top: 1vh;">
-            <div class="section-header"></div>
-            <h2 style="text-align: center;">Trade Matrix</h2>
-            <div id="info" style="margin: 20px auto 10px auto; max-width: 800px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                <h6 style="text-align: center;">Rows: Exporting countries</h6>
-                <h6 style="text-align: center;">Columns: Importing countries</h6>
-                <h6 style="text-align: center;">Color intensity shows number of trades</h6>
-                <h6 style="text-align: center;">Gray squares indicate no recorded trade</h6>
-            </div>
-            <div id="importExportMatrix" class="row" style="height: 1200px; margin-top: 10px;"></div>
-        </div>
-    </div>
-
     <div class="part-title">PART 4: EXPLORING SPECIFIC IMPORT/EXPORT RELATIONS BETWEEN COUNTRIES</div>
 
     <div id="time-chart-section" class="page-section section-transition">
-        <h1 class="section-title">Exports Over Time</h1>
+        <h1 class="section-title">Exports and imports Over Time</h1>
         <p class="vis-description">
             This visualization allows us to view three different quantities of imports and exports over time. The <b>importer quantity</b> refers to the number of animals imported among the data. The <b>exporter quantity</b> refers to the number of animals exported among the data. Note that these two values are NOT the same: partially since some of our data sets only refer to select countries, and partially because animals sometimes die along the way while being imported/exported. The <b>total quantity</b> refers to the sum of the importer and exporter quantities.
         </p>
