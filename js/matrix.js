@@ -88,6 +88,8 @@ class MatrixVis {
             let squarePath = svgrow.selectAll(".square-path")
                 .data(vis.displayData[i].counts);
             console.log(squarePath);
+            let maxCount = d3.max(vis.displayData, d => d3.max(d.counts));
+            vis.linearColor.domain([0, maxCount]);
             squarePath.enter().append("path")
                 .attr("class", "square-path")
                 .attr("d", function (d, index) {
@@ -100,20 +102,14 @@ class MatrixVis {
                 //return 'M ' + x +' '+ y + ' l ' + vis.cellWidth + ' 0 l 0 ' + vis.cellHeight + ' z';
                 return 'M ' + x + ' ' + y + ' l ' + vis.cellWidth + ' 0 l 0 ' + vis.cellHeight + ' l ' + -vis.cellWidth + ' 0 ' + ' z';
             })
-                //
-                // .attr("fill", d=>{
-                //     if(d){
-                //         return "purple"
-                //     }else{
-                //         return "#D3D3D3"
-                //     }
-                // })
-                .attr("fill", "grey");
-            // TO DO: modify the above, so the fill will be a linear color scale depending on the count, in display data, look at d
-            //find largest count, make that the deepest color
-            //set up domain for color scalers
-            //find maximum count
-            //colorscale.(d)
+                .attr("fill", d => {
+                    if (d === 0) {
+                        return "#D3D3D3";  // Light gray for zero values
+                    } else {
+                        return vis.linearColor(d);  // Color scale for non-zero values
+                    }
+                })
+           
             svgrow.append("text")
                 .attr("x", -10)
                 .attr("y", vis.cellHeight - 5)
