@@ -400,7 +400,7 @@ class WorldMapVis {
                 const imports = vis.importStats[countryCode];
 
                 // Debugging logs
-                console.log(`Country: ${countryName}, Code: ${countryCode}, Imports: ${imports}`);
+                //console.log(`Country: ${countryName}, Code: ${countryCode}, Imports: ${imports}`);
 
                 // Color countries based on imports or fallback to default
                 return imports && imports > 0 ? vis.colorScale(imports) : "#ccc";

@@ -195,37 +195,89 @@ countryNameToCode =
     "Yemen": "YE",
     "Zambia": "ZM",
     "Zimbabwe": "ZW"
-};
-// Function to get the PNG file name for a given country name
-function getFlagFileName(countryName) {
-    const countryCode = countryNameToCode[countryName];
-    if (!countryCode) {
-        console.error(`Country code for "${countryName}" not found.`);
-        return null; // Return null if the country name is not found
+};// Function to get the PNG file name for a given country name
+// Guard flag to prevent recursive initialization
+let hasInitialized = false;
+
+function initVis() {
+    console.log("Initializing visualization...");
+
+    const dataSelector = document.getElementById("data-selector");
+    if (dataSelector) {
+        // Attach event listener for dropdown changes
+        dataSelector.addEventListener("change", (event) => {
+            const selectedFile = event.target.value;
+            console.log(`File selected: data/${selectedFile}`);
+            loadNewData(selectedFile);
+        });
+
+        // Trigger `loadNewData` only once for the default selection
+        if (!hasInitialized) {
+            const defaultFile = dataSelector.value; // Get the default value of the dropdown
+            console.log(`Default file selected on initialization: data/${defaultFile}`);
+            loadNewData(defaultFile);
+            hasInitialized = true; // Prevent further redundant initialization
+        }
+    } else {
+        console.warn("Data selector element not found!");
     }
-    return `${countryCode.toLowerCase()}.png`;
+
+    // Log the current state of global variables
+    console.log("State variables:", {
+        startYear: window.startYear,
+        endYear: window.endYear,
+        selectedCountry1: window.selectedCountry1,
+        selectedCountry2: window.selectedCountry2,
+    });
 }
 
+function loadNewData(selectedFileBaseName) {
+    console.log('Loading new data...');
+    const selectedFile = `data/${selectedFileBaseName}`; // Construct full file path
+    console.log(`[loadNewData] Loading file: ${selectedFile}`);
 
+    d3.csv(selectedFile)
+        .then((newTradeData) => {
+            console.log(`[loadNewData] Successfully loaded file: ${selectedFile}`);
+            console.log(`[loadNewData] Data Preview (first 5 rows):`, newTradeData.slice(0, 5));
 
-// Display the flags
+            // Verify if critical fields like 'Exporter' and 'Importer' are present
+            if (newTradeData.length > 0) {
+                const keys = Object.keys(newTradeData[0]);
+                console.log(`[loadNewData] Available fields in data: ${keys.join(", ")}`);
+            } else {
+                console.warn(`[loadNewData] Loaded file has no rows: ${selectedFile}`);
+            }
+
+            // Update global trade data
+            tradeData = newTradeData;
+
+            // Verify global variables are updated
+            console.log(`[loadNewData] Global trade data updated. Total rows: ${tradeData.length}`);
+
+            // Call displayFlags or other visualization updates
+            displayFlags(); // Ensure visualization updates happen here
+        })
+        .catch((error) => {
+            console.error(`[loadNewData] Error loading file: ${selectedFile}`);
+            console.error(error);
+        });
+}
+
 function displayFlags() {
+    console.log("Displaying flags...");
+
     const flagDisplayLeft = document.getElementById("flagDisplayLeft");
     const flagDisplayRight = document.getElementById("flagDisplayRight");
 
-    // Variables containing the country names
-    const countryNameLeft = window.selectedCountry1; // Example: Replace with dynamic value
-    const countryNameRight = window.selectedCountry2;      // Example: Replace with dynamic value
+    const countryNameLeft = window.selectedCountry1 || "Unknown Exporter";
+    const countryNameRight = window.selectedCountry2 || "Unknown Importer";
 
-    console.log("hello", countryNameLeft, countryNameRight)
     // Clear previous content
     flagDisplayLeft.innerHTML = "";
     flagDisplayRight.innerHTML = "";
 
-    // Display left flag
     const flagFileNameLeft = getFlagFileName(countryNameLeft);
-    console.log("Left flag file:", flagFileNameLeft); // Debug log
-
     if (flagFileNameLeft) {
         const imgLeft = document.createElement("img");
         imgLeft.src = `png100px/${flagFileNameLeft}`;
@@ -233,7 +285,6 @@ function displayFlags() {
         flagDisplayLeft.appendChild(imgLeft);
         document.getElementById("exporter-name").innerText = countryNameLeft;
 
-        // Test if image loads
         imgLeft.onerror = () => {
             console.error(`Failed to load image for ${countryNameLeft} at ${imgLeft.src}`);
         };
@@ -244,10 +295,7 @@ function displayFlags() {
         flagDisplayLeft.appendChild(errorMessageLeft);
     }
 
-    // Display right flag
     const flagFileNameRight = getFlagFileName(countryNameRight);
-    console.log("Right flag file:", flagFileNameRight); // Debug log
-
     if (flagFileNameRight) {
         const imgRight = document.createElement("img");
         imgRight.src = `png100px/${flagFileNameRight}`;
@@ -255,7 +303,6 @@ function displayFlags() {
         flagDisplayRight.appendChild(imgRight);
         document.getElementById("importer-name").innerText = countryNameRight;
 
-        // Test if image loads
         imgRight.onerror = () => {
             console.error(`Failed to load image for ${countryNameRight} at ${imgRight.src}`);
         };
@@ -265,21 +312,31 @@ function displayFlags() {
         errorMessageRight.style.color = "red";
         flagDisplayRight.appendChild(errorMessageRight);
     }
+
+    // Call initVis only if it hasn't already initialized
+    initVis();
 }
 
-// Initialize the flags display
-window.displayFlags = displayFlags;
+// Helper function to get the PNG file name for a given country name
+function getFlagFileName(countryName) {
+    const countryCode = countryNameToCode[countryName];
+    if (!countryCode) {
+        console.error(`Country code for "${countryName}" not found.`);
+        return null; // Return null if the country name is not found
+    }
+    return `${countryCode.toLowerCase()}.png`;
+}
 
-// Debug test: Add sample image test
-console.log("Testing image path for debugging...");
-const imgTest = document.createElement("img");
-imgTest.src = `png100px/us.png`; // Test with a known file
-imgTest.alt = "Test Flag";
-document.body.appendChild(imgTest);
+// Initialize visualization on load
+initVis();
 
-imgTest.onerror = () => {
-    console.error("Test image failed to load at", imgTest.src);
-};
+
+// Initialize
+
+
+// Test initialization
+
+
 
 
 
