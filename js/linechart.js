@@ -53,35 +53,12 @@ class LineChart {
             .attr("transform", "translate(0,0)")
             .call(yAxis);
 
-        // Initialize data
-        loadData();
-
-// FIFA world cup
-        let data;
 
 // Event listener
         d3.select("#ranking-type").on("change", updateVisualization);
 
 
-// Load CSV file
-        function loadData() {
-            d3.csv("data/20-year-data.csv", row => {
-                row.YEAR = parseDate(row.YEAR);
-                row.TEAMS = +row.TEAMS;
-                row.MATCHES = +row.MATCHES;
-                row.GOALS = +row.GOALS;
-                row.AVERAGE_GOALS = +row.AVERAGE_GOALS;
-                row.AVERAGE_ATTENDANCE = +row.AVERAGE_ATTENDANCE;
-                return row
-            }).then(csv => {
-
-                // Store csv data in global variable
-                data = csv;
-
-                // Draw the visualization for the first time
-                updateVisualization();
-            });
-        }
+        updateVisualization();
 
 // Create the line for line graph later
         let line = d3.line()
@@ -114,14 +91,14 @@ class LineChart {
 // Render visualization
         function updateVisualization() {
 
-            console.log(data);
+            console.log(this.data);
 
             let rankVersion = d3.select("#ranking-type").property("value");
 
             // Function that gets the property we will use for our y axis
             let yRanking = function (d) {
                 if (rankVersion == "goals") {
-                    return d.GOALS;
+                    return d.Quantity;
                 } else if (rankVersion == "average-goals") {
                     return d.AVERAGE_GOALS;
                 } else if (rankVersion == "matches") {
@@ -133,7 +110,7 @@ class LineChart {
                 }
             };
 
-            let filteredData = data.filter(function(d) {
+            let filteredData = this.data.filter(function(d) {
                 return (formatDate(d.YEAR) >= firstYear.innerText) && (formatDate(d.YEAR) <= secondYear.innerText);
             });
 
@@ -192,7 +169,7 @@ function showEdition(d){
         .style("display", "block");
     document.getElementById("world-cup-title").innerText = d.EDITION;
     document.getElementById("winner").innerText = d.WINNER;
-    document.getElementById("goals").innerText = d.GOALS;
+    document.getElementById("goals").innerText = d.Quantity;
     document.getElementById("average-goals").innerText = d.AVERAGE_GOALS;
     document.getElementById("matches").innerText = d.MATCHES;
     document.getElementById("teams").innerText = d.TEAMS;
