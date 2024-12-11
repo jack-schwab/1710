@@ -106,7 +106,7 @@ d3.csv("/data/20-year-data.csv").then(data => {
         // Use a simulation for non-overlapping circles
         const simulation = d3.forceSimulation(yearData)
             .force("x", d3.forceX(width / 2).strength(0.05))
-            .force("y", d3.forceY(height / 2).strength(0.05))
+            .force("y", d3.forceY(height / 3).strength(0.05)) // Move circles higher up to avoid legend overlap
             .force("collide", d3.forceCollide(d => radiusScale(d.total) + 5))
             .stop();
 
