@@ -209,15 +209,18 @@ function getFlagFileName(countryName) {
     return `${countryCode.toLowerCase()}.png`;
 }
 
-// Variables containing the country names
-const countryNameLeft = window.selectedCountry1; // Example: Replace with dynamic value
-const countryNameRight = window.selectedCountry2;      // Example: Replace with dynamic value
+
 
 // Display the flags
 function displayFlags() {
     const flagDisplayLeft = document.getElementById("flagDisplayLeft");
     const flagDisplayRight = document.getElementById("flagDisplayRight");
 
+    // Variables containing the country names
+    const countryNameLeft = window.selectedCountry1; // Example: Replace with dynamic value
+    const countryNameRight = window.selectedCountry2;      // Example: Replace with dynamic value
+
+    console.log("hello", countryNameLeft, countryNameRight)
     // Clear previous content
     flagDisplayLeft.innerHTML = "";
     flagDisplayRight.innerHTML = "";
@@ -266,7 +269,7 @@ function displayFlags() {
 }
 
 // Initialize the flags display
-displayFlags();
+window.displayFlags = displayFlags;
 
 // Debug test: Add sample image test
 console.log("Testing image path for debugging...");

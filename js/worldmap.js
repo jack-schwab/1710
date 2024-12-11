@@ -535,7 +535,7 @@ class WorldMapVis {
                 }
 
                 console.log("Selected country:", window.selectedCountry2);
-                displayFlags();
+                window.displayFlags();
             });
 
         // Update legend

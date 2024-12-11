@@ -283,6 +283,7 @@ class AfricanMapVis {
                 }
 
                 console.log("Selected country:", window.selectedCountry1);
+                window.displayFlags();
             });
 
         console.log("Map visualization updated.");
