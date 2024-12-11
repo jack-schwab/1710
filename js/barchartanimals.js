@@ -145,13 +145,8 @@ class BarChartAnimals {
 	}
 }
 
-<<<<<<< Updated upstream
-// Entry point to instantiate the BarChartAnimals class when the page loads
+
 window.onload = () => {
 	const barChart = new BarChartAnimals('bar-chart', '/data/20-year-data.csv', {});
 };
 
-export default BarChartAnimals;
-=======
-//export default BarChartAnimals;
->>>>>>> Stashed changes
