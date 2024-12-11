@@ -26,7 +26,7 @@ class MatrixVis {
 
     initVis(){
         let vis = this;
-        vis.margin = {top: 250, right: 250, bottom: 50, left: 350};
+        vis.margin = {top: 150, right: 250, bottom: 50, left: 350};
         vis.width = 1200 - vis.margin.left - vis.margin.right;
         vis.height = 1200 - vis.margin.top - vis.margin.bottom;
 
@@ -185,35 +185,7 @@ class MatrixVis {
             .text("No trade");
     }
 
-    addMatrixExplanation() {
-        let vis = this;
 
-        vis.svg.append("text")
-            .attr("x", vis.width / 2)
-            .attr("y", -vis.margin.top + 20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "24px")
-            .style("font-weight", "bold")
-            .text("African Wildlife Trade Matrix");
-
-        let explanation = vis.svg.append("g")
-            .attr("transform", `translate(0, ${-vis.margin.top + 45})`);
-
-        let explanationText = [
-            "• Rows: Exporting countries",
-            "• Columns: Importing countries",
-            "• Color intensity shows number of trades",
-            "• Gray squares indicate no recorded trade"
-        ];
-
-        explanationText.forEach((text, i) => {
-            explanation.append("text")
-                .attr("x", 0)
-                .attr("y", i * 25)
-                .style("font-size", "14px")
-                .text(text);
-        });
-    }
 
     initData() {
         let vis = this;
